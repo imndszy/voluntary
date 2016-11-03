@@ -53,7 +53,7 @@ class Finished_activity(db.Model):
     actype = db.Column(db.Integer)          #活动类型
     ac_place = db.Column(db.String(128))        #活动地点
     start_time = db.Column(db.DateTime)          #活动开始时间
-    finished_time = db.Column(db.DateTime)        #活动结束时间
+    finish_time = db.Column(db.DateTime)        #活动结束时间
     subject = db.Column(db.String(128))         #活动主题
     introduce = db.Column(db.Text)             #活动简介
     required_stus = db.Column(db.Integer)       #需求人数
@@ -68,7 +68,7 @@ class Unfinished_activity(db.Model):
     actype = db.Column(db.Integer)          #活动类型
     ac_place = db.Column(db.String(128))        #活动地点
     start_time = db.Column(db.DateTime)          #活动开始时间
-    finished_time = db.Column(db.DateTime)        #活动结束时间
+    finish_time = db.Column(db.DateTime)        #活动结束时间
     subject = db.Column(db.String(128))         #活动主题
     introduce = db.Column(db.Text)             #活动简介
     required_stus = db.Column(db.Integer)       #需求人数
