@@ -7,5 +7,5 @@ from flask import render_template
 
 @main.route('/')
 def index():
-    return render_template('main/advanced.html')
+    return render_template('advanced.html')
     # return 'hello'
