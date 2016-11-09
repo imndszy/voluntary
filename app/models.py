@@ -59,6 +59,8 @@ class Finished_activity(db.Model):
     required_stus = db.Column(db.Integer)       #需求人数
     actual_stus = db.Column(db.Integer)       #实际人数
     ac_periods = db.Column(db.Integer)    #活动期数
+    linkman = db.Column(db.String(16))  #联系人（有字长限制）
+    contact = db.Column(db.String(16))  #联系方式
     users = db.relationship('User',secondary=fa_user)
 
 
@@ -74,5 +76,7 @@ class Unfinished_activity(db.Model):
     required_stus = db.Column(db.Integer)       #需求人数
     actual_stus = db.Column(db.Integer)       #实际人数
     ac_periods = db.Column(db.Integer)    #活动期数
+    linkman = db.Column(db.String(16))  # 联系人（有字长限制）
+    contact = db.Column(db.String(16))  # 联系方式
     users = db.relationship('User',secondary=ufa_user)
 
