@@ -393,7 +393,9 @@ input:focus {
   font-weight: 400;
   color: #2ad2c9;
   margin: 0em 0em 0.15em 0em;
-  font-family: 'Droid Serif', serif;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .about-text p {
   font-size: 1em;
