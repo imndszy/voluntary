@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html id="main">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="author" content="www.frebsite.nl" />
+    <meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=yes" />
+    <title>adminnistrator</title>
+    <link type="text/css" rel="stylesheet" href="../static/css/jquery.mmenu.all.css" />
+    <link type="text/css" rel="stylesheet" href="../static/css/hamburgers.css" />
+    <link type="text/css" rel="stylesheet" href="../static/css/bootstrap.css" />
+    <script type="text/javascript" src="../static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../static/js/jquery.mmenu.all.min.js"></script>
+    <script type="text/javascript" src="../static/js/bootstrap.min.js"></script>
+    <style>
+    html,
+    body {
+        padding: 0;
+        margin: 0;
+    }
+    
+    body {
+        background-color: #fff;
+        font-family: Arial, Helvetica, Verdana;
+        font-size: 14px;
+        line-height: 32px;
+        color: #666;
+        position: relative;
+        -webkit-text-size-adjust: none;
+    }
+    
+    body * {
+        text-shadow: none;
+    }
+    
+    p {
+        margin: 0;
+    }
+    
+    .header {
+        text-align: center;
+        background: #777;
+        font-size: 16px;
+        font-weight: bold;
+        color: #fff;
+        line-height: 60px;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        width: 100%;
+        height: 60px;
+        padding: 0 50px 0 20px;
+    }
+    
+    .header a {
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+    
+    .form-horizontal .textal {
+        text-align: left;
+    }
+    
+    .form-horizontal {
+        padding: 20px 20px;
+    }
+    
+    .form-control {
+        height: 44px;
+    }
+    
+    .form-group {
+        margin-bottom: 25px;
+    }
+    
+    .btn-group > .btn:first-child {
+        margin-right: 10px;
+    }
+    /*    .container{
+        margin-top: 10px;
+    }*/
+    .radioo{
+        padding:7px 12px;
+    }
+    .bbiigg {
+        font-size: : 16px;
+    }
+    </style>
+    <script type="text/javascript">
+    $(function() {
+        $("nav#menu")
+            .mmenu({
+                navbar: {
+                    title: ""
+                },
+                navbars: [{
+                    height: 3,
+                    content: ['<a align="center"><img src="../static/images/coupon_icon4.png" /></a><div class="bbiigg">用户名</div>']
+                }],
+                counters: true,
+                extensions: ["pagedim-black", "pageshadow", "effect-menu-zoom", "theme-dark", "widescreen"],
+                offCanvas: {
+                    position: "right"
+                }
+            })
+
+    });
+    </script>
+</head>
+
+<body>
+    <div id="page">
+        <div class="header">
+            <a href="#menu" id="hamburger" class="hamburger hamburger--collapse">
+                <span class="hamburger-box">
+                    <span class="hamburger-inner"></span>
+                </span>
+            </a>
+            <p align="left">NJU-Volunteer</p>
+        </div>
+        <div class="content">
+            <section>
+                <div class="container">
+                    <h3 align="center">管理员界面</h3>
+                    <ul class="nav nav-tabs" role="tablist" id="tab-list">
+                        <li class="active"><a href="#home" role="tab" data-toggle="tab">发布活动</a></li>
+                        <li><a href="#school" role="tab" data-toggle="tab">信息查询</a></li>
+                        <li><a href="#work" role="tab" data-toggle="tab">活动导出</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="home">
+                            <div class="row feature">
+                                <div class="col-md-0">
+                                </div>
+                                <div class="col-md-12">
+                                    <form class="form-horizontal" role="form">
+                                        <div class="form-group">
+                                            <label for="title" class="col-sm-2 control-label textal">活动title</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control inputal" id="title" placeholder="活动title">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="address" class="col-sm-2 control-label textal">活动地点</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="address" placeholder="活动地点">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="required_stus" class="col-sm-2 control-label textal">需求人数</label>
+                                            <div class="col-sm-10">
+                                                <input type="number" class="form-control" id="required_stus" placeholder="需求人数">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="start_time" class="col-sm-2 control-label textal">活动开始时间</label>
+                                            <div class="col-sm-4">
+                                                <input type="datetime-local" class="form-control" id="start_time" placeholder="活动时间安排">
+                                            </div>
+                                            <label for="finished_time" class="col-sm-2 control-label textal">活动结束时间</label>
+                                            <div class="col-sm-4">
+                                                <input type="datetime-local" class="form-control" id="finished_time" placeholder="活动时间安排">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="alltime" class="col-sm-2 control-label textal">志愿时长</label>
+                                            <div class="col-sm-10">
+                                                <input type="number" class="form-control" id="alltime" placeholder="志愿时长(小时)">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="introduce" class="col-sm-2 control-label textal">活动介绍</label>
+                                            <div class="col-sm-10">
+                                                <textarea type="text" class="form-control" style="height:84px;" id="introduce" placeholder="活动介绍"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="actype" class="col-sm-2 control-label textal">活动类型</label>
+                                            <div class="col-sm-10">
+                                                <div class="radioo">
+                                                        <input type="radio" name="options" id="actype1" value="1" checked>类型1
+                                                        <input type="radio" name="options" id="actype2" value="2">类型2
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="submit" id="publish" class="btn btn-success" style="width:94%;margin-right: 15px;margin-left: 18px;">发布活动</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="school">
+                            <div class="row feature">
+                                <div class="col-md-0">
+                                </div>
+                                <div class="col-md-12">
+                                    <form class="form-horizontal" role="form">
+                                        <div class="form-group">
+                                            <label for="title" class="col-sm-2 control-label textal">活动title</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control inputal" id="title" placeholder="活动title">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-success" style="width:94%;margin-right: 15px;margin-left: 18px;">查询</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="work">
+                            <div class="row feature">
+                                <div class="col-md-0">
+                                </div>
+                                <div class="col-md-12">
+                                    <form class="form-horizontal" role="form">
+                                        <div class="form-group">
+                                            <label for="method" class="col-sm-2 control-label textal">导出形式</label>
+                                            <div class="col-sm-10">
+                                                <select class="form-control" id="method">
+                                                    <option>选择导出形式</option>
+                                                    <option value="1">以志愿者时长排名导出</option>
+                                                    <option value="2">以活动类型导出</option>
+                                                    <option value="3">以活动名称导出</option>
+                                                    <option value="4">全部导出</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="name" class="col-sm-2 control-label textal">用户名</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="name" placeholder="请输入用户名">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="password" class="col-sm-2 control-label textal">密码</label>
+                                            <div class="col-sm-10">
+                                                <input type="password" class="form-control" id="password" placeholder="请输入密码">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-success" style="width:94%;margin-right: 15px;margin-left: 18px;">导出活动</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <nav id="menu">
+            <ul>
+                <li></li>
+                <li><a href="advanced.html">活动首页</a></li>
+                <li><a href="#">个人信息</a> </li>
+                <li><a href="adminnistrator.html">管理员界面</a></li>
+                <li><a href="#">活动签到</a></li>
+            </ul>
+        </nav>
+    </div>
+    <script>
+    // var forEach=function(t,o,r){if("[object Object]"===Object.prototype.toString.call(t))for(var c in t)Object.prototype.hasOwnProperty.call(t,c)&&o.call(r,t[c],c,t);else for(var e=0,l=t.length;l>e;e++)o.call(r,t[e],e,t)};
+    // var hamburger = document.getElementById("hamburger");
+    // hamburger.addEventListener("click", function() {
+    //       this.classList.toggle("is-active");
+    // }, false);
+    $(document).ready(function(){
+        $("#publish").click(function(){
+            $.ajax({
+                url: '',
+                data:{
+                    actype:$('input[type="radio"]:checked').val(),
+                    title:$("#title").val(),
+                    ac_place:$("#address").val(),
+                    introduce:$("#introduce").val(),
+                    start_time:$("#start_time").val(),
+                    finish_time:$("#finished_time").val(),
+                    required_stus:$("#requires_stus").val(),
+                    vol_time:$("#alltime").val()
+                }
+                dataType: 'JSON',
+                type: 'POST',
+                success:function(){
+                    alert("已发布活动");
+                }
+            });
+        });
+    });
+    </script>
+</body>
+
+</html>
