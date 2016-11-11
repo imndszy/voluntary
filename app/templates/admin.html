@@ -80,9 +80,11 @@
     /*    .container{
         margin-top: 10px;
     }*/
-    .radioo{
-        padding:7px 12px;
+    
+    .radioo {
+        padding: 7px 12px;
     }
+    
     .bbiigg {
         font-size: : 16px;
     }
@@ -96,7 +98,7 @@
                 },
                 navbars: [{
                     height: 3,
-                    content: ['<a align="center"><img src="../static/images/coupon_icon4.png" /></a><div class="bbiigg">用户名</div>']
+                    content: ['<a align="center"><img src="../static/images/coupon_icon4.png" /></a><div class="bbiigg" id="username"><a href="login.html">登录</div>']
                 }],
                 counters: true,
                 extensions: ["pagedim-black", "pageshadow", "effect-menu-zoom", "theme-dark", "widescreen"],
@@ -104,7 +106,12 @@
                     position: "right"
                 }
             })
-
+        var getb = window.location.href;
+        var name = getb.split("?")[1].split("=")[1];
+        // alert(name);
+        if (name != '') {
+            document.getElementById("username").innerHTML = name;
+        }
     });
     </script>
 </head>
@@ -122,16 +129,17 @@
         <div class="content">
             <section>
                 <div class="container">
-                    <h3 align="center">管理员界面</h3>
-                    <ul class="nav nav-tabs" role="tablist" id="tab-list">
+                    <!-- <h3 align="center">管理员界面</h3> -->
+                  <!--   <ul class="nav nav-tabs" role="tablist" id="tab-list">
                         <li class="active"><a href="#home" role="tab" data-toggle="tab">发布活动</a></li>
                         <li><a href="#school" role="tab" data-toggle="tab">信息查询</a></li>
                         <li><a href="#work" role="tab" data-toggle="tab">活动导出</a></li>
-                    </ul>
+                    </ul> -->
                     <div class="tab-content">
                         <div class="tab-pane active" id="home">
                             <div class="row feature">
                                 <div class="col-md-0">
+                                	<h3 align="center">发布活动</h3><hr/>
                                 </div>
                                 <div class="col-md-12">
                                     <form class="form-horizontal" role="form">
@@ -179,8 +187,8 @@
                                             <label for="actype" class="col-sm-2 control-label textal">活动类型</label>
                                             <div class="col-sm-10">
                                                 <div class="radioo">
-                                                        <input type="radio" name="options" id="actype1" value="1" checked>类型1
-                                                        <input type="radio" name="options" id="actype2" value="2">类型2
+                                                    <input type="radio" name="options" id="actype1" value="1" checked>类型1
+                                                    <input type="radio" name="options" id="actype2" value="2">类型2
                                                 </div>
                                             </div>
                                         </div>
@@ -194,6 +202,7 @@
                         <div class="tab-pane" id="school">
                             <div class="row feature">
                                 <div class="col-md-0">
+                                <h3 align="center">信息查询</h3><hr/>
                                 </div>
                                 <div class="col-md-12">
                                     <form class="form-horizontal" role="form">
@@ -213,6 +222,7 @@
                         <div class="tab-pane" id="work">
                             <div class="row feature">
                                 <div class="col-md-0">
+                                <h3 align="center">活动导出</h3><hr/>
                                 </div>
                                 <div class="col-md-12">
                                     <form class="form-horizontal" role="form">
@@ -252,13 +262,17 @@
             </section>
         </div>
         <nav id="menu">
-            <ul>
+         			<ul class="nav nav-tabs nav-stacked" role="tablist" id="tab-list">
+         				<li><a href="advanced.html">活动首页</a></li>
+                        <li><a href="#home" role="tab" data-toggle="tab">发布活动</a></li>
+                        <li><a href="#school" role="tab" data-toggle="tab">信息查询</a></li>
+                        <li><a href="#work" role="tab" data-toggle="tab">活动导出</a></li>
+                    </ul>
+          <!--   <ul>
                 <li></li>
                 <li><a href="advanced.html">活动首页</a></li>
-                <li><a href="#">个人信息</a> </li>
-                <li><a href="adminnistrator.html">管理员界面</a></li>
-                <li><a href="#">活动签到</a></li>
-            </ul>
+                <li><a href="admin.html">管理员界面</a></li>
+            </ul> -->
         </nav>
     </div>
     <script>
@@ -267,23 +281,23 @@
     // hamburger.addEventListener("click", function() {
     //       this.classList.toggle("is-active");
     // }, false);
-    $(document).ready(function(){
-        $("#publish").click(function(){
+    $(document).ready(function() {
+        $("#publish").click(function() {
             $.ajax({
                 url: '',
-                data:{
-                    actype:$('input[type="radio"]:checked').val(),
-                    title:$("#title").val(),
-                    ac_place:$("#address").val(),
-                    introduce:$("#introduce").val(),
-                    start_time:$("#start_time").val(),
-                    finish_time:$("#finished_time").val(),
-                    required_stus:$("#requires_stus").val(),
-                    vol_time:$("#alltime").val()
+                data: {
+                    actype: $('input[type="radio"]:checked').val(),
+                    title: $("#title").val(),
+                    ac_place: $("#address").val(),
+                    introduce: $("#introduce").val(),
+                    start_time: $("#start_time").val(),
+                    finish_time: $("#finished_time").val(),
+                    required_stus: $("#requires_stus").val(),
+                    vol_time: $("#alltime").val()
                 }
                 dataType: 'JSON',
                 type: 'POST',
-                success:function(){
+                success: function() {
                     alert("已发布活动");
                 }
             });
