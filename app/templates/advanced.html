@@ -172,7 +172,7 @@
                 },
                 navbars: [{
                     height: 3,
-                    content: ['<a align="center"><img src="../static/images/coupon_icon4.png" /></a><div class="bbiigg">用户名</div>']
+                    content: ['<a align="center"><img src="../static/images/coupon_icon4.png" /></a><div class="bbiigg" id="username"><a href="login.html">登录</a></div>']
                 }],
                 counters: true,
                 extensions: ["pagedim-black", "pageshadow", "effect-menu-zoom", "theme-dark", "widescreen"],
@@ -180,7 +180,12 @@
                     position: "right"
                 }
             })
-
+        var getb = window.location.href;
+        var name = getb.split("?")[1].split("=")[1];
+        // alert(name);
+        if (name != '') {
+            document.getElementById("username").innerHTML = name;
+        }
     });
     </script>
 </head>
@@ -210,7 +215,7 @@
                                         <li>
                                             <a href="#section-topline-2" class="icon icon-gift"></a>
                                         </li>
-                                       <!--  <li>
+                                        <!--  <li>
                                            <a href="#section-topline-3" class="icon icon-display"></a>
                                        </li> -->
                                     </ul>
@@ -272,7 +277,7 @@
                                         </div>
                                         <!--clients end here-->
                                     </section>
-                                   <!--  <section id="section-topline-3">
+                                    <!--  <section id="section-topline-3">
                                        services start here
                                        <div class="container">
                                            <div class="services-main">
@@ -379,8 +384,7 @@
             <ul>
                 <li></li>
                 <li><a href="advanced.html">活动首页</a></li>
-                <li><a href="#">个人信息</a> </li>
-                <li><a href="adminnistrator.html">管理员界面</a></li>
+                <li><a href="personal.html">个人信息</a> </li>
                 <li><a href="#">活动签到</a></li>
             </ul>
         </nav>
@@ -396,18 +400,6 @@
     })();
     </script>
     <script>
-    //切换右上角按钮形式
-    // var forEach = function(t, o, r) {
-    //     if ("[object Object]" === Object.prototype.toString.call(t))
-    //         for (var c in t) Object.prototype.hasOwnProperty.call(t, c) && o.call(r, t[c], c, t);
-    //     else
-    //         for (var e = 0, l = t.length; l > e; e++) o.call(r, t[e], e, t)
-    // };
-    // var hamburger = document.getElementById("hamburger");
-    // hamburger.addEventListener("click", function() {
-    //     this.classList.toggle("is-active");
-    // }, false);
-
     //文本超过字符长度显示...
     var sl = document.getElementById("section-topline-1").getElementsByTagName("p");
     for (i = 0; i < sl.length; i++) {
@@ -415,7 +407,7 @@
         sl[i].innerHTML = slh;
     }
     //数据获取
-    $(document).ready(function(){
+    $(document).ready(function() {
         $.ajax({
             url: '../api_1_0/unfinished_activities',
             dataType: 'JSON',
@@ -430,20 +422,19 @@
                         item += i + 1;
                         item += '</span></h5></div><div class="about-text"><a href="detail.html?acid=';
                         item += data[i].acid;
-                        item +='"><h4>';
+                        item += '"><h4>';
                         item += data[i].title;
                         item += '</h4><p>';
                         item += data[i].introduce;
                         item += '</p></a><div><div class="clearfix"> </div></div>';
                         $("#section-topline-1").append(item);
-                    }
-                    else{
+                    } else {
                         var item = '';
                         item += ' <div class="about-grid"><div class="about-box"><h5><span class="ab-box">0';
                         item += i + 1;
                         item += '</span></h5></div><div class="about-text"><a href="detail.html?acid=';
                         item += data[i].acid;
-                        item +='"><h4>';
+                        item += '"><h4>';
                         item += data[i].title;
                         item += '</h4><p>';
                         item += data[i].introduce;

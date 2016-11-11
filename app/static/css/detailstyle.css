@@ -306,17 +306,17 @@ h4.media-heading {
 }
 /* About Us */
 #about {
-    background: #9bacb5;
-    color:#fff;
+    background: #f2f2f2;
+    color:#666;
     padding:80px 0;
 }
 
 #about h1 {
-    color:#fff;
-    font-size:36px;
+    color:#000;
+    font-size:28px;
     line-height:42px;
     font-weight:300;
-    margin-bottom:24px;
+    margin-bottom:10px;
     position:relative;
 }
 #about h2, #about h5 {
@@ -324,7 +324,7 @@ h4.media-heading {
 
 	}
 #about p {
-    font-size: 18px;
+    font-size: 14px;
     line-height:36px;
     font-weight:300;
     margin-bottom: 8px;
@@ -416,7 +416,7 @@ ul.social li a.fa:hover { background-color: #333333 }
     margin-top: 60px;
 }
 .facts { padding: 0 ; margin-bottom: 8px;}
-.facts .count-box { position: relative ; background-color: rgba(1, 36, 53, 0.32); margin: 0 4px;}
+.facts .count-box { position: relative ; background-color:#fff; margin: 0 4px;}
 .count-box {
     -webkit-backface-visibility: hidden;
     padding: 30px 0;
@@ -457,11 +457,11 @@ ul.social li a.fa:hover { background-color: #333333 }
 .count-box:hover > i.fa { color: #ffffff }
 .count-box:hover {
     -webkit-backface-visibility: hidden;
-    background-color: #58BDEF;
+    background-color: #777;
 }
 .counter i.fa {
     font-size: 40px;
-    color: #FFFFFF;
+    color: #c52d2f;
 }
 .count-box.last {}
 /* Portfolio / Works Sections */
@@ -841,8 +841,8 @@ ul.cat li a.active {
     border-color: #ffcc33;
 }
 .color {
-    background-color: #38A5DB;
-    border-color: #38A5DB;
+    background-color: #788c96;
+    border-color: #788c96;
 }
 .color:focus,
 .color:hover {
