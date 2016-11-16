@@ -30,13 +30,13 @@ class Config:
 class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
-        'mysql://szy:123456@localhost/develop'
+        'mysql://szy:123456@localhost/voluntary'
 
 
 class TestingConfig(Config):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('TEST_DATABASE_URL') or \
-        'mysql://szy:123456@localhost/test'
+        'mysql://szy:123456@localhost/voluntary'
     WTF_CSRF_ENABLED = False
 
 

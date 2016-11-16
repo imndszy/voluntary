@@ -3,6 +3,4 @@
 # github: https://github.com/imndszy
 from flask import Blueprint
 
-auth = Blueprint('auth', __name__)
-
-from . import views
+admin = Blueprint('admin', __name__)
