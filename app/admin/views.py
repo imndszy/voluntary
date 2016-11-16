@@ -15,3 +15,7 @@ def index():
 def login():
     return render_template('admin/login.html')
 
+@admin.route('/admin_detail')
+def detail():
+    return render_template('admin/admin_detail.html')
+
