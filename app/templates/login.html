@@ -135,12 +135,7 @@
 						password:$("#password").val()
 					}
 					success:function(data){
-						if(data.mark==1){
-							location.href="advanced.html?username"+name;
-						}
-						if(data.mark==2){
-							location.href="admin.html?username="+name;
-						}
+							location.href="index";
 					}
 				})
 			}
