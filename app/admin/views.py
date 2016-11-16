@@ -9,7 +9,7 @@ from app.admin.functions import admin_login_required
 @admin.route('/')
 # @admin_login_required
 def index():
-    return render_template('admin/admin_index.html')
+    return render_template('admin/admin.html')
 
 @admin.route('/login')
 def login():
