@@ -43,7 +43,7 @@
                         <div class="col-sm-6 col-sm-offset-3 form-box">
                         	<div class="form-top">
                         		<div class="form-top-left">
-                        			<h3 align="center">Login to our site</h3>
+                        			<h3 align="center">Administrator login</h3>
                         		</div>
                             </div>
                             <div class="form-bottom">
@@ -58,35 +58,6 @@
 			                        </div>
 			                        <button type="submit" class="btn" id="login">登录</button>
 			                    </form>
-								<a  class="form-secret"   data-toggle="modal" data-target="#myModal">修改密码</a>
-								<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-									<div class="modal-dialog">
-										<div class="modal-content">
-											<div class="modal-header">
-												<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-												<h4 class="modal-title" id="myModalLabel" style="text-align:center;">修改密码</h4>
-											</div>
-											<div class="modal-footer">
-											    <form id="form1" name="form1" role="form" action="#" method="post" class="login-form" onsubmit="return check()">
-													<div class="form-group">
-														<label class="sr-only" for="passWord">原密码</label>
-														<input type="password" name="passWord" placeholder="原密码" class="form-password form-control" id="form-password">
-													</div>
-													<div class="form-group">
-														<label class="sr-only" for="newpassWord1">新密码</label>
-														<input type="password" name="newpassWord1" placeholder="新密码" class="form-password form-control" id="form-password">
-													</div>
-													<div class="form-group">
-														<label class="sr-only" for="newpassWord2">新密码</label>
-														<input type="password" name="newpassWord2" placeholder="新密码" class="form-password form-control" id="form-password">
-													</div>
-													<button type="submit" class="btn" id="change">修改</button>
-												</form>
-												
-											</div>
-										</div><!-- /.modal-content -->
-									</div><!-- /.modal -->
-						        </div>
 		                    </div>
                         </div>
                     </div>
@@ -104,30 +75,10 @@
         <script src="../../static/js/jquery.backstretch.min.js"></script>
         <script src="../../static/js/admin-login.js"></script>
 		<script language="javaScript">
-		var name=document.form1.username.value;
-		function check(){
-			    var password=document.form1.passWord.value;
-				var password1=document.form1.newpassWord1.value;
-				var password2=document.form1.newpassWord2.value;
-				if(password==""||password1==""||password2==""){
-					alert("填写内容不能为空！");
-					return false;
-				}
-				else if(password1!=password2){
-					alert("两次新密码输入不一致！");
-					return false;
-				}
-				else if(password1.length<6){
-					alert("密码不能低于6位!");
-					return false;
-				}
-				else{
-				return true;}
-			}
 		$(function(){
 			$("#login").click({function(){
 				$.ajax({
-					url:'/',
+					url:'/api/v1.0/admin',
 					dataType:'JSON',
 					type:'POST',
 					data:{
@@ -135,7 +86,7 @@
 						password:$("#password").val()
 					}
 					success:function(data){
-							location.href="../admin.html";
+							location.href="admin.html";
 					}
 				})
 			}
