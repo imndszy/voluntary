@@ -6,12 +6,12 @@
     <meta name="author" content="www.frebsite.nl" />
     <meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=yes" />
     <title>adminnistrator</title>
-    <link type="text/css" rel="stylesheet" href="../static/css/jquery.mmenu.all.css" />
-    <link type="text/css" rel="stylesheet" href="../static/css/hamburgers.css" />
-    <link type="text/css" rel="stylesheet" href="../static/css/bootstrap.css" />
-    <script type="text/javascript" src="../static/js/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="../static/js/jquery.mmenu.all.min.js"></script>
-    <script type="text/javascript" src="../static/js/bootstrap.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="../../static/css/jquery.mmenu.all.css" />
+    <link type="text/css" rel="stylesheet" href="../../static/css/hamburgers.css" />
+    <link type="text/css" rel="stylesheet" href="../../static/css/bootstrap.css" />
+    <script type="text/javascript" src="../../static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../static/js/jquery.mmenu.all.min.js"></script>
+    <script type="text/javascript" src="../../static/js/bootstrap.min.js"></script>
     <style>
     html,
     body {
@@ -98,7 +98,7 @@
                 },
                 navbars: [{
                     height: 3,
-                    content: ['<a align="center"><img src="../static/images/coupon_icon4.png" /></a><div class="bbiigg" id="username">管理员</div>']
+                    content: ['<a align="center"><img src="../../static/images/coupon_icon4.png" /></a><div class="bbiigg" id="username">管理员</div>']
                 }],
                 counters: true,
                 extensions: ["pagedim-black", "pageshadow", "effect-menu-zoom", "theme-dark", "widescreen"],
@@ -257,7 +257,7 @@
         </div>
         <nav id="menu">
          			<ul class="nav nav-tabs nav-stacked" role="tablist" id="tab-list">
-         				<li><a href="advanced.html">活动首页</a></li>
+         				<li><a href="admin_advanced.html">活动首页</a></li>
                         <li><a href="#home" role="tab" data-toggle="tab">发布活动</a></li>
                         <li><a href="#school" role="tab" data-toggle="tab">信息查询</a></li>
                         <li><a href="#work" role="tab" data-toggle="tab">活动导出</a></li>
@@ -278,7 +278,7 @@
     $(document).ready(function() {
         $("#publish").click(function() {
             $.ajax({
-                url: '',
+                url: '/api/v1.0/',
                 data: {
                     actype: $('input[type="radio"]:checked').val(),
                     title: $("#title").val(),
