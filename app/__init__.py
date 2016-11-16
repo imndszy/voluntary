@@ -7,7 +7,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from config import config
 
-mail = Mail()
+# mail = Mail()
 db = SQLAlchemy()
 
 # login_manager = LoginManager()
@@ -19,7 +19,7 @@ def create_app(config_name):
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
 
-    mail.init_app(app)
+    # mail.init_app(app)
     db.init_app(app)
     # login_manager.init_app(app)
 
@@ -27,13 +27,13 @@ def create_app(config_name):
     #     from flask_sslify import SSLify
     #     sslify = SSLify(app)
 
-    from .admin import admin as admin_blueprint
+    from app.admin import admin as admin_blueprint
     app.register_blueprint(admin_blueprint, url_prefix='/admin')
 
-    from .api_1_0 import api as api_1_0_blueprint
+    from app.api_1_0 import api as api_1_0_blueprint
     app.register_blueprint(api_1_0_blueprint, url_prefix='/api/v1.0')
 
-    from .main import main as main_blueprint
+    from app.main import main as main_blueprint
     app.register_blueprint(main_blueprint)
 
     return app
