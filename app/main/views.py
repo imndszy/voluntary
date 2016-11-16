@@ -13,3 +13,7 @@ def index():
 @main.route('/login')
 def login():
     return render_template('login.html')
+
+@main.route('/user')
+def user():
+    return render_template('user.html')
