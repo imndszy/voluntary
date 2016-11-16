@@ -5,7 +5,8 @@ import hashlib
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import current_app, request, url_for
 from flask_login import UserMixin
-from app import db,login_manager
+from app import db
+# login_manager
 
 
 fa_user = db.Table('fa_user',
@@ -43,9 +44,9 @@ class User(UserMixin, db.Model):
             url=url, hash=hash, size=size, default=default, rating=rating)
 
 
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
+# @login_manager.user_loader
+# def load_user(user_id):
+#     return User.query.get(int(user_id))
 
 class Finished_activity(db.Model):
     __tablename__ = 'finished_activity'
