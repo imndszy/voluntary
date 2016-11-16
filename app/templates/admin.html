@@ -98,7 +98,7 @@
                 },
                 navbars: [{
                     height: 3,
-                    content: ['<a align="center"><img src="../static/images/coupon_icon4.png" /></a><div class="bbiigg" id="username"><a href="login.html">登录</div>']
+                    content: ['<a align="center"><img src="../static/images/coupon_icon4.png" /></a><div class="bbiigg" id="username">管理员</div>']
                 }],
                 counters: true,
                 extensions: ["pagedim-black", "pageshadow", "effect-menu-zoom", "theme-dark", "widescreen"],
@@ -106,12 +106,6 @@
                     position: "right"
                 }
             })
-        var getb = window.location.href;
-        var name = getb.split("?")[1].split("=")[1];
-        // alert(name);
-        if (name != '') {
-            document.getElementById("username").innerHTML = name;
-        }
     });
     </script>
 </head>
