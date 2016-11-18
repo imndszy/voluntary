@@ -2,6 +2,9 @@
 # Author: shizhenyu96@gamil.com
 # github: https://github.com/imndszy
 import os
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 from app import create_app, db
 from app.models import User, Finished_activity,Unfinished_activity
 from flask_script import Manager, Shell

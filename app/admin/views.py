@@ -7,11 +7,15 @@ from app.admin.functions import admin_login_required
 
 
 @admin.route('/')
-@admin_login_required
+# @admin_login_required
 def index():
     return render_template('admin/admin.html')
 
 @admin.route('/login')
 def login():
     return render_template('admin/login.html')
+
+@admin.route('/admin_detail')
+def detail():
+    return render_template('admin/admin_detail.html')
 
