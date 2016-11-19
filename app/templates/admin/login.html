@@ -75,8 +75,8 @@
         <script src="../../static/js/jquery.backstretch.min.js"></script>
         <script src="../../static/js/admin-login.js"></script>
 		<script language="javaScript">
-		$(function(){
-			$("#login").click({function(){
+        $(document).ready(function(){
+			$("#login").click(function(){
 				$.ajax({
 					url:'/api/v1_0/admin',
 					dataType:'JSON',
@@ -93,8 +93,7 @@
 						    alert("账号或密码错误");
 						}
 					}
-				})
-			}
+				});
 		    });
 		})
 		</script>
