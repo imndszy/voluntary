@@ -270,15 +270,10 @@
         </nav>
     </div>
     <script>
-    // var forEach=function(t,o,r){if("[object Object]"===Object.prototype.toString.call(t))for(var c in t)Object.prototype.hasOwnProperty.call(t,c)&&o.call(r,t[c],c,t);else for(var e=0,l=t.length;l>e;e++)o.call(r,t[e],e,t)};
-    // var hamburger = document.getElementById("hamburger");
-    // hamburger.addEventListener("click", function() {
-    //       this.classList.toggle("is-active");
-    // }, false);
     $(document).ready(function() {
         $("#publish").click(function() {
             $.ajax({
-                url: '/api/v1.0/',
+                url: '/api/v1.0/activities',
                 data: {
                     actype: $('input[type="radio"]:checked').val(),
                     title: $("#title").val(),
@@ -292,7 +287,11 @@
                 dataType: 'JSON',
                 type: 'POST',
                 success: function() {
+                    if(status == "ok"){
                     alert("已发布活动");
+                    }else{
+                        alert("信息不完整");
+                    }
                 }
             });
         });
