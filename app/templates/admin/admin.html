@@ -267,13 +267,13 @@
                     dataType:'JSON',
                     type:'POST',
                     data:{
-                         actype: $('input[type="radio"]:checked').val(),
+                        actype: $('input[type="radio"]:checked').val(),
                         title: $("#title").val(),
                         ac_place: $("#address").val(),
                         introduce: $("#introduce").val(),
                         start_time: $("#start_time").val(),
                         finish_time: $("#finished_time").val(),
-                        required_stus: $("#requires_stus").val(),
+                        required_stus: $("#required_stus").val(),
                         vol_time: $("#alltime").val()
                         },
                     success:function(data){
