@@ -51,33 +51,33 @@ class User(UserMixin, db.Model):
 class Finished_activity(db.Model):
     __tablename__ = 'finished_activity'
     acid = db.Column(db.Integer, primary_key=True)
-    actype = db.Column(db.Integer)          #活动类型
-    ac_place = db.Column(db.String(128))        #活动地点
-    start_time = db.Column(db.DateTime)          #活动开始时间
-    finish_time = db.Column(db.DateTime)        #活动结束时间
-    subject = db.Column(db.String(128))         #活动主题
-    introduce = db.Column(db.Text)             #活动简介
-    required_stus = db.Column(db.Integer)       #需求人数
-    actual_stus = db.Column(db.Integer)       #实际人数
-    ac_periods = db.Column(db.Integer)    #活动期数
-    linkman = db.Column(db.String(16))  #联系人（有字长限制）
-    contact = db.Column(db.String(16))  #联系方式
+    actype = db.Column(db.Integer,nullable=True)          #活动类型
+    ac_place = db.Column(db.String(128),nullable=True)        #活动地点
+    start_time = db.Column(db.DateTime,nullable=True)          #活动开始时间
+    finish_time = db.Column(db.DateTime,nullable=True)        #活动结束时间
+    subject = db.Column(db.String(128),nullable=True)         #活动主题
+    introduce = db.Column(db.Text,nullable=True)             #活动简介
+    required_stus = db.Column(db.Integer,nullable=True)       #需求人数
+    actual_stus = db.Column(db.Integer,nullable=True)       #实际人数
+    ac_periods = db.Column(db.Integer,nullable=True)    #活动期数
+    # linkman = db.Column(db.String(16))  #联系人（有字长限制）
+    # contact = db.Column(db.String(16))  #联系方式
     users = db.relationship('User',secondary=fa_user)
 
 
 class Unfinished_activity(db.Model):
     __tablename__ = 'unfinished_activity'
     acid = db.Column(db.Integer, primary_key=True)
-    actype = db.Column(db.Integer)          #活动类型
-    ac_place = db.Column(db.String(128))        #活动地点
-    start_time = db.Column(db.DateTime)          #活动开始时间
-    finish_time = db.Column(db.DateTime)        #活动结束时间
-    subject = db.Column(db.String(128))         #活动主题
-    introduce = db.Column(db.Text)             #活动简介
-    required_stus = db.Column(db.Integer)       #需求人数
-    actual_stus = db.Column(db.Integer)       #实际人数
-    ac_periods = db.Column(db.Integer)    #活动期数
-    linkman = db.Column(db.String(16))  # 联系人（有字长限制）
-    contact = db.Column(db.String(16))  # 联系方式
+    actype = db.Column(db.Integer,nullable=True)          #活动类型
+    ac_place = db.Column(db.String(128),nullable=True)        #活动地点
+    start_time = db.Column(db.DateTime,nullable=True)          #活动开始时间
+    finish_time = db.Column(db.DateTime,nullable=True)        #活动结束时间
+    subject = db.Column(db.String(128),nullable=True)         #活动主题
+    introduce = db.Column(db.Text,nullable=True)             #活动简介
+    required_stus = db.Column(db.Integer,nullable=True)       #需求人数
+    actual_stus = db.Column(db.Integer,nullable=True)       #实际人数
+    ac_periods = db.Column(db.Integer,nullable=True)    #活动期数
+    # linkman = db.Column(db.String(16))  # 联系人（有字长限制）
+    # contact = db.Column(db.String(16))  # 联系方式
     users = db.relationship('User',secondary=ufa_user)
 
