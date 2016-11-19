@@ -16,6 +16,12 @@ def login():
     return render_template('admin/login.html')
 
 @admin.route('/admin_detail')
+@admin_login_required
 def detail():
     return render_template('admin/admin_detail.html')
+
+@admin.route('/index')
+@admin_login_required
+def admin_index():
+    return render_template('admin/admin_index.html')
 
