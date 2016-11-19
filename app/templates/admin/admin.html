@@ -123,12 +123,6 @@
         <div class="content">
             <section>
                 <div class="container">
-                    <!-- <h3 align="center">管理员界面</h3> -->
-                  <!--   <ul class="nav nav-tabs" role="tablist" id="tab-list">
-                        <li class="active"><a href="#home" role="tab" data-toggle="tab">发布活动</a></li>
-                        <li><a href="#school" role="tab" data-toggle="tab">信息查询</a></li>
-                        <li><a href="#work" role="tab" data-toggle="tab">活动导出</a></li>
-                    </ul> -->
                     <div class="tab-content">
                         <div class="tab-pane active" id="home">
                             <div class="row feature">
@@ -190,6 +184,7 @@
                                             <button type="button" id="publish" class="btn btn-success" style="width:94%;margin-right: 15px;margin-left: 18px;">发布活动</button>
                                         </div>
                                     </form>
+
                                 </div>
                             </div>
                         </div>
@@ -207,7 +202,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <button type="submit" class="btn btn-success" style="width:94%;margin-right: 15px;margin-left: 18px;">查询</button>
+                                            <button type="button" class="btn btn-success" style="width:94%;margin-right: 15px;margin-left: 18px;">查询</button>
                                         </div>
                                     </form>
                                 </div>
@@ -245,7 +240,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <button type="submit" class="btn btn-success" style="width:94%;margin-right: 15px;margin-left: 18px;">导出活动</button>
+                                            <button type="button" class="btn btn-success" style="width:94%;margin-right: 15px;margin-left: 18px;">导出活动</button>
                                         </div>
                                     </form>
                                 </div>
@@ -262,40 +257,36 @@
                         <li><a href="#school" role="tab" data-toggle="tab">信息查询</a></li>
                         <li><a href="#work" role="tab" data-toggle="tab">活动导出</a></li>
                     </ul>
-          <!--   <ul>
-                <li></li>
-                <li><a href="advanced.html">活动首页</a></li>
-                <li><a href="admin.html">管理员界面</a></li>
-            </ul> -->
         </nav>
     </div>
     <script>
-    $(document).ready(function() {
-        $("#publish").click(function() {
-            $.ajax({
-                url: '/api/v1_0/activities',
-                data: {
-                    actype: $('input[type="radio"]:checked').val(),
-                    title: $("#title").val(),
-                    ac_place: $("#address").val(),
-                    introduce: $("#introduce").val(),
-                    start_time: $("#start_time").val(),
-                    finish_time: $("#finished_time").val(),
-                    required_stus: $("#requires_stus").val(),
-                    vol_time: $("#alltime").val()
-                }
-                dataType: 'JSON',
-                type: 'POST',
-                success: function() {
-                    if(status == "ok"){
-                    alert("已发布活动");
-                    }else{
-                        alert("信息不完整");
+    $(document).ready(function(){
+            $("#publish").click(function(){
+                $.ajax({
+                    url:'/api/v1_0/activities',
+                    dataType:'JSON',
+                    type:'POST',
+                    data:{
+                         actype: $('input[type="radio"]:checked').val(),
+                        title: $("#title").val(),
+                        ac_place: $("#address").val(),
+                        introduce: $("#introduce").val(),
+                        start_time: $("#start_time").val(),
+                        finish_time: $("#finished_time").val(),
+                        required_stus: $("#requires_stus").val(),
+                        vol_time: $("#alltime").val()
+                        },
+                    success:function(data){
+                        if(data.status=="ok"){
+                            alert("发布成功");
+                            }
+                        else{
+                            alert("信息不完整");
+                        }
                     }
-                }
+                });
             });
-        });
-    });
+    })
     </script>
 </body>
 
