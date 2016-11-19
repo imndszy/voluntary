@@ -60,6 +60,7 @@ class Finished_activity(db.Model):
     required_stus = db.Column(db.Integer,nullable=True)       #需求人数
     actual_stus = db.Column(db.Integer,nullable=True)       #实际人数
     ac_periods = db.Column(db.Integer,nullable=True)    #活动期数
+    vol_time = db.Column(db.Float, nullable=True)   #活动时长
     # linkman = db.Column(db.String(16))  #联系人（有字长限制）
     # contact = db.Column(db.String(16))  #联系方式
     users = db.relationship('User',secondary=fa_user)
@@ -77,6 +78,7 @@ class Unfinished_activity(db.Model):
     required_stus = db.Column(db.Integer,nullable=True)       #需求人数
     actual_stus = db.Column(db.Integer,nullable=True)       #实际人数
     ac_periods = db.Column(db.Integer,nullable=True)    #活动期数
+    vol_time = db.Column(db.Float,nullable=True)
     # linkman = db.Column(db.String(16))  # 联系人（有字长限制）
     # contact = db.Column(db.String(16))  # 联系方式
     users = db.relationship('User',secondary=ufa_user)
