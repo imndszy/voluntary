@@ -273,7 +273,7 @@
     $(document).ready(function() {
         $("#publish").click(function() {
             $.ajax({
-                url: '/api/v1.0/activities',
+                url: '/api/v1_0/activities',
                 data: {
                     actype: $('input[type="radio"]:checked').val(),
                     title: $("#title").val(),
