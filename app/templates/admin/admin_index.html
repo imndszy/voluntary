@@ -356,7 +356,7 @@
     //数据获取
     $(document).ready(function() {
         $.ajax({
-            url: '/api/1v1.0/unfinished_activities',
+            url: '/api/v1_0/unfinished_activities',
             dataType: 'JSON',
             type: 'GET',
             success: function(data) {
@@ -370,7 +370,7 @@
                         item += '</span></h5></div><div class="about-text"><a href="admin_detail.html?acid=';
                         item += data[i].acid;
                         item += '"><h4>';
-                        item += data[i].title;
+                        item += data[i].subject;
                         item += '</h4><p>';
                         item += data[i].introduce;
                         item += '</p></a><div><div class="clearfix"> </div></div>';
@@ -382,7 +382,7 @@
                         item += '</span></h5></div><div class="about-text"><a href="admin_detail.html?acid=';
                         item += data[i].acid;
                         item += '"><h4>';
-                        item += data[i].title;
+                        item += data[i].subject;
                         item += '</h4><p>';
                         item += data[i].introduce;
                         item += '</p></a><div><div class="clearfix"> </div></div>';
