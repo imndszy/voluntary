@@ -354,13 +354,29 @@
         sl[i].innerHTML = slh;
     }
     //数据获取
+    // $(document).ready(function(){
+    //     alert("af");
+    //     $.ajax({
+    //                 url:'/api/v1_0/activities',
+    //                 dataType:'JSON',
+    //                 type:'get',
+    //                 success:function(data){
+    //                     alert("efa");
+    //                 }
+
+
+               
+    //             });
+    // });
+    
     $(document).ready(function() {
         $.ajax({
             url: '/api/v1_0/activities',
             dataType: 'JSON',
             type: 'GET',
             success: function(data) {
-                if (data.status == "ok") {
+                // if (data.status == "ok") {
+                    alert(data);
                     $("#section-topline-1").empty();
                     $("#section-topline-2").empty();
                     for (var i = 0; i < data.length; i++) {
@@ -390,7 +406,7 @@
                             $("#section-topline-2").append(item);
                         }
                     }
-                }
+                // }
             }
         })
     });
