@@ -27,13 +27,24 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     phone = db.Column(db.String(20), nullable=True)
     identified_card = db.Column(db.String(30), unique=True)
-    service_time = db.Column(db.Float)
+    service_time = db.Column(db.Float,nullable=True)
     finished_activities = db.relationship('Finished_activity',
                                           secondary=fa_user)
     unfinished_activities = db.relationship('Unfinished_activity',
                                             secondary=ufa_user)
 
-    def gravatar(self, size=100, default='identicon', rating='g'):
+    @property
+    def password(self):
+        raise AttributeError('password is not a readable attribute')
+
+    @password.setter
+    def password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def verify_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
+    def get_image_url(self, size=100, default='identicon', rating='g'):
         if request.is_secure:
             url = 'https://secure.gravatar.com/avatar'
         else:
