@@ -124,21 +124,25 @@
 				else{
 				return true;}
 			}
-		$(function(){
-			$("#login").click({function(){
+		$(document).ready(function(){
+			$("#login").click(function(){
 				$.ajax({
-					url:'/',
+					url:'/api/v1_0/admin',
 					dataType:'JSON',
 					type:'POST',
 					data:{
 						username:$("#username").val(),
 						password:$("#password").val()
-					}
+					},
 					success:function(data){
-							location.href="index";
+					    if(data.status=="ok"){
+							window.location.href="/index";
+							}
+						else{
+						    alert("账号或密码错误");
+						}
 					}
-				})
-			}
+				});
 		    });
 		})
 		</script>

@@ -172,7 +172,7 @@
                 },
                 navbars: [{
                     height: 3,
-                    content: ['<a align="center"><img src="../static/images/coupon_icon4.png" /></a><div class="bbiigg" id="username"><a href="login">登录</a></div>']
+                    content: ['<a align="center"><img src="../static/images/coupon_icon4.png" /></a><div class="bbiigg" id="username"><a href="/login">登录</a></div>']
                 }],
                 counters: true,
                 extensions: ["pagedim-black", "pageshadow", "effect-menu-zoom", "theme-dark", "widescreen"],
@@ -180,11 +180,11 @@
                     position: "right"
                 }
             })
-        // var getb = window.location.href;
-        // var name = getb.split("?")[1].split("=")[1];
-        // if (name != '') {
-        //     document.getElementById("username").innerHTML = name;
-        // }
+            // var getb = window.location.href;
+            // var name = getb.split("?")[1].split("=")[1];
+            // if (name != '') {
+            //     document.getElementById("username").innerHTML = name;
+            // }
     });
     </script>
 </head>
@@ -382,8 +382,8 @@
         <nav id="menu">
             <ul>
                 <li></li>
-                <li><a href="index">活动首页</a></li>
-                <li><a href="user">个人信息</a> </li>
+                <li><a href="/">活动首页</a></li>
+                <li><a href="/user">个人信息</a> </li>
                 <li><a href="#">活动签到</a></li>
             </ul>
         </nav>
@@ -399,47 +399,50 @@
     })();
     </script>
     <script>
-    //文本超过字符长度显示...
-    var sl = document.getElementById("section-topline-1").getElementsByTagName("p");
-    for (i = 0; i < sl.length; i++) {
-        var slh = sl[i].innerHTML.slice(0, 100) + '...';
-        sl[i].innerHTML = slh;
-    }
     //数据获取
     $(document).ready(function() {
         $.ajax({
-            url: '../api_1_0/unfinished_activities',
+            url: '/api/v1_0/activities',
             dataType: 'JSON',
             type: 'GET',
             success: function(data) {
                 $("#section-topline-1").empty();
                 $("#section-topline-2").empty();
-                for (var i = 0; i < data.length; i++) {
-                    if (data[i].actype == ) {
-                        var item = '';
-                        item += ' <div class="about-grid"><div class="about-box"><h5><span class="ab-box">0';
+                for (var i = 0; i < 5; i++) {
+                    if (data.result[i].actype == 1) {
+                        var item = ' <div class="about-grid ad-more"><div class="about-box"><h5><span class="ab-box">0';
                         item += i + 1;
-                        item += '</span></h5></div><div class="about-text"><a href="detail.html?acid=';
-                        item += data[i].acid;
+                        item += '</span></h5></div><div class="about-text"><a href="admin_detail?acid=';
+                        item += data.result[i].acid;
                         item += '"><h4>';
-                        item += data[i].title;
+                        item += data.result[i].subject;
                         item += '</h4><p>';
-                        item += data[i].introduce;
-                        item += '</p></a><div><div class="clearfix"> </div></div>';
+                        item += data.result[i].introduce;
+                        item += '</p></a></div><div class="clearfix"> </div></div>';
                         $("#section-topline-1").append(item);
                     } else {
                         var item = '';
-                        item += ' <div class="about-grid"><div class="about-box"><h5><span class="ab-box">0';
+                        item += ' <div class="about-grid ad-more"><div class="about-box"><h5><span class="ab-box">0';
                         item += i + 1;
-                        item += '</span></h5></div><div class="about-text"><a href="detail.html?acid=';
-                        item += data[i].acid;
+                        item += '</span></h5></div><div class="about-text"><a href="admin_detail?acid=';
+                        item += data.result[i].acid;
                         item += '"><h4>';
-                        item += data[i].title;
+                        item += data.result[i].subject;
                         item += '</h4><p>';
-                        item += data[i].introduce;
-                        item += '</p></a><div><div class="clearfix"> </div></div>';
+                        item += data.result[i].introduce;
+                        item += '</p></a></div><div class="clearfix"> </div></div>';
                         $("#section-topline-2").append(item);
                     }
+                }
+                var sl = document.getElementById("section-topline-1").getElementsByTagName("p");
+                var sh = document.getElementById("section-topline-2").getElementsByTagName("p");
+                for (i = 0; i < sl.length; i++) {
+                    var slh = sl[i].innerHTML.slice(0, 30) + '...';
+                    sl[i].innerHTML = slh;
+                }
+                for (i = 0; i < sh.length; i++) {
+                    var shh = sh[i].innerHTML.slice(0, 30) + '...';
+                    sh[i].innerHTML = shh;
                 }
             }
         })
