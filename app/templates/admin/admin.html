@@ -156,7 +156,7 @@
                                             </div>
                                             <label for="finished_time" class="col-sm-2 control-label textal">活动结束时间</label>
                                             <div class="col-sm-4">
-                                                <input type="datetime-local" class="form-control" id="finished_time" placeholder="活动时间安排">
+                                                <input type="datetime-local" class="form-control" id="finish_time" placeholder="活动时间安排">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -262,6 +262,13 @@
     <script>
     $(document).ready(function(){
             $("#publish").click(function(){
+                var start_time=$("#start_time").val();
+                var finish_time=$("#finish_time").val();
+                if(!start_time||!finish_time){
+                alert("请填写活动安排时间！");
+                this.focus();
+                return false;
+                };
                 $.ajax({
                     url:'/api/v1_0/activities',
                     dataType:'JSON',
@@ -272,7 +279,7 @@
                         ac_place: $("#address").val(),
                         introduce: $("#introduce").val(),
                         start_time: $("#start_time").val(),
-                        finish_time: $("#finished_time").val(),
+                        finish_time: $("#finish_time").val(),
                         required_stus: $("#required_stus").val(),
                         vol_time: $("#alltime").val()
                         },
