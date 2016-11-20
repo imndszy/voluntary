@@ -180,11 +180,11 @@
                     position: "right"
                 }
             })
-        // var getb = window.location.href;
-        // var name = getb.split("?")[1].split("=")[1];
-        // if (name != '') {
-        //     document.getElementById("username").innerHTML = name;
-        // }
+            // var getb = window.location.href;
+            // var name = getb.split("?")[1].split("=")[1];
+            // if (name != '') {
+            //     document.getElementById("username").innerHTML = name;
+            // }
     });
     </script>
 </head>
@@ -356,37 +356,39 @@
     //数据获取
     $(document).ready(function() {
         $.ajax({
-            url: '/api/v1_0/unfinished_activities',
+            url: '/api/v1_0/activities',
             dataType: 'JSON',
             type: 'GET',
             success: function(data) {
-                $("#section-topline-1").empty();
-                $("#section-topline-2").empty();
-                for (var i = 0; i < data.length; i++) {
-                    if (data[i].actype == ) {
-                        var item = '';
-                        item += ' <div class="about-grid"><div class="about-box"><h5><span class="ab-box">0';
-                        item += i + 1;
-                        item += '</span></h5></div><div class="about-text"><a href="admin_detail.html?acid=';
-                        item += data[i].acid;
-                        item += '"><h4>';
-                        item += data[i].subject;
-                        item += '</h4><p>';
-                        item += data[i].introduce;
-                        item += '</p></a><div><div class="clearfix"> </div></div>';
-                        $("#section-topline-1").append(item);
-                    } else {
-                        var item = '';
-                        item += ' <div class="about-grid"><div class="about-box"><h5><span class="ab-box">0';
-                        item += i + 1;
-                        item += '</span></h5></div><div class="about-text"><a href="admin_detail.html?acid=';
-                        item += data[i].acid;
-                        item += '"><h4>';
-                        item += data[i].subject;
-                        item += '</h4><p>';
-                        item += data[i].introduce;
-                        item += '</p></a><div><div class="clearfix"> </div></div>';
-                        $("#section-topline-2").append(item);
+                if (data.status == "ok") {
+                    $("#section-topline-1").empty();
+                    $("#section-topline-2").empty();
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i].actype == 1) {
+                            var item = '';
+                            item += ' <div class="about-grid"><div class="about-box"><h5><span class="ab-box">0';
+                            item += i + 1;
+                            item += '</span></h5></div><div class="about-text"><a href="admin_detail?acid=';
+                            item += data[i].acid;
+                            item += '"><h4>';
+                            item += data[i].subject;
+                            item += '</h4><p>';
+                            item += data[i].introduce;
+                            item += '</p></a><div><div class="clearfix"> </div></div>';
+                            $("#section-topline-1").append(item);
+                        } else {
+                            var item = '';
+                            item += ' <div class="about-grid"><div class="about-box"><h5><span class="ab-box">0';
+                            item += i + 1;
+                            item += '</span></h5></div><div class="about-text"><a href="admin_detail?acid=';
+                            item += data[i].acid;
+                            item += '"><h4>';
+                            item += data[i].subject;
+                            item += '</h4><p>';
+                            item += data[i].introduce;
+                            item += '</p></a><div><div class="clearfix"> </div></div>';
+                            $("#section-topline-2").append(item);
+                        }
                     }
                 }
             }
