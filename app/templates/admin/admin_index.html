@@ -330,8 +330,8 @@
         <nav id="menu">
             <ul>
                 <li></li>
-                <li><a href="admin_index">活动首页</a></li>
-                <li><a href="admin">管理员</a> </li>
+                <li><a href="/admin/index">活动首页</a></li>
+                <li><a href="/admin">管理员</a> </li>
                 <li><a href="#">活动签到</a></li>
             </ul>
         </nav>
@@ -353,60 +353,51 @@
         var slh = sl[i].innerHTML.slice(0, 100) + '...';
         sl[i].innerHTML = slh;
     }
-    //数据获取
-    // $(document).ready(function(){
-    //     alert("af");
-    //     $.ajax({
-    //                 url:'/api/v1_0/activities',
-    //                 dataType:'JSON',
-    //                 type:'get',
-    //                 success:function(data){
-    //                     alert("efa");
-    //                 }
-
-
-               
-    //             });
-    // });
-    
+    // //数据获取
     $(document).ready(function() {
         $.ajax({
             url: '/api/v1_0/activities',
             dataType: 'JSON',
             type: 'GET',
             success: function(data) {
-                // if (data.status == "ok") {
-                    alert(data);
-                    $("#section-topline-1").empty();
-                    $("#section-topline-2").empty();
-                    for (var i = 0; i < data.length; i++) {
-                        if (data[i].actype == 1) {
-                            var item = '';
-                            item += ' <div class="about-grid"><div class="about-box"><h5><span class="ab-box">0';
-                            item += i + 1;
-                            item += '</span></h5></div><div class="about-text"><a href="admin_detail?acid=';
-                            item += data[i].acid;
-                            item += '"><h4>';
-                            item += data[i].subject;
-                            item += '</h4><p>';
-                            item += data[i].introduce;
-                            item += '</p></a><div><div class="clearfix"> </div></div>';
-                            $("#section-topline-1").append(item);
-                        } else {
-                            var item = '';
-                            item += ' <div class="about-grid"><div class="about-box"><h5><span class="ab-box">0';
-                            item += i + 1;
-                            item += '</span></h5></div><div class="about-text"><a href="admin_detail?acid=';
-                            item += data[i].acid;
-                            item += '"><h4>';
-                            item += data[i].subject;
-                            item += '</h4><p>';
-                            item += data[i].introduce;
-                            item += '</p></a><div><div class="clearfix"> </div></div>';
-                            $("#section-topline-2").append(item);
-                        }
+                $("#section-topline-1").empty();
+                $("#section-topline-2").empty();
+                for (var i = 0; i < data.result.length; i++) {
+                    if (data.result[i].actype == 1) {
+                        var item = ' <div class="about-grid ad-more"><div class="about-box"><h5><span class="ab-box">0';
+                        item += i + 1;
+                        item += '</span></h5></div><div class="about-text"><a href="admin_detail?acid=';
+                        item += data.result[i].acid;
+                        item += '"><h4>';
+                        item += data.result[i].subject;
+                        item += '</h4><p>';
+                        item += data.result[i].introduce;
+                        item += '</p></a></div><div class="clearfix"> </div></div>';
+                        $("#section-topline-1").append(item);
+                    } else {
+                        var item = '';
+                        item += ' <div class="about-grid ad-more"><div class="about-box"><h5><span class="ab-box">0';
+                        item += i + 1;
+                        item += '</span></h5></div><div class="about-text"><a href="admin_detail?acid=';
+                        item += data.result[i].acid;
+                        item += '"><h4>';
+                        item += data.result[i].subject;
+                        item += '</h4><p>';
+                        item += data.result[i].introduce;
+                        item += '</p></a></div><div class="clearfix"> </div></div>';
+                        $("#section-topline-2").append(item);
                     }
-                // }
+                }
+                var sl = document.getElementById("section-topline-1").getElementsByTagName("p");
+                var sh = document.getElementById("section-topline-2").getElementsByTagName("p");
+                for (i = 0; i < sl.length; i++) {
+                    var slh = sl[i].innerHTML.slice(0, 30) + '...';
+                    sl[i].innerHTML = slh;
+                }
+                for (i = 0; i < sh.length; i++) {
+                    var shh = sh[i].innerHTML.slice(0, 30) + '...';
+                    sh[i].innerHTML = shh;
+                }
             }
         })
     });
