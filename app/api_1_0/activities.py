@@ -14,9 +14,9 @@ from app.models import Unfinished_activity
 @admin_login_required
 def activity():
     if request.method == 'GET':
-        ac = db.session.query(Unfinished_activity).all()
-        print ac
-        return jsonify(ac='ok')
+        activity = db.session.query(Unfinished_activity).all()
+        a_list = [i.return_dict() for i in activity]
+        return jsonify(result=a_list)
     elif request.method == 'POST':
         data = request.values
         if data:
