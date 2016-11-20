@@ -43,6 +43,9 @@ class User(UserMixin, db.Model):
         return '{url}/{hash}?s={size}&d={default}&r={rating}'.format(
             url=url, hash=hash, size=size, default=default, rating=rating)
 
+    def __repr__(self):
+        return '<User {self.stuid}>'.format(self=self)
+
 
 # @login_manager.user_loader
 # def load_user(user_id):
@@ -65,6 +68,17 @@ class Finished_activity(db.Model):
     # contact = db.Column(db.String(16))  #联系方式
     users = db.relationship('User',secondary=fa_user)
 
+    def __repr__(self):
+        return '<Finished activity {self.acid}>'.format(self=self)
+
+    def return_dict(self):
+        return dict(acid=self.acid, actype=self.actype,
+                       ac_place=self.ac_place, start_time=self.start_time,
+                       finish_time=self.finish_time, subject=self.subject,
+                       introduce=self.introduce, required_stus=self.required_stus,
+                       actual_stus=self.actual_stus, ac_periods=self.ac_periods,
+                       vol_time=self.vol_time)
+
 
 class Unfinished_activity(db.Model):
     __tablename__ = 'unfinished_activity'
@@ -82,4 +96,15 @@ class Unfinished_activity(db.Model):
     # linkman = db.Column(db.String(16))  # 联系人（有字长限制）
     # contact = db.Column(db.String(16))  # 联系方式
     users = db.relationship('User',secondary=ufa_user)
+
+    def __repr__(self):
+        return '<Unfinished activity {self.acid}>'.format(self=self)
+
+    def return_dict(self):
+        return dict(acid=self.acid,actype=self.actype,
+                       ac_place=self.ac_place,start_time=self.start_time,
+                       finish_time=self.finish_time,subject=self.subject,
+                       introduce=self.introduce,required_stus=self.required_stus,
+                       actual_stus=self.actual_stus,ac_periods=self.ac_periods,
+                       vol_time=self.vol_time)
 
