@@ -5,8 +5,7 @@ import hashlib
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import current_app, request, url_for
 from flask_login import UserMixin
-from app import db
-# login_manager
+from app import db, login_manager
 
 
 fa_user = db.Table('fa_user',
@@ -28,6 +27,7 @@ class User(UserMixin, db.Model):
     phone = db.Column(db.String(20), nullable=True)
     identified_card = db.Column(db.String(30), unique=True)
     service_time = db.Column(db.Float,nullable=True)
+    password_reviewed = db.Column(db.Boolean)
     finished_activities = db.relationship('Finished_activity',
                                           secondary=fa_user)
     unfinished_activities = db.relationship('Unfinished_activity',
@@ -58,9 +58,9 @@ class User(UserMixin, db.Model):
         return '<User {self.stuid}>'.format(self=self)
 
 
-# @login_manager.user_loader
-# def load_user(user_id):
-#     return User.query.get(int(user_id))
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 class Finished_activity(db.Model):
     __tablename__ = 'finished_activity'
