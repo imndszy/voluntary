@@ -54,6 +54,9 @@ class User(UserMixin, db.Model):
         return '{url}/{hash}?s={size}&d={default}&r={rating}'.format(
             url=url, hash=hash, size=size, default=default, rating=rating)
 
+    def get_id(self):
+        return unicode(self.stuid)
+
     def __repr__(self):
         return '<User {self.stuid}>'.format(self=self)
 
