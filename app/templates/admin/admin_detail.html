@@ -72,19 +72,6 @@
         padding-right: 6%;
         padding-left: 2%
     }
-    
-    #toTop {
-        position: fixed;
-        bottom: 0px;
-        right: 10px;
-        overflow: hidden;
-        width: 48px;
-        height: 48px;
-        border: none;
-        text-indent: 100%;
-        background-size: 35px;
-        background: url(../static/images/arrow.png) no-repeat 0px 0px;
-    }
     </style>
 </head>
 
@@ -118,7 +105,6 @@
                                         <!-- counter #2 -->
                                         <div class="count-box">
                                             <i class="fa fa-user"></i>
-                                            <p id="people"></p>
                                             <p>{{number}}
                                                 <br/>报名/需求</p>
                                         </div>
@@ -127,7 +113,6 @@
                                         <!-- counter #1 -->
                                         <div class="count-box">
                                             <i class="fa fa-mobile"></i>
-                                            <p id=""></p>
                                             <p id="change"><a data-toggle="modal" data-target="#myModal">点击<br/>编辑修改</a></p>
                                         </div>
                                     </div>
@@ -135,7 +120,6 @@
                                         <!-- counter #3 -->
                                         <div class="count-box">
                                             <i class="fa fa-arrows"></i>
-                                            <p id="checkin"></p>
                                             <p><a data-toggle="modal" data-target="#myModal">生成
                                                 <br/>签到二维码</a></p>
                                         </div>
@@ -144,7 +128,6 @@
                                         <!-- counter #4 -->
                                         <div class="count-box">
                                             <i class="fa fa-download"></i>
-                                            <p id="checkout"></p>
                                             <p><a data-toggle="modal" data-target="#myModal">生成
                                                 <br/>签退二维码</a></p>
                                         </div>
@@ -218,9 +201,9 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="introduce" class="col-sm-2 control-label textal">活动介绍</label>
+                                            <label for="introduce2" class="col-sm-2 control-label textal">活动介绍</label>
                                             <div class="col-sm-10">
-                                                <textarea type="text" class="form-control2" style="height:84px;" id="introduce" placeholder="活动介绍"></textarea>
+                                                <textarea type="text" class="form-control2" style="height:84px;" id="introduce2" placeholder="活动介绍"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -289,6 +272,7 @@
     <script type="text/javascript">
     $(function() {
         var acid = $("#acid").val();
+        alert("a");
         // $.ajax({
         //     url: "/api/v1_0/activities",
         //     dataType: "JSON",
@@ -305,7 +289,7 @@
         //                     }
         //                     $("#title").val() = data.result[i].subject,
         //                     $("#address").val() = data.result[i].address,
-        //                     $("#introduce").val() = data.result[i].introduce,
+        //                     $("#introduce2").val() = data.result[i].introduce,
         //                     $("#start_time").val() = data.result[i].start_time,
         //                     $("#finish_time").val() = data.result[i].finish_time,
         //                     $("#required_stus").val() = data.result[i].required_stus,
