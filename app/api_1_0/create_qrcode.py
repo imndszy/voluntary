@@ -11,9 +11,8 @@ from app.admin.functions import admin_login_required
 
 @api.route('/qrcode/checkin', methods=['POST'])
 @admin_login_required
-def checkin():
+def check_in():
     data = request.values
-    print data
     acid = data.get('acid')
     if acid:
         qr = qrcode.QRCode(
@@ -32,7 +31,7 @@ def checkin():
 
 @api.route('/qrcode/checkout', methods=['POST'])
 @admin_login_required
-def checkout():
+def check_out():
     data = request.values
     acid = data.get('acid')
     if acid:
