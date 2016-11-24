@@ -1,13 +1,14 @@
 # -*- coding:utf8 -*-
 # Author: shizhenyu96@gamil.com
 # github: https://github.com/imndszy
-from flask import request,jsonify,session
+from flask import request, jsonify, session
 from flask_login import login_user, login_required
 
 from app.api_1_0 import api
 from app.models import User
 
-@api.route('/user/verification',methods=['POST'])
+
+@api.route('/user/verification', methods=['POST'])
 def user_verify():
     data = request.values
     username = data.get('username')
@@ -19,11 +20,11 @@ def user_verify():
         if user.verify_password(password):
             session['stuid'] = username
             login_user(user, True)
-            return jsonify(status='ok',stuid=session['stuid'])
+            return jsonify(status='ok', stuid=session['stuid'])
         return jsonify(status='fail')
     else:
         if user.identified_card == password:
             session['stuid'] = username
             login_user(user, True)
-            return jsonify(status='ok',stuid=session['stuid'])
+            return jsonify(status='ok', stuid=session['stuid'])
         return jsonify(status='fail')

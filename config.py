@@ -3,23 +3,13 @@
 # github: https://github.com/imndszy
 import os
 
+
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
     SSL_DISABLE = False
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_RECORD_QUERIES = True
     SQLALCHEMY_TRACK_MODIFICATIONS = True
-    MAIL_SERVER = 'smtp.googlemail.com'
-    MAIL_PORT = 587
-    MAIL_USE_TLS = True
-    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
-    FLASK_MAIL_SUBJECT_PREFIX = '[FLASK]'
-    FLASK_MAIL_SENDER = 'FLASK Admin <FLASK@example.com>'
-    FLASK_ADMIN = os.environ.get('FLASK_ADMIN')
-    FLASK_POSTS_PER_PAGE = 20
-    FLASK_FOLLOWERS_PER_PAGE = 50
-    FLASK_COMMENTS_PER_PAGE = 30
     FLASK_SLOW_DB_QUERY_TIME=0.5
 
     @staticmethod

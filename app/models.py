@@ -1,6 +1,10 @@
 # -*- coding:utf8 -*-
 # Author: shizhenyu96@gamil.com
 # github: https://github.com/imndszy
+"""
+数据模型定义
+"""
+
 import hashlib
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import request
@@ -43,10 +47,10 @@ class User(UserMixin, db.Model):
             url = 'https://secure.gravatar.com/avatar'
         else:
             url = 'http://www.gravatar.com/avatar'
-        hash = self.avatar_hash or hashlib.md5(
+        the_hash = self.avatar_hash or hashlib.md5(
             self.stuid.encode('utf-8')).hexdigest()
         return '{url}/{hash}?s={size}&d={default}&r={rating}'.format(
-            url=url, hash=hash, size=size, default=default, rating=rating)
+            url=url, hash=the_hash, size=size, default=default, rating=rating)
 
     def get_id(self):
         return unicode(self.stuid)
@@ -59,29 +63,30 @@ class User(UserMixin, db.Model):
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+
 class Activity(db.Model):
 
     __tablename__ = 'activity'
     acid = db.Column(db.Integer, primary_key=True)
-    actype = db.Column(db.Integer, nullable=True)          #活动类型
-    ac_place = db.Column(db.String(128), nullable=True)        #活动地点
-    start_time = db.Column(db.DateTime, nullable=True)          #活动开始时间
-    finish_time = db.Column(db.DateTime, nullable=True)        #活动结束时间
-    subject = db.Column(db.String(128), nullable=True)         #活动主题
-    introduce = db.Column(db.Text, nullable=True)             #活动简介
-    required_stus = db.Column(db.Integer, nullable=True)       #需求人数
-    actual_stus = db.Column(db.Integer, nullable=True)       #实际人数
-    ac_periods = db.Column(db.Integer, nullable=True)    #活动期数
-    vol_time = db.Column(db.Float, nullable=True)   #活动时长
-    finished = db.Column(db.Boolean, default=False) #活动是否完成
-    checkin_url = db.Column(db.String, nullable=True)   #签到的二维码
-    checkout_url = db.Column(db.String, nullable=True)   #签退的二维码
-    in_time_start = db.Column(db.Integer, nullable=True)  #签到开始时间
-    in_time_stop = db.Column(db.Integer, nullable=True)   #签到结束时间
-    out_time_start = db.Column(db.Integer, nullable=True)  #签退开始时间
-    out_time_stop = db.Column(db.Integer, nullable=True)   #签退结束时间
-    linkman = db.Column(db.String(16), nullable=True)  #联系人（有字长限制）
-    contact = db.Column(db.String(16), nullable=True)  #联系方式
+    actype = db.Column(db.Integer, nullable=True)              # 活动类型
+    ac_place = db.Column(db.String(128), nullable=True)        # 活动地点
+    start_time = db.Column(db.DateTime, nullable=True)         # 活动开始时间
+    finish_time = db.Column(db.DateTime, nullable=True)        # 活动结束时间
+    subject = db.Column(db.String(128), nullable=True)         # 活动主题
+    introduce = db.Column(db.Text, nullable=True)              # 活动简介
+    required_stus = db.Column(db.Integer, nullable=True)       # 需求人数
+    actual_stus = db.Column(db.Integer, nullable=True)         # 实际人数
+    ac_periods = db.Column(db.Integer, nullable=True)          # 活动期数
+    vol_time = db.Column(db.Float, nullable=True)              # 活动时长
+    finished = db.Column(db.Boolean, default=False)            # 活动是否完成
+    checkin_url = db.Column(db.String, nullable=True)          # 签到的二维码
+    checkout_url = db.Column(db.String, nullable=True)         # 签退的二维码
+    in_time_start = db.Column(db.Integer, nullable=True)       # 签到开始时间
+    in_time_stop = db.Column(db.Integer, nullable=True)        # 签到结束时间
+    out_time_start = db.Column(db.Integer, nullable=True)      # 签退开始时间
+    out_time_stop = db.Column(db.Integer, nullable=True)       # 签退结束时间
+    linkman = db.Column(db.String(16), nullable=True)          # 联系人（有字长限制）
+    contact = db.Column(db.String(16), nullable=True)          # 联系方式
     users = db.relationship('User', secondary=ac_user)
 
     def __repr__(self):
@@ -89,11 +94,11 @@ class Activity(db.Model):
 
     def return_dict(self):
         return dict(acid=self.acid, actype=self.actype,
-                       ac_place=self.ac_place, start_time=self.start_time,
-                       finish_time=self.finish_time, subject=self.subject,
-                       introduce=self.introduce, required_stus=self.required_stus,
-                       actual_stus=self.actual_stus, ac_periods=self.ac_periods,
-                       vol_time=self.vol_time)
+                    ac_place=self.ac_place, start_time=self.start_time,
+                    finish_time=self.finish_time, subject=self.subject,
+                    introduce=self.introduce, required_stus=self.required_stus,
+                    actual_stus=self.actual_stus, ac_periods=self.ac_periods,
+                    vol_time=self.vol_time)
 
     def return_qrcode(self):
         return dict(checkin_url=self.checkin_url,
@@ -102,4 +107,3 @@ class Activity(db.Model):
                     in_time_stop=self.in_time_stop,
                     out_time_start=self.out_time_start,
                     out_time_stop=self.out_time_stop)
-
