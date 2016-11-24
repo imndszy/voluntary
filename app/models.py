@@ -3,35 +3,29 @@
 # github: https://github.com/imndszy
 import hashlib
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask import current_app, request, url_for
+from flask import request
 from flask_login import UserMixin
 from app import db, login_manager
 
 
-fa_user = db.Table('fa_user',
+ac_user = db.Table('ac_user',
                    db.Column('stuid', db.Integer, db.ForeignKey('users.stuid')),
-                   db.Column('acid', db.Integer, db.ForeignKey('finished_activity.acid')),
+                   db.Column('acid', db.Integer, db.ForeignKey('activity.acid')),
                    db.Column('check_in', db.DateTime),
                    db.Column('check_out', db.DateTime))
 
-ufa_user = db.Table('ufa_user',
-                    db.Column('stuid', db.Integer, db.ForeignKey('users.stuid')),
-                    db.Column('acid', db.Integer, db.ForeignKey('unfinished_activity.acid')))
-
 
 class User(UserMixin, db.Model):
+
     __tablename__ = 'users'
     stuid = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(64), unique=True, nullable=True)
     password_hash = db.Column(db.String(128))
     phone = db.Column(db.String(20), nullable=True)
     identified_card = db.Column(db.String(30), unique=True)
-    service_time = db.Column(db.Float,nullable=True)
+    service_time = db.Column(db.Float, nullable=True)
     password_reviewed = db.Column(db.Boolean)
-    finished_activities = db.relationship('Finished_activity',
-                                          secondary=fa_user)
-    unfinished_activities = db.relationship('Unfinished_activity',
-                                            secondary=ufa_user)
+    activities = db.relationship('Activity', secondary=ac_user)
 
     @property
     def password(self):
@@ -65,25 +59,33 @@ class User(UserMixin, db.Model):
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-class Finished_activity(db.Model):
-    __tablename__ = 'finished_activity'
+class Activity(db.Model):
+
+    __tablename__ = 'activity'
     acid = db.Column(db.Integer, primary_key=True)
-    actype = db.Column(db.Integer,nullable=True)          #活动类型
-    ac_place = db.Column(db.String(128),nullable=True)        #活动地点
-    start_time = db.Column(db.DateTime,nullable=True)          #活动开始时间
-    finish_time = db.Column(db.DateTime,nullable=True)        #活动结束时间
-    subject = db.Column(db.String(128),nullable=True)         #活动主题
-    introduce = db.Column(db.Text,nullable=True)             #活动简介
-    required_stus = db.Column(db.Integer,nullable=True)       #需求人数
-    actual_stus = db.Column(db.Integer,nullable=True)       #实际人数
-    ac_periods = db.Column(db.Integer,nullable=True)    #活动期数
+    actype = db.Column(db.Integer, nullable=True)          #活动类型
+    ac_place = db.Column(db.String(128), nullable=True)        #活动地点
+    start_time = db.Column(db.DateTime, nullable=True)          #活动开始时间
+    finish_time = db.Column(db.DateTime, nullable=True)        #活动结束时间
+    subject = db.Column(db.String(128), nullable=True)         #活动主题
+    introduce = db.Column(db.Text, nullable=True)             #活动简介
+    required_stus = db.Column(db.Integer, nullable=True)       #需求人数
+    actual_stus = db.Column(db.Integer, nullable=True)       #实际人数
+    ac_periods = db.Column(db.Integer, nullable=True)    #活动期数
     vol_time = db.Column(db.Float, nullable=True)   #活动时长
-    # linkman = db.Column(db.String(16))  #联系人（有字长限制）
-    # contact = db.Column(db.String(16))  #联系方式
-    users = db.relationship('User',secondary=fa_user)
+    finished = db.Column(db.Boolean, default=False) #活动是否完成
+    checkin_url = db.Column(db.String, nullable=True)   #签到的二维码
+    checkout_url = db.Column(db.String, nullable=True)   #签退的二维码
+    in_time_start = db.Column(db.Integer, nullable=True)  #签到开始时间
+    in_time_stop = db.Column(db.Integer, nullable=True)   #签到结束时间
+    out_time_start = db.Column(db.Integer, nullable=True)  #签退开始时间
+    out_time_stop = db.Column(db.Integer, nullable=True)   #签退结束时间
+    linkman = db.Column(db.String(16), nullable=True)  #联系人（有字长限制）
+    contact = db.Column(db.String(16), nullable=True)  #联系方式
+    users = db.relationship('User', secondary=ac_user)
 
     def __repr__(self):
-        return '<Finished activity {self.acid}>'.format(self=self)
+        return '<Activity {self.acid}>'.format(self=self)
 
     def return_dict(self):
         return dict(acid=self.acid, actype=self.actype,
@@ -93,32 +95,11 @@ class Finished_activity(db.Model):
                        actual_stus=self.actual_stus, ac_periods=self.ac_periods,
                        vol_time=self.vol_time)
 
-
-class Unfinished_activity(db.Model):
-    __tablename__ = 'unfinished_activity'
-    acid = db.Column(db.Integer, primary_key=True)
-    actype = db.Column(db.Integer,nullable=True)          #活动类型
-    ac_place = db.Column(db.String(128),nullable=True)        #活动地点
-    start_time = db.Column(db.DateTime,nullable=True)          #活动开始时间
-    finish_time = db.Column(db.DateTime,nullable=True)        #活动结束时间
-    subject = db.Column(db.String(128),nullable=True)         #活动主题
-    introduce = db.Column(db.Text,nullable=True)             #活动简介
-    required_stus = db.Column(db.Integer,nullable=True)       #需求人数
-    actual_stus = db.Column(db.Integer,nullable=True)       #实际人数
-    ac_periods = db.Column(db.Integer,nullable=True)    #活动期数
-    vol_time = db.Column(db.Float,nullable=True)
-    # linkman = db.Column(db.String(16))  # 联系人（有字长限制）
-    # contact = db.Column(db.String(16))  # 联系方式
-    users = db.relationship('User',secondary=ufa_user)
-
-    def __repr__(self):
-        return '<Unfinished activity {self.acid}>'.format(self=self)
-
-    def return_dict(self):
-        return dict(acid=self.acid,actype=self.actype,
-                       ac_place=self.ac_place,start_time=self.start_time,
-                       finish_time=self.finish_time,subject=self.subject,
-                       introduce=self.introduce,required_stus=self.required_stus,
-                       actual_stus=self.actual_stus,ac_periods=self.ac_periods,
-                       vol_time=self.vol_time)
+    def return_qrcode(self):
+        return dict(checkin_url=self.checkin_url,
+                    checkout_url=self.checkout_url,
+                    in_time_start=self.in_time_start,
+                    in_time_stop=self.in_time_stop,
+                    out_time_start=self.out_time_start,
+                    out_time_stop=self.out_time_stop)
 

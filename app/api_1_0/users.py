@@ -1,8 +1,8 @@
 # -*- coding:utf8 -*-
 # Author: shizhenyu96@gamil.com
 # github: https://github.com/imndszy
-from flask import request,jsonify
-from flask_login import login_user, logout_user, login_required
+from flask import request,jsonify,session
+from flask_login import login_user, login_required
 
 from app.api_1_0 import api
 from app.models import User
@@ -17,13 +17,13 @@ def user_verify():
         return jsonify(status='fail')
     if user.password_reviewed:
         if user.verify_password(password):
+            session['stuid'] = username
             login_user(user, True)
-            return jsonify(status='ok')
+            return jsonify(status='ok',stuid=session['stuid'])
         return jsonify(status='fail')
     else:
         if user.identified_card == password:
+            session['stuid'] = username
             login_user(user, True)
-            return jsonify(status='ok')
+            return jsonify(status='ok',stuid=session['stuid'])
         return jsonify(status='fail')
-
-
