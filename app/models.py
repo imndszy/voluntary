@@ -79,8 +79,8 @@ class Activity(db.Model):
     ac_periods = db.Column(db.Integer, nullable=True)          # 活动期数
     vol_time = db.Column(db.Float, nullable=True)              # 活动时长
     finished = db.Column(db.Boolean, default=False)            # 活动是否完成
-    checkin_url = db.Column(db.String, nullable=True)          # 签到的二维码
-    checkout_url = db.Column(db.String, nullable=True)         # 签退的二维码
+    checkin_url = db.Column(db.String(128), nullable=True)          # 签到的二维码
+    checkout_url = db.Column(db.String(128), nullable=True)         # 签退的二维码
     in_time_start = db.Column(db.Integer, nullable=True)       # 签到开始时间
     in_time_stop = db.Column(db.Integer, nullable=True)        # 签到结束时间
     out_time_start = db.Column(db.Integer, nullable=True)      # 签退开始时间
