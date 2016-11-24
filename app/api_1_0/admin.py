@@ -3,10 +3,10 @@
 # github: https://github.com/imndszy
 from app.api_1_0 import api
 
-from flask import request,jsonify,session
+from flask import request, jsonify, session
 
 
-@api.route('/admin', methods = ['POST'])
+@api.route('/admin', methods=['POST'])
 def verify():
     data = request.values
     username = data.get('username')

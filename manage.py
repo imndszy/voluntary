@@ -6,7 +6,7 @@ import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from app import create_app, db
-from app.models import User, Finished_activity,Unfinished_activity
+from app.models import User, Activity
 from flask_script import Manager, Shell
 from flask_migrate import Migrate, MigrateCommand
 
@@ -16,7 +16,7 @@ migrate = Migrate(app, db)
 
 
 def make_shell_context():
-    return dict(app=app, db=db, User=User, Finished_activity=Finished_activity, Unfinished_activity=Unfinished_activity)
+    return dict(app=app, db=db, User=User, Activity=Activity)
 manager.add_command("shell", Shell(make_context=make_shell_context))
 manager.add_command('db', MigrateCommand)
 

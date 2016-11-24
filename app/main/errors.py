@@ -1,6 +1,6 @@
-#-*- coding:utf8 -*-
-#Author: shizhenyu96@gamil.com
-#github: https://github.com/imndszy
+# -*- coding:utf8 -*-
+# Author: shizhenyu96@gamil.com
+# github: https://github.com/imndszy
 from flask import render_template, request, jsonify
 from . import main
 
