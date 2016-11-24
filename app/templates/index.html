@@ -172,12 +172,64 @@
                 },
                 navbars: [{
                     height: 3,
-                    content: ['<a align="center"><img src="../static/images/coupon_icon4.png" /></a><div class="bbiigg" id="username"><a href="/login">登录</a></div>']
+                    content: ['<a align="center"><img src="../static/images/coupon_icon4.png" /></a><div class="bbiigg" id="username"></div>']
                 }],
                 counters: true,
                 extensions: ["pagedim-black", "pageshadow", "effect-menu-zoom", "theme-dark", "widescreen"],
                 offCanvas: {
                     position: "right"
+                }
+            })
+            //数据获取
+        $.ajax({
+                url: '/api/v1_0/activities',
+                dataType: 'JSON',
+                type: 'GET',
+                success: function(data) {
+                    if (data.status == "ok") {
+                        $("#section-topline-1").empty();
+                        $("#section-topline-2").empty();
+                        for (var i = 0; i < data.result.length; i++) {
+                            if (data.result[i].actype == 1) {
+                                var item = ' <div class="about-grid ad-more"><div class="about-box"><h5><span class="ab-box">0';
+                                item += i + 1;
+                                item += '</span></h5></div><div class="about-text"><a href="admin_detail?acid=';
+                                item += data.result[i].acid;
+                                item += '"><h4>';
+                                item += data.result[i].subject;
+                                item += '</h4><p>';
+                                item += data.result[i].introduce;
+                                item += '</p></a></div><div class="clearfix"> </div></div>';
+                                $("#section-topline-1").append(item);
+                            } else {
+                                var item = '';
+                                item += ' <div class="about-grid ad-more"><div class="about-box"><h5><span class="ab-box">0';
+                                item += i + 1;
+                                item += '</span></h5></div><div class="about-text"><a href="admin_detail?acid=';
+                                item += data.result[i].acid;
+                                item += '"><h4>';
+                                item += data.result[i].subject;
+                                item += '</h4><p>';
+                                item += data.result[i].introduce;
+                                item += '</p></a></div><div class="clearfix"> </div></div>';
+                                $("#section-topline-2").append(item);
+                            }
+                        }
+                        $("#username").innerHTML = data.stuid;
+                        var sl = document.getElementById("section-topline-1").getElementsByTagName("p");
+                        var sh = document.getElementById("section-topline-2").getElementsByTagName("p");
+                        for (i = 0; i < sl.length; i++) {
+                            var slh = sl[i].innerHTML.slice(0, 30) + '...';
+                            sl[i].innerHTML = slh;
+                        }
+                        for (i = 0; i < sh.length; i++) {
+                            var shh = sh[i].innerHTML.slice(0, 30) + '...';
+                            sh[i].innerHTML = shh;
+                        }
+                    }
+                    else{
+                        alert("列表为空。");
+                    }
                 }
             })
             // var getb = window.location.href;
@@ -214,14 +266,11 @@
                                         <li>
                                             <a href="#section-topline-2" class="icon icon-gift"></a>
                                         </li>
-                                        <!--  <li>
-                                           <a href="#section-topline-3" class="icon icon-display"></a>
-                                       </li> -->
                                     </ul>
                                 </nav>
                                 <div class="content-wrap">
                                     <section id="section-topline-1">
-                                        <div class="about-grid">
+                                        <!-- <div class="about-grid">
                                             <div class="about-box">
                                                 <h5><span class="ab-box">01</span></h5>
                                             </div>
@@ -250,11 +299,11 @@
                                                 <p>Certain circumstances and owing to the claims of duty the obligations frequently occur that pleasures repudiat.</p>
                                             </div>
                                             <div class="clearfix"> </div>
-                                        </div>
+                                        </div> -->
                                     </section>
                                     <section id="section-topline-2">
                                         <!--clients start here-->
-                                        <div class="container">
+                                        <!-- <div class="container">
                                             <div class="clients-main">
                                                 <div class="col-md-12 clients-left">
                                                     <h3>Our Mission Statement</h3>
@@ -273,72 +322,15 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <!--clients end here-->
+                                        </div> -->
                                     </section>
-                                    <!--  <section id="section-topline-3">
-                                       services start here
-                                       <div class="container">
-                                           <div class="services-main">
-                                               <div class="col-md-3 service-grid">
-                                                   <img src="../static/images/s1.png" alt="">
-                                                   <h4>Neque porro quisquam est</h4>
-                                                   <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem</p>
-                                               </div>
-                                               <div class="col-md-3 service-grid">
-                                                   <img src="../static/images/s2.png" alt="">
-                                                   <h4>Neque porro quisquam est</h4>
-                                                   <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem</p>
-                                               </div>
-                                               <div class="col-md-3 service-grid">
-                                                   <img src="../static/images/s3.png" alt="">
-                                                   <h4>Neque porro quisquam est</h4>
-                                                   <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem</p>
-                                               </div>
-                                               <div class="col-md-3 service-grid">
-                                                   <img src="../static/images/s4.png" alt="">
-                                                   <h4>Neque porro quisquam est</h4>
-                                                   <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem</p>
-                                               </div>
-                                               <div class="clearfix"> </div>
-                                           </div>
-                                           <div class="service1">
-                                               <div class="col-md-3 service-grid">
-                                                   <img src="../static/images/s5.png" alt="">
-                                                   <h4>Neque porro quisquam est</h4>
-                                                   <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem</p>
-                                               </div>
-                                               <div class="col-md-3 service-grid">
-                                                   <img src="../static/images/s6.png" alt="">
-                                                   <h4>Neque porro quisquam est</h4>
-                                                   <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem</p>
-                                               </div>
-                                               <div class="col-md-3 service-grid">
-                                                   <img src="../static/images/s7.png" alt="">
-                                                   <h4>Neque porro quisquam est</h4>
-                                                   <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem</p>
-                                               </div>
-                                               <div class="col-md-3 service-grid">
-                                                   <img src="../static/images/s8.png" alt="">
-                                                   <h4>Neque porro quisquam est</h4>
-                                                   <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem</p>
-                                               </div>
-                                               <div class="clearfix"> </div>
-                                           </div>
-                                       </div>
-                                       services end here
-                                   </section> -->
                                 </div>
-                                <!-- /content -->
                             </div>
-                            <!-- /tabs -->
                         </section>
                         <div class="clearfix"> </div>
                     </div>
                 </div>
             </div>
-            <!--about end here-->
-            <!--contact start here-->
             <div class="footer">
                 <div class="container">
                     <div class="footer-main">
@@ -360,15 +352,6 @@
                 </div>
                 <script type="text/javascript">
                 $(document).ready(function() {
-                    /*
-                                            var defaults = {
-                                                containerID: 'toTop', // fading element id
-                                                containerHoverID: 'toTopHover', // fading element hover id
-                                                scrollSpeed: 1200,
-                                                easingType: 'linear' 
-                                            };
-                                            */
-
                     $().UItoTop({
                         easingType: 'easeOutQuart'
                     });
@@ -377,7 +360,6 @@
                 </script>
                 <a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
             </div>
-            <!--footer end here-->
         </div>
         <nav id="menu">
             <ul>
@@ -397,56 +379,6 @@
         });
 
     })();
-    </script>
-    <script>
-    //数据获取
-    $(document).ready(function() {
-        $.ajax({
-            url: '/api/v1_0/activities',
-            dataType: 'JSON',
-            type: 'GET',
-            success: function(data) {
-                $("#section-topline-1").empty();
-                $("#section-topline-2").empty();
-                for (var i = 0; i < 5; i++) {
-                    if (data.result[i].actype == 1) {
-                        var item = ' <div class="about-grid ad-more"><div class="about-box"><h5><span class="ab-box">0';
-                        item += i + 1;
-                        item += '</span></h5></div><div class="about-text"><a href="admin_detail?acid=';
-                        item += data.result[i].acid;
-                        item += '"><h4>';
-                        item += data.result[i].subject;
-                        item += '</h4><p>';
-                        item += data.result[i].introduce;
-                        item += '</p></a></div><div class="clearfix"> </div></div>';
-                        $("#section-topline-1").append(item);
-                    } else {
-                        var item = '';
-                        item += ' <div class="about-grid ad-more"><div class="about-box"><h5><span class="ab-box">0';
-                        item += i + 1;
-                        item += '</span></h5></div><div class="about-text"><a href="admin_detail?acid=';
-                        item += data.result[i].acid;
-                        item += '"><h4>';
-                        item += data.result[i].subject;
-                        item += '</h4><p>';
-                        item += data.result[i].introduce;
-                        item += '</p></a></div><div class="clearfix"> </div></div>';
-                        $("#section-topline-2").append(item);
-                    }
-                }
-                var sl = document.getElementById("section-topline-1").getElementsByTagName("p");
-                var sh = document.getElementById("section-topline-2").getElementsByTagName("p");
-                for (i = 0; i < sl.length; i++) {
-                    var slh = sl[i].innerHTML.slice(0, 30) + '...';
-                    sl[i].innerHTML = slh;
-                }
-                for (i = 0; i < sh.length; i++) {
-                    var shh = sh[i].innerHTML.slice(0, 30) + '...';
-                    sh[i].innerHTML = shh;
-                }
-            }
-        })
-    });
     </script>
 </body>
 

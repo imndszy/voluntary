@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8" />
     <meta name="author" content="www.frebsite.nl" />
@@ -15,6 +14,7 @@
     <link rel="stylesheet" type="text/css" href="../../static/css/detailstyle.css">
     <script type="text/javascript" src="../../static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../../static/js/jquery.mmenu.all.min.js"></script>
+    <script type="text/javascript" src="../../static/js/bootstrap.min.js"></script>
     <style>
     html,
     body {
@@ -62,57 +62,36 @@
         top: 0;
         right: 30px;
     }
-    .boxsm{
+    
+    .boxsm {
         padding-right: 6%;
         padding-left: 6%
     }
-    #introduce{
+    
+    #introduce {
         padding-right: 6%;
         padding-left: 2%
     }
-     #toTop {
-    position: fixed;
-    bottom: 0px;
-    right: 10px;
-    overflow: hidden;
-    width: 48px;
-    height: 48px;
-    border: none;
-    text-indent: 100%;
-    background-size: 35px;
-    background: url(../../static/images/arrow.png) no-repeat 0px 0px;
+    
+    #toTop {
+        position: fixed;
+        bottom: 0px;
+        right: 10px;
+        overflow: hidden;
+        width: 48px;
+        height: 48px;
+        border: none;
+        text-indent: 100%;
+        background-size: 35px;
+        background: url(../static/images/arrow.png) no-repeat 0px 0px;
     }
     </style>
-    <script type="text/javascript">
-    $(function() {
-        $("nav#menu")
-            .mmenu({
-                navbar: {
-                    title: ""
-                },
-                navbars: [{
-                    height: 3,
-                    content: ['<a align="center"><img src="../../static/images/coupon_icon4.png" /></a><div class="bbiigg" id="username"><a href="admin.html">管理员</a></div>']
-                }],
-                counters: true,
-                extensions: ["pagedim-black", "pageshadow", "effect-menu-zoom", "theme-dark", "widescreen"],
-                offCanvas: {
-                    position: "right"
-                }
-            })
-    });
-    </script>
 </head>
 
 <body>
     <div id="page">
         <nav class="navbar navbar-fixed-top">
             <div class="header">
-                <a href="#menu" id="hamburger" class="hamburger hamburger--collapse">
-                    <span class="hamburger-box">
-                    <span class="hamburger-inner"></span>
-                    </span>
-                </a>
                 <p align="left">NJU-Volunteer</p>
             </div>
         </nav>
@@ -121,12 +100,12 @@
                 <div class="container">
                     <div class="row">
                         <!-- Row -->
+                        <input type="hidden" id="acid" value="{{acid}}">
                         <div class="col-md-12">
                             <div>
                                 <div class="skills">
-                                    <h1 id="tit" align="center" style="margin-top: 10px;">法律进校园</h1>
-                                   <p id="introduce"> &emsp;&emsp;
-                                    法学院团委实践部“法律进校园”活动志愿者招募令 或许你期待回到初中校园走上讲台，以全新的身份走进课堂； 或许你想与南师附中的优秀学子分享法律知识； 或许你还在为已经错过的志愿服务懊悔； 或许你还想再次参与公益实践锻炼自我； 或许你还在等待一个机会…… 11月，法学院团委实践部推出“法律进校园”活动满足你的期待！ “法律进校园”活动事法学院团委与南师附中协作开展的普法活动。活动面向南师附中初一、初二学生，旨在围绕一个特定案件，通过一节课的话剧表演、法理讲解与互动普及一些基本的法律知识、激发对法律和法哲学的兴趣。作为实践部的保留项目，法律进校园活动在过去几年中进展顺利，受到南师附中师生的一致好评。 本期活动中，南师附中授课内容主要包括话剧表演、学生讨论并发言、案例分析几个部分。其中话剧部分有10-15分钟的话剧表演，需要志愿者根据现有剧本表演法律假想剧《洞穴奇案》。剧本内容比较生动，演出难度不大，只要拥有热情与表现力都可以加入我们。
+                                    <h1 id="tit" align="center" style="margin-top: 10px;">{{title}}</h1>
+                                    <p id="introduce"> {{introduce}}
                                     </p>
                                 </div>
                             </div>
@@ -134,102 +113,239 @@
                         <div class="col-md-12 boxsm">
                             <div class="row">
                                 <div class="counter">
-                                    <div class="col-xs-6 facts">
-                                        <!-- counter #1 -->
-                                        <div class="count-box">
-                                            <i class="fa fa-mobile"></i>
-                                            <p id="">联系人：Name</p>
-                                            <p class="small">联系方式：Mobile</p>
-                                        </div>
-                                    </div>
                                     <!-- end counter #1 -->
-                                    <div class="col-xs-6 facts">
+                                    <div class="col-xs-3 facts">
                                         <!-- counter #2 -->
                                         <div class="count-box">
                                             <i class="fa fa-user"></i>
-                                            <p id="people">6/12</p>
-                                            <p class="small">报名/需求人数</p>
+                                            <p id="people"></p>
+                                            <p>{{number}}
+                                                <br/>报名/需求</p>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="counter">
-                                    <div class="col-xs-6 facts">
+                                    <div class="col-xs-3 facts">
+                                        <!-- counter #1 -->
+                                        <div class="count-box">
+                                            <i class="fa fa-mobile"></i>
+                                            <p id=""></p>
+                                            <p id="change"><a data-toggle="modal" data-target="#myModal">点击<br/>编辑修改</a></p>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" id="acid" value="{{acid}}">
+                                    <div class="col-xs-3 facts">
                                         <!-- counter #3 -->
                                         <div class="count-box">
                                             <i class="fa fa-arrows"></i>
-                                            <p id="">0</p>
-                                            <p class="small">签到人数</p>
+                                            <p id="checkin"></p>
+                                            <p><a data-toggle="modal" data-target="#myModal">生成
+                                                <br/>签到二维码</a></p>
                                         </div>
                                     </div>
-                                    <div class="col-xs-6 facts">
+                                    <div class="col-xs-3 facts">
                                         <!-- counter #4 -->
                                         <div class="count-box">
                                             <i class="fa fa-download"></i>
-                                            <p id="">6</p>
-                                            <p class="small"><a href="/admin?acid={{id}}">编辑修改</a></p>
+                                            <p id="checkout"></p>
+                                            <p><a data-toggle="modal" data-target="#myModal">生成
+                                                <br/>签退二维码</a></p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- End Row -->
                 </div>
             </div>
         </section>
         <section id="footer">
             <div class="container">
-                <p align="center">Copyright &copy; 2016</p>
+                <p class="pull-right">Copyright &copy; 2016.</p>
             </div>
         </section>
-        <!-- Totop 角标-->
-        <script type="text/javascript" src="../../static/js/move-top.js"></script>
-            <script type="text/javascript">
-                $(document).ready(function() {
-                    $().UItoTop({
-                        easingType: 'easeOutQuart'
-                    });
-                });
-        </script>
-        <a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
-        <nav id="menu">
-            <ul>
-                <li></li>
-                <li><a href="/admin/index">活动首页</a></li>
-                <li><a href="/admin">发布活动</a> </li>
-            </ul>
-        </nav>
     </div>
-    <script>
-    //部分显示
-    var sl = document.getElementById("introduce");
-    var slh = sl.innerHTML.slice(0, 240) + '...';
-    sl.innerHTML = slh;
-    //url传参
-    var getb = window.location.href;
-    var acid = getb.split("?")[1].split("=")[1];
-    //ajax
-    $(document).ready(function() {
-        $.ajax({
-            url: '/api/1v1.0/unfinished_activities',
-            dataType: 'JSON',
-            type: 'GET',
-            success: function(data) {
-                for (var i = 0; i < data.length; i++) {
-                    if (data[i].acid == acid) {
-                        $("#tit").html(data[i].title);
-                        $("#introduce").html(data[i].introduce);
-                        var people = '';
-                        people += data[i].actual_stus;
-                        people += "/";
-                        people += data[i].required_stus;
-                        $("#people").html(people);
-                    }
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">
+                    <ul class="nav nav-tabs" role="tablist" id="tab-list">
+                        <li class="active"><a href="#home" role="tab" data-toggle="tab">修改</a></li>
+                        <li><a href="#school" role="tab" data-toggle="tab">签到二维码</a></li>
+                        <li><a href="#work" role="tab" data-toggle="tab">签退二维码</a></li>
+                    </ul>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="home">
+                                <div class="row feature">
+                                    <form class="form-horizontal" role="form">
+                                        <div class="form-group">
+                                            <label for="title" class="col-sm-2 control-label textal">活动title</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control2 inputal" value="" id="title" placeholder="活动title">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="address" class="col-sm-2 control-label textal">活动地点</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control2" id="address" placeholder="活动地点">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="required_stus" class="col-sm-2 control-label textal">需求人数</label>
+                                            <div class="col-sm-10">
+                                                <input type="number" class="form-control2" id="required_stus" placeholder="需求人数">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="start_time" class="col-sm-2 control-label textal">活动开始时间</label>
+                                            <div class="col-sm-4">
+                                                <input type="text" class="form-control2" id="start_time" placeholder="活动时间安排">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="finished_time" class="col-sm-2 control-label textal">活动结束时间</label>
+                                            <div class="col-sm-4">
+                                                <input type="text" class="form-control2" id="finish_time" placeholder="活动时间安排">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="alltime" class="col-sm-2 control-label textal">志愿时长</label>
+                                            <div class="col-sm-10">
+                                                <input type="number" class="form-control2" id="alltime" placeholder="志愿时长(小时)">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="introduce" class="col-sm-2 control-label textal">活动介绍</label>
+                                            <div class="col-sm-10">
+                                                <textarea type="text" class="form-control2" style="height:84px;" id="introduce" placeholder="活动介绍"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="actype" class="col-sm-2 control-label textal">活动类型</label>
+                                            <div class="col-sm-10">
+                                                <div class="radioo" id="actype">
+                                                    <input type="radio" name="options" id="actype1" value="1" checked>类型1
+                                                    <input type="radio" name="options" id="actype2" value="2">类型2
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="button" id="publish" class="btn btn-success" style="margin-left: 25%;">确认修改</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="school">
+                                <div class="row feature">
+                                    <form class="form-horizontal" role="form">
+                                        <div class="form-group">
+                                            <label for="checkin_start" class="col-sm-2 control-label textal">签到开始时间</label>
+                                            <div class="col-sm-10">
+                                                <input type="datetime-local" class="form-control2" id="checkin_start" placeholder="签到开始时间">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="checkin_work" class="col-sm-2 control-label textal">有效期</label>
+                                            <div class="col-sm-10">
+                                                <input type="" type="number" class="form-control2" id="checkin_work" placeholder="有效期（分钟）">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="button" id="checkin" class="btn btn-success" style="margin-left: 25%;">生成</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="work">
+                                <div class="row feature">
+                                    <form class="form-horizontal" role="form">
+                                        <div class="form-group">
+                                            <label for="checkout_start" class="col-sm-2 control-label textal">签退开始时间</label>
+                                            <div class="col-sm-10">
+                                                <input type="datetime-local" class="form-control2" id="checkout_start" placeholder="签到开始时间">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="checkout_work" class="col-sm-2 control-label textal">有效期</label>
+                                            <div class="col-sm-10">
+                                                <input type="" type="number" class="form-control2" id="checkout_work" placeholder="有效期（分钟）">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="button" id="checkout" class="btn btn-success" style="margin-left: 25%;">生成</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+    $(function() {
+        var acid = $("#acid").val();
+        // $.ajax({
+        //     url: "/api/v1_0/activities",
+        //     dataType: "JSON",
+        //     type: "GET",
+        //     success: function(data) {
+        //         if (data.status == "ok") {
+        //             for (var i = 0; i < data.result.length; i++) {
+        //                 if (data.result[i].acid == acid) {
+        //                     if (data.result[i].actype == "1") {
+        //                         $('#actype1').checked = true;
+        //                     }
+        //                     else{
+        //                         $("#actype2").checked = true;
+        //                     }
+        //                     $("#title").val() = data.result[i].subject,
+        //                     $("#address").val() = data.result[i].address,
+        //                     $("#introduce").val() = data.result[i].introduce,
+        //                     $("#start_time").val() = data.result[i].start_time,
+        //                     $("#finish_time").val() = data.result[i].finish_time,
+        //                     $("#required_stus").val() = data.result[i].required_stus,
+        //                     $("#alltime").val() = data.result[i].alltime
+        //                 },
+        //             }
+        //         }
+        //     }
+        // });
+        $("#checkin").click(function {
+            $.ajax({
+                url: "/qrcode/checkin",
+                dataType: "JSON",
+                type: "POST",
+                data: {
+                    acid: acid,
+                    checkin_start: $("#checkin_start").val(),
+                    checkin_work: $("#checkin_work").val()
+                },
+                success: function(data) {
+
                 }
-            }
-        })
+            });
+        });
+        $("#checkout").click(function {
+            $.ajax({
+                url: "/qrcode/chekout",
+                dataType: "JSON",
+                type: "POST",
+                data: {
+                    acid: acid,
+                    checkout_start: $("#checkout_start").val(),
+                    checkout_work: $("#checkout_work").val()
+                },
+                success: function(data) {
+
+                }
+            });
+        });
     });
     </script>
 </body>

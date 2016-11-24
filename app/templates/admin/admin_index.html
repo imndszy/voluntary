@@ -180,11 +180,58 @@
                     position: "right"
                 }
             })
-            // var getb = window.location.href;
-            // var name = getb.split("?")[1].split("=")[1];
-            // if (name != '') {
-            //     document.getElementById("username").innerHTML = name;
-            // }
+            //数据获取
+        $.ajax({
+            url: '/api/v1_0/activities',
+            dataType: 'JSON',
+            type: 'GET',
+            success: function(data) {
+                if (data.status == "ok") {
+                    $("#section-topline-1").empty();
+                    $("#section-topline-2").empty();
+                    for (var i = 0; i < data.result.length; i++) {
+                        if (data.result[i].actype == 1) {
+                            var item = ' <div class="about-grid ad-more"><div class="about-box"><h5><span class="ab-box">0';
+                            item += i + 1;
+                            item += '</span></h5></div><div class="about-text"><a href="admin_detail/';
+                            item += data.result[i].acid;
+                            item += '"><h4>';
+                            item += data.result[i].subject;
+                            item += '</h4><p>';
+                            item += data.result[i].introduce;
+                            item += '</p></a></div><div class="clearfix"> </div></div>';
+                            $("#section-topline-1").append(item);
+                        } else {
+                            var item = '';
+                            item += ' <div class="about-grid ad-more"><div class="about-box"><h5><span class="ab-box">0';
+                            item += i + 1;
+                            item += '</span></h5></div><div class="about-text"><a href="admin_detail/';
+                            item += data.result[i].acid;
+                            item += '"><h4>';
+                            item += data.result[i].subject;
+                            item += '</h4><p>';
+                            item += data.result[i].introduce;
+                            item += '</p></a></div><div class="clearfix"> </div></div>';
+                            $("#section-topline-2").append(item);
+                        }
+                    }
+                    $("#username").innerHTML = data.stuid;
+                    var sl = document.getElementById("section-topline-1").getElementsByTagName("p");
+                    var sh = document.getElementById("section-topline-2").getElementsByTagName("p");
+                    for (i = 0; i < sl.length; i++) {
+                        var slh = sl[i].innerHTML.slice(0, 30) + '...';
+                        sl[i].innerHTML = slh;
+                    }
+                    for (i = 0; i < sh.length; i++) {
+                        var shh = sh[i].innerHTML.slice(0, 30) + '...';
+                        sh[i].innerHTML = shh;
+                    }
+                }
+                else{
+                    alert("列表为空。");
+                }
+            }
+        })
     });
     </script>
 </head>
@@ -214,9 +261,6 @@
                                         <li>
                                             <a href="#section-topline-2" class="icon icon-gift"></a>
                                         </li>
-                                        <!--  <li>
-                                           <a href="#section-topline-3" class="icon icon-display"></a>
-                                       </li> -->
                                     </ul>
                                 </nav>
                                 <div class="content-wrap">
@@ -308,15 +352,6 @@
                 </div>
                 <script type="text/javascript">
                 $(document).ready(function() {
-                    /*
-                                            var defaults = {
-                                                containerID: 'toTop', // fading element id
-                                                containerHoverID: 'toTopHover', // fading element hover id
-                                                scrollSpeed: 1200,
-                                                easingType: 'linear' 
-                                            };
-                                            */
-
                     $().UItoTop({
                         easingType: 'easeOutQuart'
                     });
@@ -345,62 +380,6 @@
         });
 
     })();
-    </script>
-    <script>
-    //文本超过字符长度显示...
-    var sl = document.getElementById("section-topline-1").getElementsByTagName("p");
-    for (i = 0; i < sl.length; i++) {
-        var slh = sl[i].innerHTML.slice(0, 100) + '...';
-        sl[i].innerHTML = slh;
-    }
-    // //数据获取
-    $(document).ready(function() {
-        $.ajax({
-            url: '/api/v1_0/activities',
-            dataType: 'JSON',
-            type: 'GET',
-            success: function(data) {
-                $("#section-topline-1").empty();
-                $("#section-topline-2").empty();
-                for (var i = 0; i < data.result.length; i++) {
-                    if (data.result[i].actype == 1) {
-                        var item = ' <div class="about-grid ad-more"><div class="about-box"><h5><span class="ab-box">0';
-                        item += i + 1;
-                        item += '</span></h5></div><div class="about-text"><a href="admin_detail?acid=';
-                        item += data.result[i].acid;
-                        item += '"><h4>';
-                        item += data.result[i].subject;
-                        item += '</h4><p>';
-                        item += data.result[i].introduce;
-                        item += '</p></a></div><div class="clearfix"> </div></div>';
-                        $("#section-topline-1").append(item);
-                    } else {
-                        var item = '';
-                        item += ' <div class="about-grid ad-more"><div class="about-box"><h5><span class="ab-box">0';
-                        item += i + 1;
-                        item += '</span></h5></div><div class="about-text"><a href="admin_detail?acid=';
-                        item += data.result[i].acid;
-                        item += '"><h4>';
-                        item += data.result[i].subject;
-                        item += '</h4><p>';
-                        item += data.result[i].introduce;
-                        item += '</p></a></div><div class="clearfix"> </div></div>';
-                        $("#section-topline-2").append(item);
-                    }
-                }
-                var sl = document.getElementById("section-topline-1").getElementsByTagName("p");
-                var sh = document.getElementById("section-topline-2").getElementsByTagName("p");
-                for (i = 0; i < sl.length; i++) {
-                    var slh = sl[i].innerHTML.slice(0, 30) + '...';
-                    sl[i].innerHTML = slh;
-                }
-                for (i = 0; i < sh.length; i++) {
-                    var shh = sh[i].innerHTML.slice(0, 30) + '...';
-                    sh[i].innerHTML = shh;
-                }
-            }
-        })
-    });
     </script>
 </body>
 
