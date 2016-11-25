@@ -920,6 +920,9 @@ form#contact-form { padding: 40px 0 }
     -webkit-box-shadow: none;
     box-shadow: none;
 }
+.form-horizontal .control-label{
+    text-align: center;
+}
 .form-control {
     display: block;
     width: 100%;
@@ -955,6 +958,10 @@ form#contact-form { padding: 40px 0 }
     -webkit-transition: none;
     -o-transition: none;
     transition: none;
+}
+@media screen and (max-width: 786px) {
+    .form-control2 {
+        width:100%;
 }
 p.help-block.text-danger ul li {
     display: block;
