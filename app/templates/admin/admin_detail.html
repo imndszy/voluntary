@@ -314,7 +314,7 @@
                     checkin_work: $("#checkin_work").val()
                 },
                 success: function(data) {
-                    $("#imagetest").setAttribute("src",data.data);
+                    document.getElementById('imagetest').setAttribute("src",data.data);
                 }
             });
         });
