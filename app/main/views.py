@@ -1,9 +1,10 @@
 # -*- coding:utf8 -*-
 # Author: shizhenyu96@gamil.com
 # github: https://github.com/imndszy
+import re
 from . import main
-from flask import render_template
-from flask_login import login_user, logout_user, login_required, \
+from flask import render_template, redirect, url_for
+from flask_login import login_user, login_required, \
     current_user
 
 
@@ -29,3 +30,9 @@ def user():
 @login_required
 def activity():
     return render_template('deatil.html')
+
+
+@main.route('/qrcode/checkin/<acid>')
+def qrcode_checkin(acid):
+    if len(acid) != 30 or not acid.isdigit():
+        return redirect(url_for('main.login'))
