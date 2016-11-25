@@ -238,7 +238,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                           <img id="imagetest" src="">
+                                           <img id="checkin_image" style="width:50%;height:50%" src="">
                                         </div>
                                         <div class="form-group">
                                             <button type="button" id="checkin" class="btn btn-success" style="margin-left: 25%;">生成</button>
@@ -260,6 +260,9 @@
                                             <div class="col-sm-10">
                                                 <input type="" type="number" class="form-control2" id="checkout_work" placeholder="有效期（分钟）">
                                             </div>
+                                        </div>
+                                        <div class="form-group">
+                                           <img id="checkout_image" style="width:50%;height:50%" src="">
                                         </div>
                                         <div class="form-group">
                                             <button type="button" id="checkout" class="btn btn-success" style="margin-left: 25%;">生成</button>
@@ -310,11 +313,11 @@
                 type: "POST",
                 data: {
                     acid: acid,
-                    checkin_start: $("#checkin_start").val(),
-                    checkin_work: $("#checkin_work").val()
+                    checkin_start: document.getElementById("checkin_start").value,
+                    checkin_work:document.getElementById("checkin_work").value
                 },
                 success: function(data) {
-                    document.getElementById('imagetest').setAttribute("src",data.data);
+                    document.getElementById('checkin_image').setAttribute("src",data.data);
                 }
             });
         });
@@ -325,11 +328,11 @@
                 type: "POST",
                 data: {
                     acid: acid,
-                    checkout_start: $("#checkout_start").val(),
-                    checkout_work: $("#checkout_work").val()
+                    checkout_start: document.getElementById("checkout_start").value,
+                    checkout_work: document.getElementById("checkout_start").value
                 },
                 success: function(data) {
-
+                    document.getElementById('checkout_image').setAttribute("src",data.data);
                 }
             });
         });
