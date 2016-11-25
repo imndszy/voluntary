@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
     <meta name="author" content="www.frebsite.nl" />
@@ -270,35 +271,82 @@
         </div>
     </div>
     <script type="text/javascript">
+    function base64decode(str) {
+        var c1, c2, c3, c4;
+        var i, len, out;
+        len = str.length;
+        i = 0;
+        out = "";
+        while (i < len) {
+            /* c1 */
+            do {
+                c1 = base64DecodeChars[str.charCodeAt(i++) & 0xff];
+            }
+            while (i < len && c1 == -1);
+            if (c1 == -1)
+                break;
+            /* c2 */
+            do {
+                c2 = base64DecodeChars[str.charCodeAt(i++) & 0xff];
+            }
+            while (i < len && c2 == -1);
+            if (c2 == -1)
+                break;
+            out += String.fromCharCode((c1 << 2) | ((c2 & 0x30) >> 4));
+            /* c3 */
+            do {
+                c3 = str.charCodeAt(i++) & 0xff;
+                if (c3 == 61)
+                    return out;
+                c3 = base64DecodeChars[c3];
+            }
+            while (i < len && c3 == -1);
+            if (c3 == -1)
+                break;
+            out += String.fromCharCode(((c2 & 0XF) << 4) | ((c3 & 0x3C) >> 2));
+            /* c4 */
+            do {
+                c4 = str.charCodeAt(i++) & 0xff;
+                if (c4 == 61)
+                    return out;
+                c4 = base64DecodeChars[c4];
+            }
+            while (i < len && c4 == -1);
+            if (c4 == -1)
+                break;
+            out += String.fromCharCode(((c3 & 0x03) << 6) | c4);
+        }
+        return out;
+    }
     $(function() {
         var acid = $("#acid").val();
-        alert("a");
-        // $.ajax({
-        //     url: "/api/v1_0/activities",
-        //     dataType: "JSON",
-        //     type: "GET",
-        //     success: function(data) {
-        //         if (data.status == "ok") {
-        //             for (var i = 0; i < data.result.length; i++) {
-        //                 if (data.result[i].acid == acid) {
-        //                     if (data.result[i].actype == "1") {
-        //                         $('#actype1').checked = true;
-        //                     }
-        //                     else{
-        //                         $("#actype2").checked = true;
-        //                     }
-        //                     $("#title").val() = data.result[i].subject,
-        //                     $("#address").val() = data.result[i].address,
-        //                     $("#introduce2").val() = data.result[i].introduce,
-        //                     $("#start_time").val() = data.result[i].start_time,
-        //                     $("#finish_time").val() = data.result[i].finish_time,
-        //                     $("#required_stus").val() = data.result[i].required_stus,
-        //                     $("#alltime").val() = data.result[i].alltime
-        //                 },
-        //             }
-        //         }
-        //     }
-        // });
+        $.ajax({
+            url: '/api/v1_0/activities',
+            dataType: 'JSON',
+            type: 'GET',
+            success: function(data) {
+                if (data.status == "ok") {
+                    for (var i = 0; i < data.result.length; i++) {
+                        if (data.result[i].acid == acid) {
+                            if (data.result[i].actype == "1") {
+                                $('#actype1').checked = true;
+                            } else {
+                                $("#actype2").checked = true;
+                            }
+                            document.getElementById("title").value = data.result[i].subject,
+                                document.getElementById("address").value = data.result[i].address,
+                                document.getElementById("introduce").value = data.result[i].introduce,
+                                document.getElementById("start_time").value = data.result[i].start_time,
+                                document.getElementById("finish_time").value = data.result[i].finish_time,
+                                document.getElementById("required_stus").value = data.result[i].required_stus,
+                                document.getElementById("alltime").value = data.result[i].vol_time
+                        }
+                    }
+                } else {
+
+                }
+            }
+        });
         $("#checkin").click(function() {
             $.ajax({
                 url: "/api/v1_0/qrcode/checkin",
@@ -310,7 +358,9 @@
                     checkin_work: $("#checkin_work").val()
                 },
                 success: function(data) {
-                    alert(data);
+                    var img;
+                    img = base64decode(data);
+                    alert(img);
                 }
             });
         });
@@ -325,7 +375,7 @@
                     checkout_work: $("#checkout_work").val()
                 },
                 success: function(data) {
-                     alert(data);
+
                 }
             });
         });
