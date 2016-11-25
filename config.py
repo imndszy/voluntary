@@ -3,6 +3,7 @@
 # github: https://github.com/imndszy
 import os
 
+HOST = "https://www.njuszy.cn"
 
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
