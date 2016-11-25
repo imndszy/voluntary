@@ -2,8 +2,9 @@
 # Author: shizhenyu96@gamil.com
 # github: https://github.com/imndszy
 import qrcode
+import base64
 from StringIO import StringIO
-from flask import request, jsonify, send_file
+from flask import request, jsonify, send_file, make_response
 
 from app.api_1_0 import api
 from app.admin.functions import admin_login_required
@@ -23,8 +24,10 @@ def check_in():
         )
         qr.add_data('https://www.njuszy.cn/qrcode/checkin/'+str(acid))
         qr.make(fit=True)
-        img = qr.make_image()
-        return _serve_pil_image(img)
+        out = StringIO()
+        qr_img = qr.make_image()
+        qr_img.save(out, 'PNG')
+        return jsonify(data="data:image/png;base64," + base64.b64encode(out.getvalue()).decode('ascii'))
     else:
         return jsonify(status='fail')
 
@@ -43,14 +46,9 @@ def check_out():
         )
         qr.add_data('https://www.njuszy.cn/qrcode/checkout/'+str(acid))
         qr.make(fit=True)
-        img = qr.make_image()
-        return _serve_pil_image(img)
+        out = StringIO()
+        qr_img = qr.make_image()
+        qr_img.save(out, 'PNG')
+        return jsonify(data="data:image/png;base64," + base64.b64encode(out.getvalue()).decode('ascii'))
     else:
         return jsonify(status='fail')
-
-
-def _serve_pil_image(pil_img):
-    img_io = StringIO()
-    pil_img.save(img_io, 'PNG')
-    img_io.seek(0)
-    return send_file(img_io, mimetype='image/png', cache_timeout=0)
