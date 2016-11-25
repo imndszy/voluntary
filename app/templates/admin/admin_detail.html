@@ -238,6 +238,9 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
+                                           <img id="imagetest" src="">
+                                        </div>
+                                        <div class="form-group">
                                             <button type="button" id="checkin" class="btn btn-success" style="margin-left: 25%;">生成</button>
                                         </div>
                                     </form>
@@ -271,53 +274,6 @@
         </div>
     </div>
     <script type="text/javascript">
-    function base64decode(str) {
-        var c1, c2, c3, c4;
-        var i, len, out;
-        len = str.length;
-        i = 0;
-        out = "";
-        while (i < len) {
-            /* c1 */
-            do {
-                c1 = base64DecodeChars[str.charCodeAt(i++) & 0xff];
-            }
-            while (i < len && c1 == -1);
-            if (c1 == -1)
-                break;
-            /* c2 */
-            do {
-                c2 = base64DecodeChars[str.charCodeAt(i++) & 0xff];
-            }
-            while (i < len && c2 == -1);
-            if (c2 == -1)
-                break;
-            out += String.fromCharCode((c1 << 2) | ((c2 & 0x30) >> 4));
-            /* c3 */
-            do {
-                c3 = str.charCodeAt(i++) & 0xff;
-                if (c3 == 61)
-                    return out;
-                c3 = base64DecodeChars[c3];
-            }
-            while (i < len && c3 == -1);
-            if (c3 == -1)
-                break;
-            out += String.fromCharCode(((c2 & 0XF) << 4) | ((c3 & 0x3C) >> 2));
-            /* c4 */
-            do {
-                c4 = str.charCodeAt(i++) & 0xff;
-                if (c4 == 61)
-                    return out;
-                c4 = base64DecodeChars[c4];
-            }
-            while (i < len && c4 == -1);
-            if (c4 == -1)
-                break;
-            out += String.fromCharCode(((c3 & 0x03) << 6) | c4);
-        }
-        return out;
-    }
     $(function() {
         var acid = $("#acid").val();
         $.ajax({
@@ -358,9 +314,7 @@
                     checkin_work: $("#checkin_work").val()
                 },
                 success: function(data) {
-                    var img;
-                    img = base64decode(data);
-                    alert(img);
+                    $("#imagetest").setAttribute("src",data.data);
                 }
             });
         });
