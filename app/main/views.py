@@ -2,7 +2,7 @@
 # Author: shizhenyu96@gamil.com
 # github: https://github.com/imndszy
 import time
-from flask import render_template, request, session, redirect, url_for, flash
+from flask import render_template, request, session, redirect, url_for, jsonify
 from flask_login import login_user, login_required, \
     current_user
 
@@ -88,10 +88,10 @@ def qrcode_checkout(code):
         else:
             session['checkout'] = 'checked'
             session['checkout_time'] = now
-            return redirect(url_for('main.verify'))
+            return render_template('check.html')
 
 
-@main.route('/qrcode/verify', methods=['GET','POST'])
+@main.route('/qrcode/verify', methods=['POST'])
 def verify():
     if session.get('checkout') or session.get('checkin'):
         if request.method == 'POST':
@@ -102,31 +102,30 @@ def verify():
             now = int(time.time())
 
             if user is None:
-                flash("用户名或密码不正确！")
+                return jsonify(status='fail')
             else:
                 if user.password_reviewed:
                     if user.verify_password(password):
                         if now - session.get('checkout_time',1) < 300:
                             session['out_verify'] = 'ok'
-                            return "您已成功签退！"
+                            return jsonify(status='ok',data="您已成功签退！")
                         elif now - session.get('checkin_time',1) < 300:
                             session['in_verify'] = 'ok'
-                            return "您已成功签到！"
+                            return jsonify(status='ok',data="您已成功签到！")
                         else:
-                            return "请在规定的时间内验证身份！请重新扫描二维码！"
-                    flash("用户名或密码不正确！")
+                            return jsonify(staus='fail',data="请在规定的时间内验证身份！请重新扫描二维码！")
+                    return jsonify(status='fail', data="错误的用户名或密码")
                 else:
                     if user.identified_card == password:
                         if now - session.get('checkout_time',1) < 300:
                             session['out_verify'] = 'ok'
-                            return "您已成功签退！"
+                            return jsonify(status='ok',data="您已成功签退！")
                         elif now - session.get('checkin_time',1) < 300:
                             session['in_verify'] = 'ok'
-                            return "您已成功签到！"
+                            return jsonify(status='ok',data="您已成功签到！")
                         else:
-                            return "请在规定的时间内验证身份！请重新扫描二维码！"
-                    flash("用户名或密码不正确！")
-        return render_template('check.html')
+                            return jsonify(staus='fail', data="请在规定的时间内验证身份！请重新扫描二维码！")
+                    return jsonify(status='fail',data="错误的用户名或密码")
     else:
         return "请先扫描二维码！！"
 
