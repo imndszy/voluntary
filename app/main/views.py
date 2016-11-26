@@ -91,7 +91,7 @@ def qrcode_checkout(code):
             return redirect(url_for('main.verify'))
 
 
-@main.route('/qrcode/verify')
+@main.route('/qrcode/verify', methods=['GET','POST'])
 def verify():
     if session.get('checkout') or session.get('checkin'):
         if request.method == 'POST':
