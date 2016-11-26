@@ -10,12 +10,7 @@
     <link type="text/css" rel="stylesheet" href="../../static/css/jquery.mmenu.all.css" />
     <link rel="stylesheet" type="text/css" href="../../static/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../../static/font/css/font-awesome.css">
-    <!-- Stylesheet
-        ================================================== -->
     <link rel="stylesheet" type="text/css" href="../../static/css/detailstyle.css">
-    <script type="text/javascript" src="../../static/js/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="../../static/js/jquery.mmenu.all.min.js"></script>
-    <script type="text/javascript" src="../../static/js/bootstrap.min.js"></script>
     <style>
     html,
     body {
@@ -72,6 +67,12 @@
     #introduce {
         padding-right: 6%;
         padding-left: 2%
+    }
+    
+    #footer {
+        padding: 21px 0 10px;
+        background-color: #444;
+        color: #ffffff;
     }
     </style>
 </head>
@@ -142,7 +143,7 @@
         </section>
         <section id="footer">
             <div class="container">
-                <p class="pull-right">Copyright &copy; 2016.</p>
+                <p align="center">Copyright &copy; 2016.</p>
             </div>
         </section>
     </div>
@@ -238,7 +239,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                           <img id="checkin_image" style="width:50%;height:50%" src="">
+                                            <img id="checkin_image" style="width:50%;height:50%" src="">
                                         </div>
                                         <div class="form-group">
                                             <button type="button" id="checkin" class="btn btn-success" style="margin-left: 25%;">生成</button>
@@ -262,7 +263,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                           <img id="checkout_image" style="width:50%;height:50%" src="">
+                                            <img id="checkout_image" style="width:50%;height:50%" src="">
                                         </div>
                                         <div class="form-group">
                                             <button type="button" id="checkout" class="btn btn-success" style="margin-left: 25%;">生成</button>
@@ -276,6 +277,9 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript" src="../../static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../static/js/jquery.mmenu.all.min.js"></script>
+    <script type="text/javascript" src="../../static/js/bootstrap.min.js"></script>
     <script type="text/javascript">
     $(function() {
         var acid = $("#acid").val();
@@ -309,7 +313,7 @@
         $("#checkin").click(function() {
             var checkin_start = document.getElementById("checkin_start").value;
             var checkin_work = document.getElementById("checkin_work").value;
-            if(!checkin_start||!checkin_work){
+            if (!checkin_start || !checkin_work) {
                 alert("请填写完整信息。");
                 return false;
             }
@@ -323,14 +327,14 @@
                     checkin_work: checkin_work
                 },
                 success: function(data) {
-                    document.getElementById('checkin_image').setAttribute("src",data.data);
+                    document.getElementById('checkin_image').setAttribute("src", data.data);
                 }
             });
         });
         $("#checkout").click(function() {
             var checkout_start = document.getElementById("checkout_start").value;
             var checkout_work = document.getElementById("checkout_work").value;
-             if(!checkout_start||!checkout_work){
+            if (!checkout_start || !checkout_work) {
                 alert("请填写完整信息。");
                 return false;
             }
@@ -344,7 +348,7 @@
                     checkout_work: checkout_work
                 },
                 success: function(data) {
-                    document.getElementById('checkout_image').setAttribute("src",data.data);
+                    document.getElementById('checkout_image').setAttribute("src", data.data);
                 }
             });
         });
