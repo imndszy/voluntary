@@ -50,12 +50,12 @@ def qrcode_checkin(code):
         if activity is None:
             return "错误参数！请联系管理员！"
         qrcode = activity.return_qrcode()
-        if start_time != qrcode.in_time_start or finish_time != qrcode.in_time_stop:
+        if start_time != qrcode['in_time_start'] or finish_time != qrcode['in_time_stop']:
             return "错误参数！请联系管理员！"
 
         now = int(time.time())
         session['checkin_time'] = now
-        if now < qrcode.in_time_start or now > qrcode.in_time_stop:
+        if now < qrcode['in_time_start'] or now > qrcode['in_time_stop']:
             return "尚未到签到时间！"
         else:
             session['checkin'] = 'checked'
@@ -79,11 +79,11 @@ def qrcode_checkout(code):
         if activity is None:
             return "错误参数！请联系管理员！"
         qrcode = activity.return_qrcode()
-        if start_time != qrcode.out_time_start or finish_time != qrcode.out_time_stop:
+        if start_time != qrcode['out_time_start'] or finish_time != qrcode['out_time_stop']:
             return "错误参数！请联系管理员！"
 
         now = int(time.time())
-        if now < qrcode.out_time_start or now > qrcode.out_time_stop:
+        if now < qrcode['out_time_start'] or now > qrcode['out_time_stop']:
             return "尚未到签退时间！"
         else:
             session['checkout'] = 'checked'
