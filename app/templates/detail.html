@@ -10,8 +10,6 @@
     <link type="text/css" rel="stylesheet" href="../static/css/jquery.mmenu.all.css" />
     <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../static/font/css/font-awesome.css">
-    <!-- Stylesheet
-        ================================================== -->
     <link rel="stylesheet" type="text/css" href="../static/css/detailstyle.css">
     <script type="text/javascript" src="../static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../static/js/jquery.mmenu.all.min.js"></script>
@@ -62,25 +60,21 @@
         top: 0;
         right: 30px;
     }
-    .boxsm{
+    
+    .boxsm {
         padding-right: 6%;
         padding-left: 6%
     }
-    #introduce{
+    
+    #introduce {
         padding-right: 6%;
         padding-left: 2%
     }
-     #toTop {
-    position: fixed;
-    bottom: 0px;
-    right: 10px;
-    overflow: hidden;
-    width: 48px;
-    height: 48px;
-    border: none;
-    text-indent: 100%;
-    background-size: 35px;
-    background: url(../static/images/arrow.png) no-repeat 0px 0px;
+    
+    #footer {
+        padding: 21px 0 10px;
+        background-color: #444;
+        color: #ffffff;
     }
     </style>
     <script type="text/javascript">
@@ -92,7 +86,7 @@
                 },
                 navbars: [{
                     height: 3,
-                    content: ['<a align="center"><img src="../static/images/coupon_icon4.png" /></a><div class="bbiigg" id="username"><a href="login">登录</a></div>']
+                    content: ['<a align="center"><img src="../static/images/coupon_icon4.png" /></a><div class="bbiigg" id="username">用户名</div>']
                 }],
                 counters: true,
                 extensions: ["pagedim-black", "pageshadow", "effect-menu-zoom", "theme-dark", "widescreen"],
@@ -125,8 +119,7 @@
                             <div>
                                 <div class="skills">
                                     <h1 id="tit" align="center" style="margin-top: 10px;">法律进校园</h1>
-                                   <p id="introduce"> &emsp;&emsp;
-                                    法学院团委实践部“法律进校园”活动志愿者招募令 或许你期待回到初中校园走上讲台，以全新的身份走进课堂； 或许你想与南师附中的优秀学子分享法律知识； 或许你还在为已经错过的志愿服务懊悔； 或许你还想再次参与公益实践锻炼自我； 或许你还在等待一个机会…… 11月，法学院团委实践部推出“法律进校园”活动满足你的期待！ “法律进校园”活动事法学院团委与南师附中协作开展的普法活动。活动面向南师附中初一、初二学生，旨在围绕一个特定案件，通过一节课的话剧表演、法理讲解与互动普及一些基本的法律知识、激发对法律和法哲学的兴趣。作为实践部的保留项目，法律进校园活动在过去几年中进展顺利，受到南师附中师生的一致好评。 本期活动中，南师附中授课内容主要包括话剧表演、学生讨论并发言、案例分析几个部分。其中话剧部分有10-15分钟的话剧表演，需要志愿者根据现有剧本表演法律假想剧《洞穴奇案》。剧本内容比较生动，演出难度不大，只要拥有热情与表现力都可以加入我们。
+                                    <p id="introduce"> &emsp;&emsp; 法学院团委实践部“法律进校园”活动志愿者招募令 或许你期待回到初中校园走上讲台，以全新的身份走进课堂； 或许你想与南师附中的优秀学子分享法律知识； 或许你还在为已经错过的志愿服务懊悔； 或许你还想再次参与公益实践锻炼自我； 或许你还在等待一个机会…… 11月，法学院团委实践部推出“法律进校园”活动满足你的期待！ “法律进校园”活动事法学院团委与南师附中协作开展的普法活动。活动面向南师附中初一、初二学生，旨在围绕一个特定案件，通过一节课的话剧表演、法理讲解与互动普及一些基本的法律知识、激发对法律和法哲学的兴趣。作为实践部的保留项目，法律进校园活动在过去几年中进展顺利，受到南师附中师生的一致好评。 本期活动中，南师附中授课内容主要包括话剧表演、学生讨论并发言、案例分析几个部分。其中话剧部分有10-15分钟的话剧表演，需要志愿者根据现有剧本表演法律假想剧《洞穴奇案》。剧本内容比较生动，演出难度不大，只要拥有热情与表现力都可以加入我们。
                                     </p>
                                 </div>
                             </div>
@@ -135,36 +128,31 @@
                             <div class="row">
                                 <div class="counter">
                                     <div class="col-xs-3 facts">
-                                        <!-- counter #1 -->
                                         <div class="count-box">
                                             <i class="fa fa-mobile"></i>
-                                            <p id="">XXX</p>
-                                            <p>12345671234</p>
+                                            <p>6
+                                                <br/>志愿时长</p>
                                         </div>
                                     </div>
-                                    <!-- end counter #1 -->
                                     <div class="col-xs-3 facts">
-                                        <!-- counter #2 -->
                                         <div class="count-box">
                                             <i class="fa fa-user"></i>
-                                            <p id="people">6/12</p>
-                                            <p >报名/需求</p>
+                                            <p>6/12
+                                                <br/>报名/需求</p>
                                         </div>
                                     </div>
                                     <div class="col-xs-3 facts">
-                                        <!-- counter #3 -->
                                         <div class="count-box">
                                             <i class="fa fa-arrows"></i>
-                                            <p id="checkin">0</p>
-                                            <p>生成<br/>签到二维码</p>
+                                            <p>生成
+                                                <br/>签到二维码</p>
                                         </div>
                                     </div>
                                     <div class="col-xs-3 facts">
-                                        <!-- counter #4 -->
                                         <div class="count-box">
                                             <i class="fa fa-download"></i>
-                                            <p id="checkout">6</p>
-                                            <p>生成<br/>签退二维码</p>
+                                            <p>生成
+                                                <br/>签退二维码</p>
                                         </div>
                                     </div>
                                 </div>
@@ -212,19 +200,9 @@
         </section>
         <section id="footer">
             <div class="container">
-                <p class="pull-right">Copyright &copy; 2016.Company name All rights reserved</p>
+                <p align="center">Copyright &copy; 2016</p>
             </div>
         </section>
-        <!-- Totop 角标-->
-        <script type="text/javascript" src="../static/js/move-top.js"></script>
-            <script type="text/javascript">
-                $(document).ready(function() {
-                    $().UItoTop({
-                        easingType: 'easeOutQuart'
-                    });
-                });
-        </script>
-        <a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
         <nav id="menu">
             <ul>
                 <li></li>
@@ -265,5 +243,4 @@
     });
     </script>
 </body>
-
 </html>
