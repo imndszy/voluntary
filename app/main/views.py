@@ -27,10 +27,6 @@ def login():
 def user():
     return render_template('user.html')
 
-@main.route('/check')
-def check():
-    return render_template('check.html')
-
 
 @main.route('/activity')
 @login_required
@@ -38,7 +34,7 @@ def activity():
     return render_template('deatil.html')
 
 
-@main.route('/qrcode/checkin/<code>')
+@main.route('/checkin/<code>')
 def qrcode_checkin(code):
     if session.get('in_verify') == 'ok':
         return "您已经签到过了！"
@@ -64,10 +60,10 @@ def qrcode_checkin(code):
         else:
             session['checkin'] = 'checked'
             session['checkin_time'] = now
-            return redirect(url_for('main.check'))
+            return render_template('check.html')
 
 
-@main.route('/qrcode/checkout/<code>')
+@main.route('/checkout/<code>')
 def qrcode_checkout(code):
     if session.get('out_verify') == 'ok':
         return "您已经签退过了！"
@@ -130,6 +126,4 @@ def verify():
                         return jsonify(staus='fail', data="请在规定的时间内验证身份！请重新扫描二维码！")
                 return jsonify(status='fail',data="错误的用户名或密码")
     else:
-        return "请先扫描二维码！！"
-
-
+        return jsonify(status='fail',data="请先扫描二维码！！")
