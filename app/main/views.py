@@ -88,10 +88,10 @@ def qrcode_checkout(code):
         else:
             session['checkout'] = 'checked'
             session['checkout_time'] = now
-            return render_template('check.html')
+            return redirect(url_for('main.verify'))
 
 
-@main.route('/qrcode/verify', methods=['POST'])
+@main.route('/qrcode/verify')
 def verify():
     if session.get('checkout') or session.get('checkin'):
         data = request.values
@@ -125,6 +125,7 @@ def verify():
                     else:
                         return "请在规定的时间内验证身份！请重新扫描二维码！"
                 flash("用户名或密码不正确！")
+        return render_template('check.html')
     else:
         return "请先扫描二维码！！"
 
