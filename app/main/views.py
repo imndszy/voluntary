@@ -95,7 +95,7 @@ def qrcode_checkout(code):
 def verify():
     if session.get('checkout') or session.get('checkin'):
         data = request.values
-        stuid = int(data.get('username'))
+        stuid = data.get('username')
         password = data.get('password')
         user = User.query.filter_by(stuid=stuid).first()
         now = int(time.time())
