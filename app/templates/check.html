@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>check</title>
+        <!-- CSS -->
+        <link rel="stylesheet" href="../static/css/bootstrap.css">
+        <link rel="stylesheet" href="../static/css/check-style.css">
+    </head>
+    <body>
+        <div class="top-content">
+            <div class="inner-bg">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-6 col-sm-offset-3 form-box">
+                        	<div class="form-top">
+                        		<div class="form-top-left">
+                        			<h3 align="center">信息确认</h3>
+                                    <p align="center">请在扫码后5分钟内完成</p>
+                        		</div>
+                        		<div class="form-top-right">
+                        			<i class="fa fa-lock"></i>
+                        		</div>
+                            </div>
+                            <div class="form-bottom">
+			                    <form role="form" action="/qrcode/verify" method="post" class="login-form">
+			                    	<div class="form-group">
+			                    		<label class="sr-only" for="form-username">用户名</label>
+			                        	<input type="text" name="form-username" placeholder="填写用户名" class="form-username form-control" id="username">
+			                        </div>
+			                        <div class="form-group">
+			                        	<label class="sr-only" for="form-password">密码</label>
+			                        	<input type="password" name="form-password" placeholder="填写密码" class="form-password form-control" id="password">
+			                        </div>
+			                        <button type="submit" class="btn">点击确认</button>
+			                    </form>
+		                    </div>
+                        </div>
+                    </div>
+                </div>
+            </div>        
+        </div>
+    <script src="../static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript">
+        $('.login-form').on('submit', function(e) {
+        $(this).find('input[type="text"], input[type="password"]').each(function(){
+            if( $(this).val() == "" ) {
+                e.preventDefault();
+                $(this).focus();
+            }
+        });
+        
+        });
+    </script>
+    </body>
+
+</html>
