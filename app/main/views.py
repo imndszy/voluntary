@@ -94,37 +94,38 @@ def qrcode_checkout(code):
 @main.route('/qrcode/verify')
 def verify():
     if session.get('checkout') or session.get('checkin'):
-        data = request.values
-        stuid = data.get('username')
-        password = data.get('password')
-        user = User.query.filter_by(stuid=stuid).first()
-        now = int(time.time())
+        if request.method == 'POST':
+            data = request.values
+            stuid = data.get('username')
+            password = data.get('password')
+            user = User.query.filter_by(stuid=stuid).first()
+            now = int(time.time())
 
-        if user is None:
-            flash("用户名或密码不正确！")
-        else:
-            if user.password_reviewed:
-                if user.verify_password(password):
-                    if now - session.get('checkout_time') < 300:
-                        session['out_verify'] = 'ok'
-                        return "您已成功签退！"
-                    elif now - session.get('checkin_time') < 300:
-                        session['in_verify'] = 'ok'
-                        return "您已成功签到！"
-                    else:
-                        return "请在规定的时间内验证身份！请重新扫描二维码！"
+            if user is None:
                 flash("用户名或密码不正确！")
             else:
-                if user.identified_card == password:
-                    if now - session.get('checkout_time') < 300:
-                        session['out_verify'] = 'ok'
-                        return "您已成功签退！"
-                    elif now - session.get('checkin_time') < 300:
-                        session['in_verify'] = 'ok'
-                        return "您已成功签到！"
-                    else:
-                        return "请在规定的时间内验证身份！请重新扫描二维码！"
-                flash("用户名或密码不正确！")
+                if user.password_reviewed:
+                    if user.verify_password(password):
+                        if now - session.get('checkout_time') < 300:
+                            session['out_verify'] = 'ok'
+                            return "您已成功签退！"
+                        elif now - session.get('checkin_time') < 300:
+                            session['in_verify'] = 'ok'
+                            return "您已成功签到！"
+                        else:
+                            return "请在规定的时间内验证身份！请重新扫描二维码！"
+                    flash("用户名或密码不正确！")
+                else:
+                    if user.identified_card == password:
+                        if now - session.get('checkout_time') < 300:
+                            session['out_verify'] = 'ok'
+                            return "您已成功签退！"
+                        elif now - session.get('checkin_time') < 300:
+                            session['in_verify'] = 'ok'
+                            return "您已成功签到！"
+                        else:
+                            return "请在规定的时间内验证身份！请重新扫描二维码！"
+                    flash("用户名或密码不正确！")
         return render_template('check.html')
     else:
         return "请先扫描二维码！！"
