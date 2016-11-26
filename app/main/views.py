@@ -36,8 +36,8 @@ def activity():
 
 @main.route('/qrcode/checkin/<code>')
 def qrcode_checkin(code):
-    # if session.get('checkin') == 'checked':
-    #     return "您已经签到过了！"
+    if session.get('in_verify') == 'ok':
+        return "您已经签到过了！"
 
     if len(code) != 30 or not code.isdigit():
         return "错误参数！请联系管理员！"
@@ -65,8 +65,8 @@ def qrcode_checkin(code):
 
 @main.route('/qrcode/checkout/<code>')
 def qrcode_checkout(code):
-    # if session.get('checkout') == 'checked':
-    #     return "您已经签到过了！"
+    if session.get('out_verify') == 'ok':
+        return "您已经签退过了！"
 
     if len(code) != 30 or not code.isdigit():
         return "错误参数！请联系管理员！"
