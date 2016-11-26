@@ -12,11 +12,13 @@ from flask_login import UserMixin
 from app import db, login_manager
 
 
-ac_user = db.Table('ac_user',
-                   db.Column('stuid', db.Integer, db.ForeignKey('users.stuid')),
-                   db.Column('acid', db.Integer, db.ForeignKey('activity.acid')),
-                   db.Column('check_in', db.DateTime),
-                   db.Column('check_out', db.DateTime))
+class AcUser(db.Model):
+
+    __tablename__ ='ac_user'
+    stuid = db.Column('stuid', db.Integer, primary_key=True)
+    acid = db.Column('acid', db.Integer)
+    checkin = db.Column('check_in', db.DateTime)
+    checkout = db.Column('check_out', db.DateTime)
 
 
 class User(UserMixin, db.Model):
@@ -29,7 +31,6 @@ class User(UserMixin, db.Model):
     identified_card = db.Column(db.String(30), unique=True)
     service_time = db.Column(db.Float, nullable=True)
     password_reviewed = db.Column(db.Boolean)
-    activities = db.relationship('Activity', secondary=ac_user)
 
     @property
     def password(self):
@@ -87,7 +88,6 @@ class Activity(db.Model):
     out_time_stop = db.Column(db.Integer, nullable=True)       # 签退结束时间
     linkman = db.Column(db.String(16), nullable=True)          # 联系人（有字长限制）
     contact = db.Column(db.String(16), nullable=True)          # 联系方式
-    users = db.relationship('User', secondary=ac_user)
 
     def __repr__(self):
         return '<Activity {self.acid}>'.format(self=self)
