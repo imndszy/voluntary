@@ -27,7 +27,7 @@
                             </div>
                         </div>
                         <div class="form-bottom">
-                            <form role="form" class="login-form">
+                            <form role="form" action="/qrcode/verify" type="POST" class="login-form">
                                 <div class="form-group">
                                     <label class="sr-only" for="form-username">用户名</label>
                                     <input type="text" name="username" placeholder="填写用户名" class="form-username form-control" id="username">
@@ -36,7 +36,7 @@
                                     <label class="sr-only" for="form-password">密码</label>
                                     <input type="password" name="password" placeholder="填写密码" class="form-password form-control" id="password">
                                 </div>
-                                <button type="button" class="btn" id="verify">点击确认</button>
+                                <button type="submit" class="btn" id="verify">点击确认</button>
                             </form>
                         </div>
                     </div>
@@ -46,6 +46,7 @@
     </div>
     <script src="../static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript">
+    console.log("a");
     $('.login-form').on('submit', function(e) {
         $(this).find('input[type="text"], input[type="password"]').each(function() {
             if ($(this).val() == "") {
@@ -53,29 +54,29 @@
                 $(this).focus();
             }
         });
-
     });
-    $(function() {
-        $("#verify").click(function() {
-            $.ajax({
-                url: "/qrcode/verify",
-                data:{
-                    username: document.getElementById("username").value,
-                    password: document.getElementById("password").value
-                },
-                dataType: "JSON",
-                type: "POST",
-                success:function(data){
-                    if(data.status === "ok"){
-                        alert(data.data);
-                    }
-                    else{
-                        alert(data.data);
-                    }
-                }
-            });
-        });
-    });
+    // $(function() {
+    //     $("#verify").click(function() {
+    //         console.log("c");
+    //         $.ajax({
+    //             url: "/qrcode/verify",
+    //             data:{
+    //                 username: document.getElementById("username").value,
+    //                 password: document.getElementById("password").value
+    //             },
+    //             dataType: "JSON",
+    //             type: "POST",
+    //             success:function(data){
+    //                 if(data.status === "ok"){
+    //                     alert(data.data);
+    //                 }
+    //                 else{
+    //                     alert(data.data);
+    //                 }
+    //             }
+    //         });
+    //     });
+    // });
     </script>
 </body>
 
