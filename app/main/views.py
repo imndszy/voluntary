@@ -106,10 +106,10 @@ def verify():
             else:
                 if user.password_reviewed:
                     if user.verify_password(password):
-                        if now - session.get('checkout_time') < 300:
+                        if now - session.get('checkout_time',1) < 300:
                             session['out_verify'] = 'ok'
                             return "您已成功签退！"
-                        elif now - session.get('checkin_time') < 300:
+                        elif now - session.get('checkin_time',1) < 300:
                             session['in_verify'] = 'ok'
                             return "您已成功签到！"
                         else:
@@ -117,10 +117,10 @@ def verify():
                     flash("用户名或密码不正确！")
                 else:
                     if user.identified_card == password:
-                        if now - session.get('checkout_time') < 300:
+                        if now - session.get('checkout_time',1) < 300:
                             session['out_verify'] = 'ok'
                             return "您已成功签退！"
-                        elif now - session.get('checkin_time') < 300:
+                        elif now - session.get('checkin_time',1) < 300:
                             session['in_verify'] = 'ok'
                             return "您已成功签到！"
                         else:
