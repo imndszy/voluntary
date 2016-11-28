@@ -2,10 +2,11 @@
 # Author: shizhenyu96@gamil.com
 # github: https://github.com/imndszy
 from flask import request, jsonify, session
-from flask_login import login_user, login_required
+from flask_login import login_user, login_required, current_user
 
 from app.api_1_0 import api
-from app.models import User
+from app.models import User, Activity, AcUser
+from app import db
 
 
 @api.route('/user/verification', methods=['POST'])
@@ -13,7 +14,7 @@ def user_verify():
     data = request.values
     username = data.get('username')
     password = data.get('password')
-    user = User.query.filter_by(stuid=int(username)).first()
+    user = User.query.filter_by(stuid=username).first()
     if user is None:
         return jsonify(status='fail')
     if user.password_reviewed:
@@ -28,3 +29,23 @@ def user_verify():
             login_user(user, True)
             return jsonify(status='ok', stuid=session['stuid'])
         return jsonify(status='fail')
+
+
+@api.route('/user/activity-registration',methods=['POST'])
+@login_required
+def registration():
+    data = request.values
+    acid = data.get('acid')
+    stuid = current_user.stuid
+    activity = Activity.query.filter_by(acid=acid).first()
+    if activity is None:
+        return jsonify(status='fail')
+
+    try:
+        registration = AcUser(acid=acid,stuid=stuid)
+        db.session.add(registration)
+        db.session.commit()
+        return jsonify(status='ok')
+    except:
+        return jsonify(status='fail')
+
