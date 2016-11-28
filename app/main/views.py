@@ -108,21 +108,25 @@ def verify():
             if user.password_reviewed:
                 if user.verify_password(password):
                     if now - session.get('checkout_time',1) < 300:
-                        session['out_verify'] = 'ok'
                         checkout = AcUser.query.filter_by(
                             acid=session.get('acid'),stuid=stuid).first()
+                        if checkout is None:
+                            return jsonify(status='fail',data="您未报名此活动！")
                         checkout.checkout = time_transfer(now)
                         db.session.add(checkout)
                         db.session.commit()
+                        session['out_verify'] = 'ok'
                         return jsonify(status='ok',data="您已成功签退！")
 
                     elif now - session.get('checkin_time',1) < 300:
-                        session['in_verify'] = 'ok'
                         checkin = AcUser.query.filter_by(
                             acid=session.get('acid'), stuid=stuid).first()
+                        if checkin is None:
+                            return jsonify(status='fail', data="您未报名此活动！")
                         checkin.checkin = time_transfer(now)
                         db.session.add(checkin)
                         db.session.commit()
+                        session['in_verify'] = 'ok'
                         return jsonify(status='ok',data="您已成功签到！")
 
                     else:
@@ -131,21 +135,25 @@ def verify():
             else:
                 if user.identified_card == password:
                     if now - session.get('checkout_time',1) < 300:
-                        session['out_verify'] = 'ok'
                         checkout = AcUser.query.filter_by(
                             acid=session.get('acid'), stuid=stuid).first()
+                        if checkout is None:
+                            return jsonify(status='fail', data="您未报名此活动！")
                         checkout.checkout = time_transfer(now)
                         db.session.add(checkout)
                         db.session.commit()
+                        session['out_verify'] = 'ok'
                         return jsonify(status='ok',data="您已成功签退！")
 
                     elif now - session.get('checkin_time',1) < 300:
-                        session['in_verify'] = 'ok'
                         checkin = AcUser.query.filter_by(
                             acid=session.get('acid'), stuid=stuid).first()
+                        if checkin is None:
+                            return jsonify(status='fail', data="您未报名此活动！")
                         checkin.checkin = time_transfer(now)
                         db.session.add(checkin)
                         db.session.commit()
+                        session['in_verify'] = 'ok'
                         return jsonify(status='ok',data="您已成功签到！")
 
                     else:
