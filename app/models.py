@@ -17,8 +17,8 @@ class AcUser(db.Model):
     __tablename__ ='ac_user'
     stuid = db.Column('stuid', db.Integer, primary_key=True)
     acid = db.Column('acid', db.Integer)
-    checkin = db.Column('check_in', db.DateTime)
-    checkout = db.Column('check_out', db.DateTime)
+    checkin = db.Column('check_in', db.DateTime, nullable=True)
+    checkout = db.Column('check_out', db.DateTime, nullable=True)
 
 
 class User(UserMixin, db.Model):
