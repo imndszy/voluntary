@@ -2,12 +2,12 @@
 # Author: shizhenyu96@gamil.com
 # github: https://github.com/imndszy
 import time
-from flask import render_template, request, session, redirect, url_for, jsonify
-from flask_login import login_user, login_required, \
-    current_user
+from flask import render_template, request, session, jsonify
+from flask_login import login_required
 
+from app import db
 from app.main import main
-from app.models import Activity, User
+from app.models import Activity, User, AcUser
 
 
 @main.route('/')
@@ -34,7 +34,7 @@ def activity():
     return render_template('deatil.html')
 
 
-@main.route('/qrcode/checkin/<code>')
+@main.route('/checkin/<code>')
 def qrcode_checkin(code):
     if session.get('in_verify') == 'ok':
         return "您已经签到过了！"
@@ -43,6 +43,7 @@ def qrcode_checkin(code):
         return "错误参数！请联系管理员！"
     else:
         acid = int(code[0:10])
+        session['acid'] = acid
         start_time = int(code[10:20])
         finish_time = int(code[20:])
         activity = Activity.query.filter_by(acid=acid).first()
@@ -63,7 +64,7 @@ def qrcode_checkin(code):
             return render_template('check.html')
 
 
-@main.route('/qrcode/checkout/<code>')
+@main.route('/checkout/<code>')
 def qrcode_checkout(code):
     if session.get('out_verify') == 'ok':
         return "您已经签退过了！"
@@ -72,6 +73,7 @@ def qrcode_checkout(code):
         return "错误参数！请联系管理员！"
     else:
         acid = int(code[0:10])
+        session['acid'] = acid
         start_time = int(code[10:20])
         finish_time = int(code[20:])
         activity = Activity.query.filter_by(acid=acid).first()
@@ -94,39 +96,79 @@ def qrcode_checkout(code):
 @main.route('/qrcode/verify', methods=['POST'])
 def verify():
     if session.get('checkout') or session.get('checkin'):
-        if request.method == 'POST':
-            data = request.values
-            stuid = data.get('username')
-            password = data.get('password')
-            user = User.query.filter_by(stuid=stuid).first()
-            now = int(time.time())
+        data = request.values
+        stuid = data.get('username')
+        password = data.get('password')
+        user = User.query.filter_by(stuid=stuid).first()
+        now = int(time.time())
 
-            if user is None:
-                return jsonify(status='fail')
+        if user is None:
+            return jsonify(status='fail',data="错误的用户名或密码")
+        else:
+            if user.password_reviewed:
+                if user.verify_password(password):
+                    if now - session.get('checkout_time',1) < 300:
+                        checkout = AcUser.query.filter_by(
+                            acid=session.get('acid'),stuid=stuid).first()
+                        if checkout is None:
+                            return jsonify(status='fail',data="您未报名此活动！")
+                        checkout.checkout = time_transfer(now)
+                        db.session.add(checkout)
+                        db.session.commit()
+                        session['out_verify'] = 'ok'
+                        return jsonify(status='ok',data="您已成功签退！")
+
+                    elif now - session.get('checkin_time',1) < 300:
+                        checkin = AcUser.query.filter_by(
+                            acid=session.get('acid'), stuid=stuid).first()
+                        if checkin is None:
+                            return jsonify(status='fail', data="您未报名此活动！")
+                        checkin.checkin = time_transfer(now)
+                        db.session.add(checkin)
+                        db.session.commit()
+                        session['in_verify'] = 'ok'
+                        return jsonify(status='ok',data="您已成功签到！")
+
+                    else:
+                        return jsonify(staus='fail',data="请在规定的时间内验证身份！请重新扫描二维码！")
+                return jsonify(status='fail', data="错误的用户名或密码")
             else:
-                if user.password_reviewed:
-                    if user.verify_password(password):
-                        if now - session.get('checkout_time',1) < 300:
-                            session['out_verify'] = 'ok'
-                            return jsonify(status='ok',data="您已成功签退！")
-                        elif now - session.get('checkin_time',1) < 300:
-                            session['in_verify'] = 'ok'
-                            return jsonify(status='ok',data="您已成功签到！")
-                        else:
-                            return jsonify(staus='fail',data="请在规定的时间内验证身份！请重新扫描二维码！")
-                    return jsonify(status='fail', data="错误的用户名或密码")
-                else:
-                    if user.identified_card == password:
-                        if now - session.get('checkout_time',1) < 300:
-                            session['out_verify'] = 'ok'
-                            return jsonify(status='ok',data="您已成功签退！")
-                        elif now - session.get('checkin_time',1) < 300:
-                            session['in_verify'] = 'ok'
-                            return jsonify(status='ok',data="您已成功签到！")
-                        else:
-                            return jsonify(staus='fail', data="请在规定的时间内验证身份！请重新扫描二维码！")
-                    return jsonify(status='fail',data="错误的用户名或密码")
+                if user.identified_card == password:
+                    if now - session.get('checkout_time',1) < 300:
+                        checkout = AcUser.query.filter_by(
+                            acid=session.get('acid'), stuid=stuid).first()
+                        if checkout is None:
+                            return jsonify(status='fail', data="您未报名此活动！")
+                        checkout.checkout = time_transfer(now)
+                        db.session.add(checkout)
+                        db.session.commit()
+                        session['out_verify'] = 'ok'
+                        return jsonify(status='ok',data="您已成功签退！")
+
+                    elif now - session.get('checkin_time',1) < 300:
+                        checkin = AcUser.query.filter_by(
+                            acid=session.get('acid'), stuid=stuid).first()
+                        if checkin is None:
+                            return jsonify(status='fail', data="您未报名此活动！")
+                        checkin.checkin = time_transfer(now)
+                        db.session.add(checkin)
+                        db.session.commit()
+                        session['in_verify'] = 'ok'
+                        return jsonify(status='ok',data="您已成功签到！")
+
+                    else:
+                        return jsonify(staus='fail', data="请在规定的时间内验证身份！请重新扫描二维码！")
+                return jsonify(status='fail',data="错误的用户名或密码")
     else:
-        return "请先扫描二维码！！"
+        return jsonify(status='fail',data="请先扫描二维码！！")
 
 
+def time_transfer(timestamp):
+    '''
+    transfer time format from timestamp to other style
+    :param timestamp: timestamp(int)
+    :return: "%Y-%m-%d %H:%M:%S"
+    '''
+    time_array = time.localtime(timestamp)
+    new_style = time.strftime("%Y-%m-%d %H:%M:%S", time_array)
+    return new_style

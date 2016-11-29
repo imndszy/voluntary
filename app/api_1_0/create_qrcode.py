@@ -35,7 +35,7 @@ def check_in():
             box_size=20,
             border=4,
         )
-        checkin_url = HOST+'qrcode/checkin/'+str(acid)+str(start_time)+str(finish_time)     # 签到扫描二维码指向链接
+        checkin_url = HOST+'checkin/'+str(acid)+str(start_time)+str(finish_time)     # 签到扫描二维码指向链接
         qr.add_data(checkin_url)
         qr.make(fit=True)
         out = StringIO()
@@ -72,7 +72,7 @@ def check_out():
             box_size=20,
             border=4,
         )
-        checkout_url = HOST + 'qrcode/checkout/' + str(acid) + str(start_time) + str(finish_time)
+        checkout_url = HOST + 'checkout/' + str(acid) + str(start_time) + str(finish_time)
         qr.add_data(checkout_url)
         qr.make(fit=True)
         out = StringIO()
