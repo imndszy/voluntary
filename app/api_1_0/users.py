@@ -52,7 +52,7 @@ def registration():
         registration = AcUser(acid=acid,stuid=stuid)
         db.session.add(registration)
         db.session.commit()
-        activity.required_stus += 1
+        activity.actual_stus += 1
         db.session.add(activity)
         db.session.commit()
         return jsonify(status='ok')
