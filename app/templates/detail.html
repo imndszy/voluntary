@@ -119,6 +119,8 @@
                             <div>
                                 <div class="skills">
                                     <h1 id="tit" align="center" style="margin-top: 10px;">{{title}}</h1>
+                                    <h5 align="center">活动地点：{{ac_place}}</h5>
+                                    <h5 align="center">开始时间：{{ac_start}}</h5>
                                     <p id="introduce"> &emsp;&emsp; {{introduce}}
                                     </p>
                                 </div>
@@ -128,63 +130,30 @@
                         <div class="col-md-12 boxsm">
                             <div class="row">
                                 <div class="counter">
-                                    <div class="col-xs-3 facts">
-                                        <div class="count-box">
-                                            <i class="fa fa-mobile"></i>
-                                            <p>{{}}
-                                                <br/>志愿时长</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-3 facts">
-                                        <div class="count-box">
-                                            <i class="fa fa-user"></i>
-                                            <p>{{}}
-                                                <br/>报名/需求</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-3 facts">
+                                    <div class="col-xs-4 facts">
                                         <div class="count-box">
                                             <i class="fa fa-arrows"></i>
-                                            <p>{{}}
-                                                <br/></p>
+                                            <p><span>{{voltime}}</span><br/>
+                                                志愿时长</p>
                                         </div>
                                     </div>
-                                    <div class="col-xs-3 facts">
+                                    <div class="col-xs-4 facts">
+                                        <div class="count-box">
+                                            <i class="fa fa-user"></i>
+                                            <p><span id="number">{{number}}</span><br/>
+                                                报名/需求</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4 facts">
                                         <div class="count-box">
                                             <i class="fa fa-download"></i>
-                                            <p>{{}}
-                                                <br/></p>
+                                            <p id="btn"><span>点击</span><br/>
+                                                确认报名</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section id="contact">
-            <div class="container">
-                <div class="row text-center">
-                    <div class="col-md-10 col-md-offset-1">
-                        <form id="contact-form" class="form" name="sentMessage" novalidate>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <input type="text" autocomplete="off" class="form-control" placeholder="请输入姓名" id="name" required data-validation-required-message="请输入姓名">
-                                        <p class="help-block text-danger"></p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <input type="text" autocomplete="off" class="form-control" placeholder="请输入学号" id="stuid" required data-validation-required-message="请输入学号">
-                                        <p class="help-block text-danger"></p>
-                                    </div>
-                                </div>
-                                <input type="hidden" id="acid" value="{{acid}}">
-                            </div>
-                            <button type="button" class="btn btn-primary btn color" id="btn">报名</button>
-                        </form>
                     </div>
                 </div>
             </div>
@@ -244,24 +213,35 @@
     $(document).ready(function() {
         var btn = document.getElementById("btn");
         EventUtil.addHandler(btn, "click", function() {
-            $.ajax({
-                url: '/api/v1_0/users',
-                dataType: 'JSON',
-                type: 'POST',
-                data: {
-                    acid: $('#acid').val(),
-                    stuid: $('#stuid').val(),
-
-                },
-                success: function(data) {
-                    if(data.status === "ok"){
-                        alert("报名成功!");
-                    }else{
-                        alert("信息有误.");
+            var verify = confirm("确定要报名该活动吗？");
+            if (verify == true) {
+                $.ajax({
+                    url: '/api/v1_0/user/activity-registration',
+                    dataType: 'JSON',
+                    type: 'POST',
+                    data: {
+                        acid: $('#acid').val(),
+                    },
+                    success: function(data) {
+                        if (data.status === "ok") {
+                            alert("报名成功!");
+                            var number=document.getElementById("number");
+                            var num = number.innerHTML.split("/");
+                            num0=parseInt(num[0])+1;
+                            number.innerHTML = num0+"/"+num[1];
+                            
+                        } else if(data.status === "fail") {
+                            alert("信息有误。");
+                        }else if(data.status === "full"){
+                            alert("人数已满。");
+                        }else{
+                            alert("请勿重复报名。");
+                        }
                     }
-                }
-            });
+                });
+            };
         });
+
     });
     </script>
 </body>
