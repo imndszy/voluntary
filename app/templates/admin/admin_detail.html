@@ -281,6 +281,43 @@
     <script type="text/javascript" src="../../static/js/jquery.mmenu.all.min.js"></script>
     <script type="text/javascript" src="../../static/js/bootstrap.min.js"></script>
     <script type="text/javascript">
+    var EventUtil = {
+        addHandler: function(element, type, handler) {
+            if (element.addEventListener) {
+                element.addEventListener(type, handler, false);
+            } else if (element.attachEvent) {
+                element.attachEvent("on" + type, handler);
+            } else {
+                element["on" + type] = handler;
+            }
+        },
+        removeHandler: function(element, type, handler) {
+            if (element.removeEventListener) {
+                element.removeEventListener(type, handler, false);
+            } else if (element.detachEvent) {
+                element.detachEvent("on" + type, handler);
+            } else {
+                element["on" + type] = null;
+            }
+        },
+    };
+    //部分显示点击展开
+    var sl = document.getElementById("introduce");
+    var sh = sl.innerHTML;
+    var handler = function() {
+        sl.innerHTML = sh.slice(0, 240) + '...' + '<a id="open"><点击展开></a>';
+    };
+    EventUtil.addHandler(window, "load", handler);
+
+    var zhankai = function() {
+        var open = document.getElementById("open");
+        open.onclick = function() {
+            handler = null;
+            sl.innerHTML = sh;
+        };
+    };
+    EventUtil.addHandler(window, "load", zhankai);
+    
     $(function() {
         var acid = $("#acid").val();
         $.ajax({
