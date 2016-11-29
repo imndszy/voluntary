@@ -2,7 +2,7 @@
 # Author: shizhenyu96@gamil.com
 # github: https://github.com/imndszy
 import time
-from flask import render_template, request, session, jsonify
+from flask import render_template, request, session, jsonify, redirect, url_for
 from flask_login import login_required
 
 from app import db
@@ -32,6 +32,23 @@ def user():
 @login_required
 def activity():
     return render_template('deatil.html')
+
+
+@main.route('/detail/<int:acid>')
+@login_required
+def detail(acid):
+    if acid:
+        activity = Activity.query.filter_by(acid=acid).first()
+        if activity is None:
+            redirect(url_for('main.index'))
+        sth = activity.return_dict()
+        if sth.get('actual_stus') is None:
+            sth['actual_stus'] = 0
+        return render_template('detail.html',title=sth['subject'],
+                               introduce=sth['introduce'],
+                               number=str(sth.get('actual_stus')) + '/' +str(sth['required_stus']),
+                               acid=acid)
+    return redirect(url_for('main.index'))
 
 
 @main.route('/checkin/<code>')
