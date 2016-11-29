@@ -179,7 +179,6 @@
                                             <button type="button" id="publish" class="btn btn-success" style="width:94%;margin-right: 15px;margin-left: 18px;">发布活动</button>
                                         </div>
                                     </form>
-
                                 </div>
                             </div>
                         </div>
@@ -263,7 +262,7 @@
                 alert("请填写活动安排时间！");
                 this.focus();
                 return false;
-                };
+                }
                 $.ajax({
                     url:'/api/v1_0/activities',
                     dataType:'JSON',
@@ -288,7 +287,7 @@
                     }
                 });
             });
-    })
+    });
     </script>
 </body>
 </html>

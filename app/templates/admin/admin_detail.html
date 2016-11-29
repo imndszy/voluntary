@@ -16,8 +16,12 @@
     body {
         padding: 0;
         margin: 0;
+        height:100%;
     }
-    
+    #page{
+        height:100%;
+        background: #f2f2f2;
+    }
     body {
         background-color: #fff;
         font-family: Arial, Helvetica, Verdana;
@@ -73,6 +77,9 @@
         padding: 21px 0 10px;
         background-color: #444;
         color: #ffffff;
+        position:absolute;
+        width:100%;
+        bottom: 0%;
     }
     </style>
 </head>
@@ -88,7 +95,6 @@
             <div id="counter" class="text-center">
                 <div class="container">
                     <div class="row">
-                        <!-- Row -->
                         <input type="hidden" id="acid" value="{{acid}}">
                         <div class="col-md-12">
                             <div>
@@ -102,9 +108,7 @@
                         <div class="col-md-12 boxsm">
                             <div class="row">
                                 <div class="counter">
-                                    <!-- end counter #1 -->
                                     <div class="col-xs-3 facts">
-                                        <!-- counter #2 -->
                                         <div class="count-box">
                                             <i class="fa fa-user"></i>
                                             <p>{{number}}
@@ -112,14 +116,12 @@
                                         </div>
                                     </div>
                                     <div class="col-xs-3 facts">
-                                        <!-- counter #1 -->
                                         <div class="count-box">
                                             <i class="fa fa-mobile"></i>
                                             <p id="change"><a href="" onclick="return false;" data-toggle="modal" data-target="#myModal">点击<br/>编辑修改</a></p>
                                         </div>
                                     </div>
                                     <div class="col-xs-3 facts">
-                                        <!-- counter #3 -->
                                         <div class="count-box">
                                             <i class="fa fa-arrows"></i>
                                             <p><a href="" onclick="return false;" data-toggle="modal" data-target="#myModal">生成
@@ -127,7 +129,6 @@
                                         </div>
                                     </div>
                                     <div class="col-xs-3 facts">
-                                        <!-- counter #4 -->
                                         <div class="count-box">
                                             <i class="fa fa-download"></i>
                                             <p><a href="" onclick="return false;" data-toggle="modal" data-target="#myModal">生成
