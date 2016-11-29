@@ -47,7 +47,8 @@ def detail(acid):
         return render_template('detail.html',title=sth['subject'],
                                introduce=sth['introduce'],
                                number=str(sth.get('actual_stus')) + '/' +str(sth['required_stus']),
-                               acid=acid)
+                               voltime=sth['vol_time'], ac_start=sth['start_time'],
+                               ac_place=sth['ac_place'], acid=acid)
     return redirect(url_for('main.index'))
 
 
