@@ -320,9 +320,12 @@ h4.media-heading {
     position:relative;
 }
 #about h2, #about h5 {
-    color:#fff;
-
+    color:#000;
+    opacity:0.8;
 	}
+#about h5{
+    font-size:13px;
+}
 #about p {
     font-size: 14px;
     line-height:36px;
