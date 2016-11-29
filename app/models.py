@@ -29,8 +29,8 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     phone = db.Column(db.String(20), nullable=True)
     identified_card = db.Column(db.String(30), unique=True)
-    service_time = db.Column(db.Float, nullable=True)
-    password_reviewed = db.Column(db.Boolean)
+    service_time = db.Column(db.Float, default=0)
+    password_reviewed = db.Column(db.Boolean, default=False)
 
     @property
     def password(self):
@@ -75,8 +75,8 @@ class Activity(db.Model):
     finish_time = db.Column(db.DateTime, nullable=True)        # 活动结束时间
     subject = db.Column(db.String(128), nullable=True)         # 活动主题
     introduce = db.Column(db.Text, nullable=True)              # 活动简介
-    required_stus = db.Column(db.Integer, nullable=True)       # 需求人数
-    actual_stus = db.Column(db.Integer, nullable=True)         # 实际人数
+    required_stus = db.Column(db.Integer, nullable=True, default=0)       # 需求人数
+    actual_stus = db.Column(db.Integer, nullable=True, default=0)         # 实际人数
     ac_periods = db.Column(db.Integer, nullable=True)          # 活动期数
     vol_time = db.Column(db.Float, nullable=True)              # 活动时长
     finished = db.Column(db.Boolean, default=False)            # 活动是否完成
