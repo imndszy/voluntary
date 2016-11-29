@@ -41,6 +41,10 @@ def registration():
     if activity is None:
         return jsonify(status='fail')
 
+    temp = AcUser.query.filter_by(acid=acid,stuid=stuid).first()
+    if temp is not None:
+        return jsonify(status='duplicate')
+
     try:
         registration = AcUser(acid=acid,stuid=stuid)
         db.session.add(registration)
