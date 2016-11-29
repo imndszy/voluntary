@@ -45,9 +45,15 @@ def registration():
     if temp is not None:
         return jsonify(status='duplicate')
 
+    if activity.actual_stus == activity.required_stus:
+        return jsonify(status='full')
+
     try:
         registration = AcUser(acid=acid,stuid=stuid)
         db.session.add(registration)
+        db.session.commit()
+        activity.required_stus += 1
+        db.session.add(activity)
         db.session.commit()
         return jsonify(status='ok')
     except:
