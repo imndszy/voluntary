@@ -3,7 +3,7 @@
 # github: https://github.com/imndszy
 import time
 from flask import render_template, request, session, jsonify, redirect, url_for
-from flask_login import login_required
+from flask_login import login_required, current_user
 
 from app import db
 from app.main import main
@@ -48,7 +48,7 @@ def detail(acid):
                                introduce=sth['introduce'],
                                number=str(sth.get('actual_stus')) + '/' +str(sth['required_stus']),
                                voltime=sth['vol_time'], ac_start=sth['start_time'],
-                               ac_place=sth['ac_place'], acid=acid)
+                               ac_place=sth['ac_place'], acid=acid, stuid=current_user.stuid)
     return redirect(url_for('main.index'))
 
 
