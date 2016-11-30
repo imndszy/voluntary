@@ -19,6 +19,7 @@ class AcUser(db.Model):
     acid = db.Column('acid', db.Integer)
     checkin = db.Column('check_in', db.DateTime, nullable=True)
     checkout = db.Column('check_out', db.DateTime, nullable=True)
+    finished = db.Column(db.Boolean, default=False)
 
 
 class User(UserMixin, db.Model):
@@ -98,7 +99,7 @@ class Activity(db.Model):
                     finish_time=self.finish_time, subject=self.subject,
                     introduce=self.introduce, required_stus=self.required_stus,
                     actual_stus=self.actual_stus, ac_periods=self.ac_periods,
-                    vol_time=self.vol_time)
+                    vol_time=self.vol_time, finished=self.finished)
 
     def return_qrcode(self):
         return dict(checkin_url=self.checkin_url,

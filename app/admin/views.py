@@ -30,7 +30,7 @@ def detail(acid):
         return render_template('admin/admin_detail.html',title=sth['subject'],
                                introduce=sth['introduce'],
                                number=str(sth.get('actual_stus')) + '/' +str(sth['required_stus']),
-                               acid=acid)
+                               acid=acid, ac_place=activity.ac_place, ac_start=activity.start_time)
     return redirect(url_for('admin.index'))
 
 

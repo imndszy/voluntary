@@ -14,6 +14,12 @@ from app.models import Activity, User, AcUser
 @main.route('/index')
 @login_required
 def index():
+    activity = Activity.query.all()
+    for i in activity:
+        if i.out_time_stop < int(time.time()):
+            i.finished = True
+            db.session.add(i)
+    db.session.commit()
     return render_template('index.html')
 
 
@@ -133,8 +139,8 @@ def verify():
                         if checkout is None:
                             return jsonify(status='fail',data="您未报名此活动！")
                         checkout.checkout = time_transfer(now)
+                        checkout.finished = True
                         db.session.add(checkout)
-                        db.session.commit()
 
                         user.service_time += session.get('vol_time')
                         db.session.add(user)
@@ -164,8 +170,8 @@ def verify():
                         if checkout is None:
                             return jsonify(status='fail', data="您未报名此活动！")
                         checkout.checkout = time_transfer(now)
+                        checkout.finished = True
                         db.session.add(checkout)
-                        db.session.commit()
 
                         user.service_time += session.get('vol_time')
                         db.session.add(user)
