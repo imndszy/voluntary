@@ -3,7 +3,7 @@
 # github: https://github.com/imndszy
 import time
 from flask import request, jsonify, session
-from flask_login import login_required
+from flask_login import login_required, current_user
 
 from app.api_1_0 import api
 from app.admin.functions import admin_login_required
@@ -17,9 +17,9 @@ def activities():
     if request.method == 'GET':
         activity = db.session.query(Activity).all()
         if activity is None:
-            return jsonify(status='empty', stuid=session.get('stuid'))
+            return jsonify(status='empty')
         a_list = [i.return_dict() for i in activity]
-        return jsonify(status='ok', result=a_list, stuid=session.get('stuid'))
+        return jsonify(status='ok', result=a_list)
     elif request.method == 'POST':
         data = request.values
         if data:
@@ -55,8 +55,8 @@ def activities():
                                     introduce=introduce, required_stus=required_stus)
             db.session.add(activity)
             db.session.commit()
-            return jsonify(status='ok', stuid=session.get('stuid'))
-        return jsonify(status='fail', stuid=session.get('stuid'))
+            return jsonify(status='ok')
+        return jsonify(status='fail')
 
 
 @api.route('/activity', methods=['GET'])
@@ -64,6 +64,6 @@ def activities():
 def activity():
     activity = db.session.query(Activity).all()
     if activity is None:
-        return jsonify(status='empty', stuid=session.get('stuid'))
+        return jsonify(status='empty', stuid=current_user.stuid)
     a_list = [i.return_dict() for i in activity]
-    return jsonify(status='ok', result=a_list, stuid=session.get('stuid'))
+    return jsonify(status='ok', result=a_list, stuid=current_user.stuid)
