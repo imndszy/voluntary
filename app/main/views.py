@@ -14,6 +14,12 @@ from app.models import Activity, User, AcUser
 @main.route('/index')
 @login_required
 def index():
+    activity = Activity.query.all()
+    for i in activity:
+        if i.out_time_stop < int(time.time()):
+            i.finished = True
+            db.session.add(i)
+    db.session.commit()
     return render_template('index.html')
 
 
