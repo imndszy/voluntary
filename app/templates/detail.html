@@ -170,8 +170,8 @@
         <nav id="menu">
             <ul>
                 <li></li>
-                <li><a href="index">活动首页</a></li>
-                <li><a href="user">个人信息</a> </li>
+                <li><a href="/index">活动首页</a></li>
+                <li><a href="/user">个人信息</a> </li>
             </ul>
         </nav>
     </div>
@@ -200,7 +200,8 @@
     var sl = document.getElementById("introduce");
     var sh = sl.innerHTML;
     var handler = function() {
-        sl.innerHTML = sh.slice(0, 240) + '...' + '<a id="open"><点击展开></a>';
+        if(sh.length>240){
+        sl.innerHTML = sh.slice(0, 240) + '...' + '<a id="open"><点击展开></a>';}
     };
     EventUtil.addHandler(window, "load", handler);
 
@@ -217,6 +218,7 @@
         var btn = document.getElementById("btn");
         EventUtil.addHandler(btn, "click", function() {
             var verify = confirm("确定要报名该活动吗？");
+
             if (verify == true) {
                 $.ajax({
                     url: '/api/v1_0/user/activity-registration',
