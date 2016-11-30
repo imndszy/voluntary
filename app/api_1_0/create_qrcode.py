@@ -33,7 +33,7 @@ def check_in():
             return jsonify(status='fail',data='错误的时间格式！')
         finish_time = start_timestamp + work*60
         activity = Activity.query.filter_by(acid=acid).first()
-        activity.in_time_start = start_time
+        activity.in_time_start = start_timestamp
         activity.in_time_stop = finish_time
 
         qr = qrcode.QRCode(
@@ -42,7 +42,7 @@ def check_in():
             box_size=20,
             border=4,
         )
-        checkin_url = HOST+'checkin/'+str(acid)+str(start_time)+str(finish_time)     # 签到扫描二维码指向链接
+        checkin_url = HOST+'checkin/'+str(acid)+str(start_timestamp)+str(finish_time)     # 签到扫描二维码指向链接
         qr.add_data(checkin_url)
         qr.make(fit=True)
         out = StringIO()
@@ -66,11 +66,17 @@ def check_out():
     if acid:
         start_time = data.get('checkout_start')
         work = int(data.get('checkout_work'))
-        time_array = time.strptime(start_time, "%Y-%m-%dT%H:%M")
-        start_time = int(time.mktime(time_array))
-        finish_time = start_time + work * 60
+        if len(start_time.split(':')) == 2:
+            time_array = time.strptime(start_time, "%Y-%m-%dT%H:%M")
+            start_timestamp = int(time.mktime(time_array))
+        elif len(start_time.split(':')) == 3:
+            time_array = time.strptime(start_time[:16], "%Y-%m-%dT%H:%M")
+            start_timestamp = int(time.mktime(time_array))
+        else:
+            return jsonify(status='fail', data='错误的时间格式！')
+        finish_time = start_timestamp + work * 60
         activity = Activity.query.filter_by(acid=acid).first()
-        activity.out_time_start = start_time
+        activity.out_time_start = start_timestamp
         activity.out_time_stop = finish_time
 
         qr = qrcode.QRCode(
@@ -79,7 +85,7 @@ def check_out():
             box_size=20,
             border=4,
         )
-        checkout_url = HOST + 'checkout/' + str(acid) + str(start_time) + str(finish_time)
+        checkout_url = HOST + 'checkout/' + str(acid) + str(start_timestamp) + str(finish_time)
         qr.add_data(checkout_url)
         qr.make(fit=True)
         out = StringIO()
