@@ -23,6 +23,7 @@ def check_in():
         start_time = data.get('checkin_start')
         work = int(data.get('checkin_work'))
         # 获取时间戳
+        print start_time
         if len(start_time.split(':')) == 2:
             time_array = time.strptime(start_time, "%Y-%m-%dT%H:%M")
             start_timestamp = int(time.mktime(time_array))
