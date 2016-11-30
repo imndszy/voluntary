@@ -115,10 +115,10 @@
 	content: "\e69a";
 }
 .icon-home::before {
-	content: "First";
+	content: "A类";
 }
 .icon-gift::before {
-	content: "Second";
+	content: "B类";
 }
 .icon-display::before {
 	content: "Third";
