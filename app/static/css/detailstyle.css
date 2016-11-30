@@ -938,9 +938,25 @@ form#contact-form { padding: 40px 0 }
     -o-transition: none;
     transition: none;
 }
+#checkin_image{
+     width:50%;
+     height:50%;
+}
+#checkout_image{
+     width:60%;
+     height:60%;
+}
 @media screen and (max-width: 786px) {
     .form-control2 {
-        width:100%;
+        width:100%;}
+    #checkin_image{
+        width:80%;
+        padding-left: 8%;
+    }
+    #checkout_image{
+        width:80%;
+        padding-left: 8%;
+    }
 }
 p.help-block.text-danger ul li {
     display: block;

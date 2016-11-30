@@ -247,7 +247,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <img id="checkin_image" style="width:70%;height:70%;margin:0 auto;" src="">
+                                            <img id="checkin_image" src="">
                                         </div>
                                         <div class="form-group">
                                             <button type="button" id="checkin" class="btn btn-success" style="margin-left: 25%;">生成</button>
@@ -271,7 +271,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <img id="checkout_image" style="width:70%;height:70%;margin:0 auto;" src="">
+                                            <img id="checkout_image" src="">
                                         </div>
                                         <div class="form-group">
                                             <button type="button" id="checkout" class="btn btn-success" style="margin-left: 25%;">生成</button>
@@ -313,7 +313,8 @@
     var sl = document.getElementById("introduce");
     var sh = sl.innerHTML;
     var handler = function() {
-        sl.innerHTML = sh.slice(0, 240) + '...' + '<a id="open"><点击展开></a>';
+        if(sh.length>240){
+        sl.innerHTML = sh.slice(0, 240) + '...' + '<a id="open"><点击展开></a>';}
     };
     EventUtil.addHandler(window, "load", handler);
 
@@ -337,13 +338,13 @@
                     for (var i = 0; i < data.result.length; i++) {
                         if (data.result[i].acid == acid) {
                             if (data.result[i].actype == "1") {
-                                $('#actype1').checked = true;
+                                document.getElementById("actype1").checked = true;
                             } else {
-                                $("#actype2").checked = true;
+                                document.getElementById("actype2").checked = true;
                             }
                             document.getElementById("title").value = data.result[i].subject,
                                 document.getElementById("address").value = data.result[i].ac_place,
-                                document.getElementById("introduce").value = data.result[i].introduce,
+                                document.getElementById("introduce2").value = data.result[i].introduce,
                                 document.getElementById("start_time").value = data.result[i].start_time,
                                 document.getElementById("finish_time").value = data.result[i].finish_time,
                                 document.getElementById("required_stus").value = data.result[i].required_stus,
@@ -355,6 +356,39 @@
                 }
             }
         });
+        $("#publish").click(function(){
+                var start_time=$("#start_time").val();
+                var finish_time=$("#finish_time").val();
+                if(!start_time||!finish_time){
+                alert("请填写活动安排时间！");
+                this.focus();
+                return false;
+                }
+                $.ajax({
+                    url:'/api/v1_0/activities',
+                    dataType:'JSON',
+                    type:'POST',
+                    data:{
+                        acid: acid,
+                        actype: $('input[type="radio"]:checked').val(),
+                        title: $("#title").val(),
+                        ac_place: $("#address").val(),
+                        introduce: $("#introduce2").val(),
+                        start_time: $("#start_time").val(),
+                        finish_time: $("#finish_time").val(),
+                        required_stus: $("#required_stus").val(),
+                        vol_time: $("#alltime").val()
+                        },
+                    success:function(data){
+                        if(data.status=="ok"){
+                            window.location.href="/admin/index";
+                            }
+                        else{
+                            alert("信息不完整");
+                        }
+                    }
+                });
+            });
         $("#checkin").click(function() {
             var checkin_start = document.getElementById("checkin_start").value;
             var checkin_work = document.getElementById("checkin_work").value;
