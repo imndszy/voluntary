@@ -22,10 +22,16 @@ def check_in():
     if acid:
         start_time = data.get('checkin_start')
         work = int(data.get('checkin_work'))
-        print start_time
-        time_array = time.strptime(start_time, "%Y-%m-%dT%H:%M")
-        start_time = int(time.mktime(time_array))                                          # 获取时间戳
-        finish_time = start_time + work*60
+        # 获取时间戳
+        if len(start_time.split(':')) == 2:
+            time_array = time.strptime(start_time, "%Y-%m-%dT%H:%M")
+            start_timestamp = int(time.mktime(time_array))
+        elif len(start_time.split(':')) == 3:
+            time_array = time.strptime(start_time[:-3], "%Y-%m-%dT%H:%M")
+            start_timestamp = int(time.mktime(time_array))
+        else:
+            return jsonify(status='fail',data='错误的时间格式！')
+        finish_time = start_timestamp + work*60
         activity = Activity.query.filter_by(acid=acid).first()
         activity.in_time_start = start_time
         activity.in_time_stop = finish_time
@@ -47,7 +53,7 @@ def check_in():
         db.session.add(activity)
         db.session.commit()
 
-        return jsonify(data="data:image/png;base64," + base64.b64encode(out.getvalue()).decode('ascii'))
+        return jsonify(status='ok',data="data:image/png;base64," + base64.b64encode(out.getvalue()).decode('ascii'))
     else:
         return jsonify(status='fail')
 
