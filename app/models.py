@@ -19,7 +19,7 @@ class AcUser(db.Model):
     acid = db.Column('acid', db.Integer)
     checkin = db.Column('check_in', db.DateTime, nullable=True)
     checkout = db.Column('check_out', db.DateTime, nullable=True)
-    finished = db.Column(db.Boolean, default=False)
+    period = db.Column(db.Integer, default=0)
 
 
 class User(UserMixin, db.Model):

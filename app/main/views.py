@@ -16,7 +16,10 @@ from app.models import Activity, User, AcUser
 def index():
     activity = Activity.query.all()
     for i in activity:
-        if i.out_time_stop < int(time.time()):
+        dt = i.finish_time.strftime('%Y-%m-%d %H:%M:%S')
+        stop_time = time.strptime(dt, '%Y-%m-%d %H:%M:%S')
+        stop_time = int(time.mktime(stop_time))
+        if stop_time < int(time.time()):
             i.finished = True
             db.session.add(i)
     db.session.commit()
@@ -139,7 +142,7 @@ def verify():
                         if checkout is None:
                             return jsonify(status='fail',data="您未报名此活动！")
                         checkout.checkout = time_transfer(now)
-                        checkout.finished = True
+                        checkout.period += 1
                         db.session.add(checkout)
 
                         user.service_time += session.get('vol_time')
@@ -171,6 +174,7 @@ def verify():
                             return jsonify(status='fail', data="您未报名此活动！")
                         checkout.checkout = time_transfer(now)
                         checkout.finished = True
+                        checkout.period += 1
                         db.session.add(checkout)
 
                         user.service_time += session.get('vol_time')
