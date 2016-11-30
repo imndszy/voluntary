@@ -139,8 +139,8 @@ def verify():
                         if checkout is None:
                             return jsonify(status='fail',data="您未报名此活动！")
                         checkout.checkout = time_transfer(now)
+                        checkout.finished = True
                         db.session.add(checkout)
-                        db.session.commit()
 
                         user.service_time += session.get('vol_time')
                         db.session.add(user)
@@ -170,8 +170,8 @@ def verify():
                         if checkout is None:
                             return jsonify(status='fail', data="您未报名此活动！")
                         checkout.checkout = time_transfer(now)
+                        checkout.finished = True
                         db.session.add(checkout)
-                        db.session.commit()
 
                         user.service_time += session.get('vol_time')
                         db.session.add(user)
