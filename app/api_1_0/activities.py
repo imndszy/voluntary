@@ -50,5 +50,5 @@ def activity():
     activity = db.session.query(Activity).all()
     if activity is None:
         return jsonify(status='empty', stuid=session.get('stuid'))
-    a_list = [i.return_dict() for i in activity if not i.finished]
+    a_list = [i.return_dict() for i in activity]
     return jsonify(status='ok', result=a_list, stuid=session.get('stuid'))
