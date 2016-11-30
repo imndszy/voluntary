@@ -96,6 +96,6 @@ def check_out():
         db.session.add(activity)
         db.session.commit()
 
-        return jsonify(data="data:image/png;base64," + base64.b64encode(out.getvalue()).decode('ascii'))
+        return jsonify(status='ok',data="data:image/png;base64," + base64.b64encode(out.getvalue()).decode('ascii'))
     else:
         return jsonify(status='fail')
