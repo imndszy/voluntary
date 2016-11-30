@@ -22,6 +22,7 @@ def check_in():
     if acid:
         start_time = data.get('checkin_start')
         work = int(data.get('checkin_work'))
+        print start_time
         time_array = time.strptime(start_time, "%Y-%m-%dT%H:%M")
         start_time = int(time.mktime(time_array))                                          # 获取时间戳
         finish_time = start_time + work*60
