@@ -3,6 +3,7 @@
 # github: https://github.com/imndszy
 import time
 from flask import request, jsonify, session
+from flask_login import login_required
 
 from app.api_1_0 import api
 from app.admin.functions import admin_login_required
@@ -12,7 +13,7 @@ from app.models import Activity
 
 @api.route('/activities', methods=['GET', 'POST'])
 @admin_login_required
-def activity():
+def activities():
     if request.method == 'GET':
         activity = db.session.query(Activity).all()
         if activity is None:
@@ -41,3 +42,13 @@ def activity():
             db.session.commit()
             return jsonify(status='ok', stuid=session.get('stuid'))
         return jsonify(status='fail', stuid=session.get('stuid'))
+
+
+@api.route('/activity', methods=['GET'])
+@login_required
+def activity():
+    activity = db.session.query(Activity).all()
+    if activity is None:
+        return jsonify(status='empty', stuid=session.get('stuid'))
+    a_list = [i.return_dict() for i in activity]
+    return jsonify(status='ok', result=a_list, stuid=session.get('stuid'))
