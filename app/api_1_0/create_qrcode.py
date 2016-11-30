@@ -27,6 +27,7 @@ def check_in():
             time_array = time.strptime(start_time, "%Y-%m-%dT%H:%M")
             start_timestamp = int(time.mktime(time_array))
         elif len(start_time.split(':')) == 3:
+            print start_time[:-3]
             time_array = time.strptime(start_time[:-3], "%Y-%m-%dT%H:%M")
             start_timestamp = int(time.mktime(time_array))
         else:
