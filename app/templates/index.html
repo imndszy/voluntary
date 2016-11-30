@@ -175,7 +175,7 @@
                 },
                 navbars: [{
                     height: 3,
-                    content: ['<a align="center"><img src="../static/images/coupon_icon4.png" /></a><div class="bbiigg" id="username"></div>']
+                    content: ['<a align="center"><img src="../static/images/git.jpg"  style="width:60px;height:60px;" /></a><div class="bbiigg" id="username"></div>']
                 }],
                 counters: true,
                 extensions: ["pagedim-black", "pageshadow", "effect-menu-zoom", "theme-dark", "widescreen"],
@@ -190,6 +190,7 @@
                 type: 'GET',
                 success: function(data) {
                     if (data.status == "ok") {
+                        $("#username").html(data.stuid);
                         $("#section-topline-1").empty();
                         $("#section-topline-2").empty();
                         for (var i = 0; i < data.result.length; i++) {
