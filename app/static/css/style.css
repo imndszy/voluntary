@@ -704,6 +704,7 @@ input:focus {
   position:fixed;
   bottom:0;
   width:100%;
+  line-height:8px;
 }
 .footer-main {
   padding: 1.5em 0em 1.5em 0em;
