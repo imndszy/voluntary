@@ -2,6 +2,7 @@
 # Author: shizhenyu96@gamil.com
 # github: https://github.com/imndszy
 from app.api_1_0 import api
+import os
 
 from flask import request, jsonify, session
 
@@ -11,7 +12,7 @@ def verify():
     data = request.values
     username = data.get('username')
     passwd = data.get('password')
-    if username == 'admin' and passwd == 'pass':
+    if username == os.environ.get('FLASK_ADMIN') and passwd == os.environ.get('FLASK_ADMIN_PASS'):
         session['admin'] = 'logged'
         return jsonify(status='ok')
     else:
