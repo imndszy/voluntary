@@ -75,7 +75,7 @@ def unregistration():
         return jsonify(status='none')
 
     try:
-        db.session.add(temp)
+        db.session.delete(temp)
         activity.actual_stus -= 1
         db.session.add(activity)
         db.session.commit()
