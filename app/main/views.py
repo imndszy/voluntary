@@ -53,11 +53,19 @@ def detail(acid):
         sth = activity.return_dict()
         if sth.get('actual_stus') is None:
             sth['actual_stus'] = 0
+        student = AcUser.query.filter_by(acid=acid, stuid=current_user.stuid)
+        if student is None:
+            su = 0
+        else:
+            su = 1
         return render_template('detail.html',title=sth['subject'],
                                introduce=sth['introduce'],
-                               number=str(sth.get('actual_stus')) + '/' +str(sth['required_stus']),
-                               voltime=sth['vol_time'], ac_start=sth['start_time'],
-                               ac_place=sth['ac_place'], acid=acid, stuid=current_user.stuid)
+                               number=str(sth.get('actual_stus')) + '/'
+                                      +str(sth['required_stus']),
+                               voltime=sth['vol_time'],
+                               ac_start=sth['start_time'],
+                               ac_place=sth['ac_place'],
+                               acid=acid, stuid=current_user.stuid, su=su)
     return redirect(url_for('main.index'))
 
 
