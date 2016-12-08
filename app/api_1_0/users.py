@@ -59,3 +59,27 @@ def registration():
     except:
         return jsonify(status='fail')
 
+
+@api.route('/user/activity-unregistration',methods=['POST'])
+@login_required
+def unregistration():
+    data = request.values
+    acid = data.get('acid')
+    stuid = current_user.stuid
+    activity = Activity.query.filter_by(acid=acid).first()
+    if activity is None:
+        return jsonify(status='fail')
+
+    temp = AcUser.query.filter_by(acid=acid,stuid=stuid).first()
+    if temp is None:
+        return jsonify(status='none')
+
+    try:
+        db.session.delete(temp)
+        activity.actual_stus -= 1
+        db.session.add(activity)
+        db.session.commit()
+        return jsonify(status='ok')
+    except:
+        return jsonify(status='fail')
+
