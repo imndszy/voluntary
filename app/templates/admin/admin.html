@@ -7,11 +7,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=yes" />
     <title>管理员</title>
     <link type="text/css" rel="stylesheet" href="../../static/css/jquery.mmenu.all.css" />
-    <link type="text/css" rel="stylesheet" href="../../static/css/hamburgers.css" />
     <link type="text/css" rel="stylesheet" href="../../static/css/bootstrap.css" />
-    <script type="text/javascript" src="../../static/js/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="../../static/js/jquery.mmenu.all.min.js"></script>
-    <script type="text/javascript" src="../../static/js/bootstrap.min.js"></script>
     <style>
     html,
     body {
@@ -77,6 +73,7 @@
     .btn-group > .btn:first-child {
         margin-right: 10px;
     }
+    
     .radioo {
         padding: 7px 12px;
     }
@@ -85,26 +82,8 @@
         font-size: : 16px;
     }
     </style>
-    <script type="text/javascript">
-    $(function() {
-        $("nav#menu")
-            .mmenu({
-                navbar: {
-                    title: ""
-                },
-                navbars: [{
-                    height: 3,
-                    content: ['<a align="center"><img src="../../static/images/coupon_icon4.png" /></a><div class="bbiigg" id="username">管理员</div>']
-                }],
-                counters: true,
-                extensions: ["pagedim-black", "pageshadow", "effect-menu-zoom", "theme-dark", "widescreen"],
-                offCanvas: {
-                    position: "right"
-                }
-            })
-    });
-    </script>
 </head>
+
 <body>
     <div id="page">
         <div class="header">
@@ -122,7 +101,8 @@
                         <div class="tab-pane active" id="home">
                             <div class="row feature">
                                 <div class="col-md-0">
-                                	<h3 align="center">发布活动</h3><hr/>
+                                    <h3 align="center">发布活动</h3>
+                                    <hr/>
                                 </div>
                                 <div class="col-md-12">
                                     <form class="form-horizontal" role="form">
@@ -185,7 +165,8 @@
                         <div class="tab-pane" id="school">
                             <div class="row feature">
                                 <div class="col-md-0">
-                                <h3 align="center">信息查询</h3><hr/>
+                                    <h3 align="center">信息查询</h3>
+                                    <hr/>
                                 </div>
                                 <div class="col-md-12">
                                     <form class="form-horizontal" role="form">
@@ -205,7 +186,8 @@
                         <div class="tab-pane" id="work">
                             <div class="row feature">
                                 <div class="col-md-0">
-                                <h3 align="center">活动导出</h3><hr/>
+                                    <h3 align="center">活动导出</h3>
+                                    <hr/>
                                 </div>
                                 <div class="col-md-12">
                                     <form class="form-horizontal" role="form">
@@ -245,49 +227,71 @@
             </section>
         </div>
         <nav id="menu">
-         			<ul class="nav nav-tabs nav-stacked" role="tablist" id="tab-list">
-         				<li><a href="/admin/index">活动首页</a></li>
-                        <li><a href="#home" role="tab" data-toggle="tab">发布活动</a></li>
-                        <li><a href="#school" role="tab" data-toggle="tab">信息查询</a></li>
-                        <li><a href="#work" role="tab" data-toggle="tab">活动导出</a></li>
-                    </ul>
+            <ul class="nav nav-tabs nav-stacked" role="tablist" id="tab-list">
+                <li><a href="/admin/index">活动首页</a></li>
+                <li><a href="#home" role="tab" data-toggle="tab">发布活动</a></li>
+                <li><a href="#school" role="tab" data-toggle="tab">信息查询</a></li>
+                <li><a href="#work" role="tab" data-toggle="tab">活动导出</a></li>
+            </ul>
         </nav>
     </div>
+    <script type="text/javascript" src="../../static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../static/js/jquery.mmenu.all.min.js"></script>
+    <script type="text/javascript" src="../../static/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+    $(function() {
+        $("nav#menu")
+            .mmenu({
+                navbar: {
+                    title: ""
+                },
+                navbars: [{
+                    height: 3,
+                    content: ['<a align="center"><img src="../../static/images/coupon_icon4.png" /></a><div class="bbiigg" id="username">管理员</div>']
+                }],
+                counters: true,
+                extensions: ["pagedim-black", "pageshadow", "effect-menu-zoom", "theme-dark", "widescreen"],
+                offCanvas: {
+                    position: "right"
+                }
+            })
+    });
+    </script>
     <script>
-    $(document).ready(function(){
-            $("#publish").click(function(){
-                var start_time=$("#start_time").val();
-                var finish_time=$("#finish_time").val();
-                if(!start_time||!finish_time){
+    $(document).ready(function() {
+        $("#publish").click(function() {
+            var start_time = $("#start_time").val();
+            var finish_time = $("#finish_time").val();
+            if (!start_time || !finish_time) {
                 alert("请填写活动安排时间！");
                 this.focus();
                 return false;
-                }
-                $.ajax({
-                    url:'/api/v1_0/activities',
-                    dataType:'JSON',
-                    type:'POST',
-                    data:{
-                        actype: $('input[type="radio"]:checked').val(),
-                        title: $("#title").val(),
-                        ac_place: $("#address").val(),
-                        introduce: $("#introduce").val(),
-                        start_time: $("#start_time").val(),
-                        finish_time: $("#finish_time").val(),
-                        required_stus: $("#required_stus").val(),
-                        vol_time: $("#alltime").val()
-                        },
-                    success:function(data){
-                        if(data.status=="ok"){
-                            window.location.href="/admin/index";
-                            }
-                        else{
-                            alert("信息不完整");
-                        }
+            }
+            $.ajax({
+                url: '/api/v1_0/activities',
+                dataType: 'JSON',
+                type: 'POST',
+                data: {
+                    actype: $('input[type="radio"]:checked').val(),
+                    title: $("#title").val(),
+                    ac_place: $("#address").val(),
+                    introduce: $("#introduce").val(),
+                    start_time: $("#start_time").val(),
+                    finish_time: $("#finish_time").val(),
+                    required_stus: $("#required_stus").val(),
+                    vol_time: $("#alltime").val()
+                },
+                success: function(data) {
+                    if (data.status == "ok") {
+                        window.location.href = "/admin/index";
+                    } else {
+                        alert("信息不完整");
                     }
-                });
+                }
             });
+        });
     });
     </script>
 </body>
+
 </html>
