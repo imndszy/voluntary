@@ -21,6 +21,9 @@ class AcUser(db.Model):
     checkout = db.Column('check_out', db.DateTime, nullable=True)
     period = db.Column(db.Integer, default=0)
 
+    def __repr__(self):
+        return '<Activity {self.acid},User {self.stuid}>'.format(self=self)
+
 
 class User(UserMixin, db.Model):
 

@@ -53,7 +53,8 @@ def detail(acid):
         sth = activity.return_dict()
         if sth.get('actual_stus') is None:
             sth['actual_stus'] = 0
-        student = AcUser.query.filter_by(acid=acid, stuid=current_user.stuid)
+
+        student = AcUser.query.filter_by(acid=acid, stuid=current_user.stuid).first()
         if student is None:
             su = 0
         else:
