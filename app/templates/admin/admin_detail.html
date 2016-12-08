@@ -6,87 +6,10 @@
     <meta name="author" content="www.frebsite.nl" />
     <meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=yes" />
     <title>活动详情</title>
-    <link type="text/css" rel="stylesheet" href="../../static/css/hamburgers.css" />
     <link type="text/css" rel="stylesheet" href="../../static/css/jquery.mmenu.all.css" />
     <link rel="stylesheet" type="text/css" href="../../static/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../../static/font/css/font-awesome.css">
     <link rel="stylesheet" type="text/css" href="../../static/css/detailstyle.css">
-    <style>
-    html,
-    body {
-        padding: 0;
-        margin: 0;
-        height: 100%;
-    }
-    
-    #page {
-        height: 100%;
-        background: #f2f2f2;
-    }
-    
-    body {
-        background-color: #fff;
-        font-family: Arial, Helvetica, Verdana;
-        font-size: 14px;
-        line-height: 22px;
-        color: #666;
-        position: relative;
-        -webkit-text-size-adjust: none;
-    }
-    
-    body * {
-        text-shadow: none;
-    }
-    
-    p {
-        margin: 0;
-    }
-    
-    .header {
-        text-align: center;
-        background: #777;
-        font-size: 16px;
-        font-weight: bold;
-        color: #fff;
-        line-height: 60px;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-        width: 100%;
-        height: 60px;
-        padding: 0 50px 0 20px;
-    }
-    
-    .header a {
-        display: block;
-        width: 40px;
-        height: 60px;
-        position: absolute;
-        top: 0;
-        right: 30px;
-    }
-    
-    .boxsm {
-        padding-right: 6%;
-        padding-left: 6%
-    }
-    
-    .nav > li > a {
-        padding: 10px 5px;
-    }
-    
-    #introduce {
-        padding-right: 6%;
-        padding-left: 2%
-    }
-    
-    #footer {
-        padding: 21px 0 10px;
-        background-color: #444;
-        color: #ffffff;
-        width: 100%;
-        bottom: 0%;
-    }
-    </style>
 </head>
 
 <body>
@@ -288,6 +211,7 @@
     <script type="text/javascript" src="../../static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../../static/js/jquery.mmenu.all.min.js"></script>
     <script type="text/javascript" src="../../static/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../static/js/admindetail_ajax.js"></script>
     <script type="text/javascript">
     var EventUtil = {
         addHandler: function(element, type, handler) {
@@ -326,120 +250,6 @@
         };
     };
     EventUtil.addHandler(window, "load", zhankai);
-
-    $(function() {
-        var acid = $("#acid").val();
-        $.ajax({
-            url: '/api/v1_0/activities',
-            dataType: 'JSON',
-            type: 'GET',
-            success: function(data) {
-                if (data.status == "ok") {
-                    for (var i = 0; i < data.result.length; i++) {
-                        if (data.result[i].acid == acid) {
-                            if (data.result[i].actype == "1") {
-                                document.getElementById("actype1").checked = true;
-                            } else {
-                                document.getElementById("actype2").checked = true;
-                            }
-                            document.getElementById("title").value = data.result[i].subject,
-                                document.getElementById("address").value = data.result[i].ac_place,
-                                document.getElementById("introduce2").value = data.result[i].introduce,
-                                document.getElementById("start_time").value = data.result[i].start_time,
-                                document.getElementById("finish_time").value = data.result[i].finish_time,
-                                document.getElementById("required_stus").value = data.result[i].required_stus,
-                                document.getElementById("alltime").value = data.result[i].vol_time
-                        }
-                    }
-                } else {
-
-                }
-            }
-        });
-        $("#publish").click(function(){
-                var start_time=$("#start_time").val();
-                var finish_time=$("#finish_time").val();
-                if(!start_time||!finish_time){
-                alert("请填写活动安排时间！");
-                this.focus();
-                return false;
-                }
-                $.ajax({
-                    url:'/api/v1_0/activities',
-                    dataType:'JSON',
-                    type:'POST',
-                    data:{
-                        acid: acid,
-                        actype: $('input[type="radio"]:checked').val(),
-                        title: $("#title").val(),
-                        ac_place: $("#address").val(),
-                        introduce: $("#introduce2").val(),
-                        start_time: $("#start_time").val(),
-                        finish_time: $("#finish_time").val(),
-                        required_stus: $("#required_stus").val(),
-                        vol_time: $("#alltime").val()
-                        },
-                    success:function(data){
-                        if(data.status=="ok"){
-                            window.location.href="/admin/index";
-                            }
-                        else{
-                            alert("信息不完整");
-                        }
-                    }
-                });
-            });
-        $("#checkin").click(function() {
-            var checkin_start = document.getElementById("checkin_start").value;
-            var checkin_work = document.getElementById("checkin_work").value;
-            if (!checkin_start || !checkin_work) {
-                alert("请填写完整信息。");
-                return false;
-            }
-            $.ajax({
-                url: "/api/v1_0/qrcode/checkin",
-                dataType: "JSON",
-                type: "POST",
-                data: {
-                    acid: acid,
-                    checkin_start: checkin_start,
-                    checkin_work: checkin_work
-                },
-                success: function(data) {
-                    if (data.status === "ok") {
-                        document.getElementById('checkin_image').setAttribute("src", data.data);
-                    } else {
-                        alert(data.data);
-                    }
-                }
-            });
-        });
-        $("#checkout").click(function() {
-            var checkout_start = document.getElementById("checkout_start").value;
-            var checkout_work = document.getElementById("checkout_work").value;
-            if (!checkout_start || !checkout_work) {
-                alert("请填写完整信息。");
-                return false;
-            }
-            $.ajax({
-                url: "/api/v1_0/qrcode/checkout",
-                dataType: "JSON",
-                type: "POST",
-                data: {
-                    acid: acid,
-                    checkout_start: checkout_start,
-                    checkout_work: checkout_work
-                },
-                success: function(data) {
-                    if (data.status === "ok") {
-                        document.getElementById('checkout_image').setAttribute("src", data.data);
-                    } else {
-                        alert(data.data);
-                    }
-                }
-            });
-        });
-    });
     </script>
 </body>
 

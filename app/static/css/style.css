@@ -701,7 +701,7 @@ input:focus {
 }
 .footer {
   background: #000;
-  position:fixed;
+  /*position:fixed;*/
   bottom:0;
   width:100%;
   line-height:8px;
