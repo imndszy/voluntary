@@ -41,6 +41,9 @@ def registration():
     if activity is None:
         return jsonify(status='fail')
 
+    if activity.finished:
+        return jsonify(status='finished')
+
     temp = AcUser.query.filter_by(acid=acid,stuid=stuid).first()
     if temp is not None:
         return jsonify(status='duplicate')
@@ -69,6 +72,9 @@ def unregistration():
     activity = Activity.query.filter_by(acid=acid).first()
     if activity is None:
         return jsonify(status='fail')
+
+    if activity.finished:
+        return jsonify(status='finished')
 
     temp = AcUser.query.filter_by(acid=acid,stuid=stuid).first()
     if temp is None:
