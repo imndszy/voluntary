@@ -122,6 +122,7 @@ def qrcode_checkout(code):
             return "错误参数！请联系管理员！"
 
         session['vol_time'] = activity.vol_time
+        session['actype'] = activity.actype
         now = int(time.time())
         if now < activity.out_time_start or now > activity.out_time_stop:
             return "尚未到签退时间！"
@@ -155,6 +156,10 @@ def verify():
                         db.session.add(checkout)
 
                         user.service_time += session.get('vol_time')
+                        if session.get('ac_type') == 1:
+                            user.service_time_a += session.get('vol_time')
+                        elif session.get('ac_type') == 2:
+                            user.service_time_b += session.get('vol_time')
                         db.session.add(user)
                         db.session.commit()
                         session['out_verify'] = 'ok'
@@ -182,11 +187,14 @@ def verify():
                         if checkout is None:
                             return jsonify(status='fail', data="您未报名此活动！")
                         checkout.checkout = time_transfer(now)
-                        checkout.finished = True
                         checkout.period += 1
                         db.session.add(checkout)
 
                         user.service_time += session.get('vol_time')
+                        if session.get('ac_type') == 1:
+                            user.service_time_a += session.get('vol_time')
+                        elif session.get('ac_type') == 2:
+                            user.service_time_b += session.get('vol_time')
                         db.session.add(user)
                         db.session.commit()
                         session['out_verify'] = 'ok'
