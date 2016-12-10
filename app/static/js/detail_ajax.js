@@ -34,13 +34,15 @@
                             acid: $('#acid').val(),
                         },
                         success: function(data) {
-                            if (data.status === "ok") {
+                            if (data.status === "finished") {
+                                alert('活动已结束。');
+                            } else if (data.status === "ok") {
                                 alert("报名成功!");
                                 var number = document.getElementById("number");
                                 var num = number.innerHTML.split("/");
                                 num0 = parseInt(num[0]) + 1;
                                 number.innerHTML = num0 + "/" + num[1];
-                                document.getElementById('su').value=1;
+                                document.getElementById('su').value = 1;
 
                             } else if (data.status === "fail") {
                                 alert("信息有误。");
@@ -52,7 +54,7 @@
                         }
                     });
                 }
-            }else if (su === '1') {
+            } else if (su === '1') {
                 var verify2 = confirm("确定要取消报名吗？");
                 if (verify2 === true) {
                     $.ajax({
@@ -63,17 +65,19 @@
                             acid: $('#acid').val(),
                         },
                         success: function(data) {
-                            if (data.status === "ok") {
+                            if (data.status === "finished") {
+                                alert('活动已结束。');
+                            } else if (data.status === "ok") {
                                 alert("已取消报名!");
                                 var number = document.getElementById("number");
                                 var num = number.innerHTML.split("/");
                                 num0 = parseInt(num[0]) - 1;
                                 number.innerHTML = num0 + "/" + num[1];
-                                document.getElementById('su').value=0;
+                                document.getElementById('su').value = 0;
 
                             } else if (data.status === "none") {
                                 alert("您还未报名。");
-                            } else{
+                            } else {
                                 alert("请稍后重试");
                             }
                         }
