@@ -612,8 +612,8 @@ form#contact-form { padding: 40px 0 }
      height:50%;
 }
 #checkout_image{
-     width:60%;
-     height:60%;
+     width:50%;
+     height:50%;
 }
 @media screen and (max-width: 786px) {
     .form-control2 {
@@ -726,4 +726,15 @@ ul.social li a i:hover { border-color: #ffffff }
         color: #ffffff;
         width: 100%;
         bottom: 0%;
+    }
+  
+    .nav > li > a {
+        padding: 10px 6px;
+    }
+    
+    .nav-tabs > li.active > a,
+    .nav-tabs > li.active > a:hover,
+    .nav-tabs > li.active > a:focus {
+        /*border: 1px solid #333;*/
+        border-bottom-color: transparent;
     }
