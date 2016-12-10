@@ -30,9 +30,11 @@ def check_in():
             time_array = time.strptime(start_time[:16], "%Y-%m-%dT%H:%M")
             start_timestamp = int(time.mktime(time_array))
         else:
-            return jsonify(status='fail',data='错误的时间格式！')
+            return jsonify(status='fail', data='错误的时间格式！')
         finish_time = start_timestamp + work*60
         activity = Activity.query.filter_by(acid=acid).first()
+        if activity.finished:
+            return jsonify(status='finished', data='活动已经结束！')
         activity.in_time_start = start_timestamp
         activity.in_time_stop = finish_time
 
@@ -55,7 +57,7 @@ def check_in():
 
         return jsonify(status='ok',data="data:image/png;base64," + base64.b64encode(out.getvalue()).decode('ascii'))
     else:
-        return jsonify(status='fail')
+        return jsonify(status='fail', data='无该活动！')
 
 
 @api.route('/qrcode/checkout', methods=['POST'])
@@ -76,6 +78,8 @@ def check_out():
             return jsonify(status='fail', data='错误的时间格式！')
         finish_time = start_timestamp + work * 60
         activity = Activity.query.filter_by(acid=acid).first()
+        if activity.finished:
+            return jsonify(status='finished', data='活动已经结束！')
         activity.out_time_start = start_timestamp
         activity.out_time_stop = finish_time
 
@@ -96,6 +100,6 @@ def check_out():
         db.session.add(activity)
         db.session.commit()
 
-        return jsonify(status='ok',data="data:image/png;base64," + base64.b64encode(out.getvalue()).decode('ascii'))
+        return jsonify(status='ok', data="data:image/png;base64," + base64.b64encode(out.getvalue()).decode('ascii'))
     else:
-        return jsonify(status='fail')
+        return jsonify(status='fail', data='无该活动！')
