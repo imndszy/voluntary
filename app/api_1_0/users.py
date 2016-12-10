@@ -38,6 +38,7 @@ def registration():
     acid = data.get('acid')
     stuid = current_user.stuid
     activity = Activity.query.filter_by(acid=acid).first()
+
     if activity is None:
         return jsonify(status='fail')
 
@@ -54,12 +55,12 @@ def registration():
     try:
         registration = AcUser(acid=acid,stuid=stuid)
         db.session.add(registration)
-        db.session.commit()
         activity.actual_stus += 1
         db.session.add(activity)
         db.session.commit()
         return jsonify(status='ok')
     except:
+        db.session.rollback()
         return jsonify(status='fail')
 
 

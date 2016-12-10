@@ -15,7 +15,8 @@ from app import db, login_manager
 class AcUser(db.Model):
 
     __tablename__ ='ac_user'
-    stuid = db.Column('stuid', db.Integer, primary_key=True)
+    id = db.Column('id', db.Integer, primary_key=True)
+    stuid = db.Column('stuid', db.Integer)
     acid = db.Column('acid', db.Integer)
     checkin = db.Column('check_in', db.DateTime, nullable=True)
     checkout = db.Column('check_out', db.DateTime, nullable=True)
@@ -34,6 +35,8 @@ class User(UserMixin, db.Model):
     phone = db.Column(db.String(20), nullable=True)
     identified_card = db.Column(db.String(30), unique=True)
     service_time = db.Column(db.Float, default=0)
+    service_time_a = db.Column(db.Float, default=0)
+    service_time_b = db.Column(db.Float, default=0)
     password_reviewed = db.Column(db.Boolean, default=False)
 
     @property
