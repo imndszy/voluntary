@@ -381,8 +381,11 @@ input:focus {
 .about-box {
   float: left;
 }
-.about-grid.ab-more {
+/*.about-grid.ab-more {
   margin: 1.2em 0em 1.2em 0em;
+}*/
+.about-grid.ad-more {
+    margin-bottom: 10px;
 }
 .about-text {
   float: right;
@@ -868,7 +871,7 @@ ul.res li a:hover,ul.res li a.active{
   margin: 0em 0em 2em 0em ;
 }
 .about-text {
-  width: 90%;
+  width: 80%;
 }
 .team-grid {
   float: left;
@@ -953,7 +956,7 @@ ul.res li a:hover,ul.res li a.active{
   right: 15%;
 }	
 .about-text {
-  width: 85%;
+  width: 76%;
 }
 .contact-right input[type="text"] {
   width: 48%;
@@ -1115,7 +1118,7 @@ span.ab-box h5 {
   line-height: 3.5em;
 }
 .about-box h5 span.ab-box {
-  padding: 0.9em;
+  padding: 0.9em 0.5em;
   font-size: 1em;
 }
 }
