@@ -34,7 +34,7 @@ def detail(acid):
     return redirect(url_for('admin.index'))
 
 
-@admin.route('/index')
+@admin.route('/admin_index')
 @admin_login_required
 def admin_index():
     return render_template('admin/admin_index.html')
