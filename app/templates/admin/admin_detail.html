@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="../../static/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../../static/font/css/font-awesome.css">
     <link rel="stylesheet" type="text/css" href="../../static/css/detailstyle.css">
+
 </head>
 
 <body>
@@ -237,8 +238,9 @@
     var sl = document.getElementById("introduce");
     var sh = sl.innerHTML;
     var handler = function() {
-        if(sh.length>240){
-        sl.innerHTML = sh.slice(0, 240) + '...' + '<a id="open"><点击展开></a>';}
+        if (sh.length > 240) {
+            sl.innerHTML = sh.slice(0, 240) + '...' + '<a id="open"><点击展开></a>';
+        }
     };
     EventUtil.addHandler(window, "load", handler);
 
