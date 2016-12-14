@@ -89,13 +89,17 @@ $(function() {
                 var sl = document.getElementById("section-topline-1").getElementsByTagName("p");
                 var sh = document.getElementById("section-topline-2").getElementsByTagName("p");
                 for (i = 0; i < sl.length; i++) {
-                    var slh = sl[i].innerHTML.slice(0, 28) + '...';
-                    sl[i].innerHTML = slh;
-                }
+                        if (sl[i].innerHTML.length > 26) {
+                            var slh = sl[i].innerHTML.slice(0, 26) + '...';
+                            sl[i].innerHTML = slh;
+                        }
+                    }
                 for (i = 0; i < sh.length; i++) {
-                    var shh = sh[i].innerHTML.slice(0, 28) + '...';
-                    sh[i].innerHTML = shh;
-                }
+                        if (sh[i].innerHTML.length > 26) {
+                            var shh = sh[i].innerHTML.slice(0, 26) + '...';
+                            sh[i].innerHTML = shh;
+                        }
+                    }
             } else {
                 alert("列表为空。");
             }
