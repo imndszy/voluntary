@@ -72,7 +72,7 @@ $(function() {
             },
             success: function(data) {
                 if (data.status == "ok") {
-                    window.location.href = "/admin/index";
+                    window.location.href = "/admin/admin_index";
                 } else {
                     alert("信息不完整");
                 }
