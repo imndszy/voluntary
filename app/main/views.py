@@ -156,6 +156,7 @@ def verify():
                         db.session.add(checkout)
 
                         user.service_time += session.get('vol_time')
+                        print '____'*10,session.get('actype')
                         if session.get('actype') == 1:
                             user.service_time_a += session.get('vol_time')
                         elif session.get('actype') == 2:
