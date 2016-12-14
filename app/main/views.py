@@ -191,9 +191,9 @@ def verify():
                         db.session.add(checkout)
 
                         user.service_time += session.get('vol_time')
-                        if session.get('ac_type') == 1:
+                        if session.get('actype') == 1:
                             user.service_time_a += session.get('vol_time')
-                        elif session.get('ac_type') == 2:
+                        elif session.get('actype') == 2:
                             user.service_time_b += session.get('vol_time')
                         db.session.add(user)
                         db.session.commit()
