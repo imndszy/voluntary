@@ -66,6 +66,11 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return '<User {self.stuid}>'.format(self=self)
 
+    def return_info(self):
+        return dict(stuid=self.stuid, service_time=self.service_time,
+                    service_time_a=self.service_time_a,
+                    service_time_b=self.service_time_b)
+
 
 @login_manager.user_loader
 def load_user(user_id):
