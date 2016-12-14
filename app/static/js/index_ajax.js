@@ -89,14 +89,14 @@
                     var sl = document.getElementById("section-topline-1").getElementsByTagName("p");
                     var sh = document.getElementById("section-topline-2").getElementsByTagName("p");
                     for (i = 0; i < sl.length; i++) {
-                        if (sl[i].innerHTML.length > 28) {
-                            var slh = sl[i].innerHTML.slice(0, 30) + '...';
+                        if (sl[i].innerHTML.length > 26) {
+                            var slh = sl[i].innerHTML.slice(0, 26) + '...';
                             sl[i].innerHTML = slh;
                         }
                     }
                     for (i = 0; i < sh.length; i++) {
-                        if (sh[i].innerHTML.length > 28) {
-                            var shh = sh[i].innerHTML.slice(0, 30) + '...';
+                        if (sh[i].innerHTML.length > 26) {
+                            var shh = sh[i].innerHTML.slice(0, 26) + '...';
                             sh[i].innerHTML = shh;
                         }
                     }

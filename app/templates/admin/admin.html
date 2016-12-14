@@ -156,28 +156,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <button type="button" id="publish" class="btn btn-success" style="width:94%;margin-right: 15px;margin-left: 18px;">发布活动</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane" id="school">
-                            <div class="row feature">
-                                <div class="col-md-0">
-                                    <h3 align="center">信息查询</h3>
-                                    <hr/>
-                                </div>
-                                <div class="col-md-12">
-                                    <form class="form-horizontal" role="form">
-                                        <div class="form-group">
-                                            <label for="title" class="col-sm-2 control-label textal">活动title</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control inputal" id="title" placeholder="活动title">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <button type="button" class="btn btn-success" style="width:94%;margin-right: 15px;margin-left: 18px;">查询</button>
+                                            <button type="button" id="publish" class="btn btn-success" style="width:100%;padding-right: 15px;padding-left: 15px;">发布活动</button>
                                         </div>
                                     </form>
                                 </div>
@@ -186,37 +165,25 @@
                         <div class="tab-pane" id="work">
                             <div class="row feature">
                                 <div class="col-md-0">
-                                    <h3 align="center">活动导出</h3>
+                                    <h3 align="center">信息导出</h3>
                                     <hr/>
                                 </div>
                                 <div class="col-md-12">
-                                    <form class="form-horizontal" role="form">
+                                    <form class="form-horizontal" role="form" action="/api/v1_0/acuser" type="get">
                                         <div class="form-group">
                                             <label for="method" class="col-sm-2 control-label textal">导出形式</label>
                                             <div class="col-sm-10">
                                                 <select class="form-control" id="method">
-                                                    <option>选择导出形式</option>
+                                                    <!-- <option>选择导出形式</option> -->
                                                     <option value="1">以志愿者时长排名导出</option>
-                                                    <option value="2">以活动类型导出</option>
-                                                    <option value="3">以活动名称导出</option>
-                                                    <option value="4">全部导出</option>
+                                                    <!-- <option value="2">以活动类型导出</option> -->
+                                                    <!-- <option value="3">以活动名称导出</option> -->
+                                                    <!-- <option value="4">全部导出</option> -->
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="name" class="col-sm-2 control-label textal">用户名</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="name" placeholder="请输入用户名">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="password" class="col-sm-2 control-label textal">密码</label>
-                                            <div class="col-sm-10">
-                                                <input type="password" class="form-control" id="password" placeholder="请输入密码">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <button type="button" class="btn btn-success" style="width:94%;margin-right: 15px;margin-left: 18px;">导出活动</button>
+                                            <button type="submit" class="btn btn-success" id="export" style="width:100%;padding-right: 15px;padding-left: 15px;">导出</button>
                                         </div>
                                     </form>
                                 </div>
@@ -230,8 +197,7 @@
             <ul class="nav nav-tabs nav-stacked" role="tablist" id="tab-list">
                 <li><a href="/admin">活动首页</a></li>
                 <li><a href="#home" role="tab" data-toggle="tab">发布活动</a></li>
-                <li><a href="#school" role="tab" data-toggle="tab">信息查询</a></li>
-                <li><a href="#work" role="tab" data-toggle="tab">活动导出</a></li>
+                <li><a href="#work" role="tab" data-toggle="tab">信息导出</a></li>
             </ul>
         </nav>
     </div>
@@ -290,6 +256,9 @@
                 }
             });
         });
+        // $("#export").click(function(){
+            
+        // });
     });
     </script>
 </body>
