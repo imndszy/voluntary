@@ -5,4 +5,4 @@ from flask import Blueprint
 
 api = Blueprint('api', __name__)
 
-from . import activities, admin, users, create_qrcode
+from . import activities, admin, users, create_qrcode, get_info
