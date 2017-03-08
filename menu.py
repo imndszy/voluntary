@@ -46,7 +46,7 @@ MENU = {
                 {
                     "type": "view",
                     "name": "发布活动",
-                    "url": "https://voluntary.njuszy.cn/admin"
+                    "url": "http://voluntary.njuszy.cn/admin"
                 }
                 ]
 
@@ -57,7 +57,7 @@ MENU = {
                 {
                     "type": "view",
                     "name": "活动信息",
-                    "url": "https://voluntary.njuszy.cn"
+                    "url": "http://voluntary.njuszy.cn"
                 },
                 {
                     "type": "scancode_push",
