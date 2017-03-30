@@ -11,7 +11,6 @@ from app.models import Activity, User, AcUser
 
 
 @main.route('/')
-@main.route('/index')
 @login_required
 def index():
     activity = Activity.query.all()
@@ -129,7 +128,7 @@ def qrcode_checkout(code):
         else:
             session['checkout'] = 'checked'
             session['checkout_time'] = now
-            return render_template('check.html')
+            return render_template('check.html')  # 该页面验证用户名和密码
 
 
 @main.route('/qrcode/verify', methods=['POST'])
@@ -144,7 +143,7 @@ def verify():
         if user is None:
             return jsonify(status='fail',data="错误的用户名或密码")
         else:
-            if user.password_reviewed:
+            if user.password_reviewed:  # 密码修改过了
                 if user.verify_password(password):
                     if now - session.get('checkout_time',1) < 300:
                         checkout = AcUser.query.filter_by(
@@ -156,9 +155,9 @@ def verify():
                         db.session.add(checkout)
 
                         user.service_time += session.get('vol_time')
-                        if session.get('actype') == 1:
+                        if session.get('actype') == 1:  # a类
                             user.service_time_a += session.get('vol_time')
-                        elif session.get('actype') == 2:
+                        elif session.get('actype') == 2: # b类
                             user.service_time_b += session.get('vol_time')
                         db.session.add(user)
                         db.session.commit()

@@ -67,3 +67,16 @@ def activity():
         return jsonify(status='empty', stuid=current_user.stuid)
     a_list = [i.return_dict() for i in activity]
     return jsonify(status='ok', result=a_list, stuid=current_user.stuid)
+
+
+@api.route('/activity', methods=['DELETE'])
+@admin_login_required
+def delete_activity():
+    acid = request.values.get('acid')
+    activity = Activity.query.filter_by(acid=int(acid))
+    if not activity:
+        return jsonify(status='fail', errmsg='wrong acid')
+    else:
+        db.session.remove(activity)
+        db.session.commit()
+        return jsonify(status='ok')

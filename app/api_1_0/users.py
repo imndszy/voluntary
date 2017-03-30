@@ -24,7 +24,7 @@ def user_verify():
             return jsonify(status='ok', stuid=session['stuid'])
         return jsonify(status='fail')
     else:
-        if user.identified_card == password:
+        if user.identified_card[-6:] == password:
             session['stuid'] = username
             login_user(user, True)
             return jsonify(status='ok', stuid=session['stuid'])
