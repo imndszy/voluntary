@@ -10,7 +10,7 @@ from app.main import main
 from app.models import Activity, User, AcUser
 
 
-@main.route('/')
+@main.route('/index')
 @login_required
 def index():
     activity = Activity.query.all()
