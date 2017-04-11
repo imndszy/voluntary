@@ -10,7 +10,6 @@ from app.main import main
 from app.models import Activity, User, AcUser
 
 
-@main.route('/')
 @main.route('/index')
 @login_required
 def index():
@@ -25,7 +24,7 @@ def index():
     db.session.commit()
     return render_template('index.html')
 
-
+@main.route('/')
 @main.route('/login')
 def login():
     return render_template('login.html')
@@ -129,7 +128,7 @@ def qrcode_checkout(code):
         else:
             session['checkout'] = 'checked'
             session['checkout_time'] = now
-            return render_template('check.html')
+            return render_template('check.html')  # 该页面验证用户名和密码
 
 
 @main.route('/qrcode/verify', methods=['POST'])
@@ -144,7 +143,7 @@ def verify():
         if user is None:
             return jsonify(status='fail',data="错误的用户名或密码")
         else:
-            if user.password_reviewed:
+            if user.password_reviewed:  # 密码修改过了
                 if user.verify_password(password):
                     if now - session.get('checkout_time',1) < 300:
                         checkout = AcUser.query.filter_by(
@@ -155,10 +154,21 @@ def verify():
                         checkout.period += 1
                         db.session.add(checkout)
 
+                        # user.service_time += session.get('vol_time')
+                        # if session.get('actype') == 1:  # a类
+                        #     user.service_time_a += session.get('vol_time')
+                        # elif session.get('actype') == 2: # b类
+                        #     user.service_time_b += session.get('vol_time')
+                        if user.service_time is None:
+                            user.service_time = 0
                         user.service_time += session.get('vol_time')
                         if session.get('actype') == 1:
+                            if user.service_time_a is None:
+                                user.service_time_a = 0
                             user.service_time_a += session.get('vol_time')
                         elif session.get('actype') == 2:
+                            if user.service_time_b is None:
+                                user.service_time_b = 0
                             user.service_time_b += session.get('vol_time')
                         db.session.add(user)
                         db.session.commit()
@@ -180,7 +190,7 @@ def verify():
                         return jsonify(staus='fail',data="请在规定的时间内验证身份！请重新扫描二维码！")
                 return jsonify(status='fail', data="错误的用户名或密码")
             else:
-                if user.identified_card == password:
+                if user.identified_card[-6:] == password:
                     if now - session.get('checkout_time',1) < 300:
                         checkout = AcUser.query.filter_by(
                             acid=session.get('acid'), stuid=stuid).first()
@@ -190,10 +200,16 @@ def verify():
                         checkout.period += 1
                         db.session.add(checkout)
 
+                        if user.service_time is None:
+                            user.service_time = 0
                         user.service_time += session.get('vol_time')
                         if session.get('actype') == 1:
+                            if user.service_time_a is None:
+                                user.service_time_a = 0
                             user.service_time_a += session.get('vol_time')
                         elif session.get('actype') == 2:
+                            if user.service_time_b is None:
+                                user.service_time_b = 0
                             user.service_time_b += session.get('vol_time')
                         db.session.add(user)
                         db.session.commit()
