@@ -79,25 +79,18 @@ $(function() {
             }
         });
     });
-    $("#checkin").click(function() {
-        var checkin_start = document.getElementById("checkin_start").value;
-        var checkin_work = document.getElementById("checkin_work").value;
-        if (!checkin_start || !checkin_work) {
-            alert("请填写完整信息。");
-            return false;
-        }
+    function check(acid,checktime,method){
         $.ajax({
-            url: "/api/v1_0/qrcode/checkin",
+            url: "/api/v1_0/qrcode/" + method,
             dataType: "JSON",
             type: "POST",
             data: {
                 acid: acid,
-                checkin_start: checkin_start,
-                checkin_work: checkin_work
+                checktime: checktime
             },
             success: function(data) {
                 if (data.status === "ok") {
-                    document.getElementById('checkin_image').setAttribute("src", data.data);
+                    document.getElementById(method+'_image').setAttribute("src", data.data);
                 } else if (data.status === "fail") {
                     alert(data.data);
                 } else {
@@ -105,32 +98,59 @@ $(function() {
                 }
             }
         });
+    }
+    $("#checkin").click(function() {
+        var check_work = document.getElementById("checkin_work").value;
+        if (!check_work) {
+                alert("请填写有效期。");
+                return false;
+        }
+        for(var i = 0; i < check_work*2;i++){
+            (function(num){
+                setTimeout(function(){
+                    var checktime  = new Date();
+                    check(acid,checktime,"checkin");
+                },30*1000*num)
+            })(i)
+        }
     });
     $("#checkout").click(function() {
-        var checkout_start = document.getElementById("checkout_start").value;
-        var checkout_work = document.getElementById("checkout_work").value;
-        if (!checkout_start || !checkout_work) {
-            alert("请填写完整信息。");
+        // var checkout_start = document.getElementById("checkout_start").value;
+        // if (!checkout_start || !checkout_work) {
+        //     alert("请填写完整信息。");
+        //     return false;
+        // }
+        // $.ajax({
+        //     url: "/api/v1_0/qrcode/checkout",
+        //     dataType: "JSON",
+        //     type: "POST",
+        //     data: {
+        //         acid: acid,
+        //         checkout_start: checkout_start,
+        //         checkout_work: checkout_work
+        //     },
+        //     success: function(data) {
+        //         if (data.status === "ok") {
+        //             document.getElementById('checkout_image').setAttribute("src", data.data);
+        //         } else if (data.status === "fail") {
+        //             alert(data.data);
+        //         } else {
+        //             alert(data.data);
+        //         }
+        //     }
+        // });
+        var check_work = document.getElementById("checkout_work").value;
+        if (!check_work) {
+            alert("请填写有效期。");
             return false;
         }
-        $.ajax({
-            url: "/api/v1_0/qrcode/checkout",
-            dataType: "JSON",
-            type: "POST",
-            data: {
-                acid: acid,
-                checkout_start: checkout_start,
-                checkout_work: checkout_work
-            },
-            success: function(data) {
-                if (data.status === "ok") {
-                    document.getElementById('checkout_image').setAttribute("src", data.data);
-                } else if (data.status === "fail") {
-                    alert(data.data);
-                } else {
-                    alert(data.data);
-                }
-            }
-        });
+        for(var i = 0; i < check_work*2;i++){
+            (function(num){
+                setTimeout(function(){
+                    var checktime  = new Date();
+                    check(acid,checktime,"checkout");
+                },30*1000*num)
+            })(i)
+        }
     });
 });
