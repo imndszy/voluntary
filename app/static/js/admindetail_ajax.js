@@ -86,7 +86,7 @@ $(function() {
             type: "POST",
             data: {
                 acid: acid,
-                checkin_start: checktime
+                checktime: checktime
             },
             success: function(data) {
                 if (data.status === "ok") {
