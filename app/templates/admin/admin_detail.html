@@ -10,7 +10,6 @@
     <link rel="stylesheet" type="text/css" href="../../static/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../../static/font/css/font-awesome.css">
     <link rel="stylesheet" type="text/css" href="../../static/css/detailstyle.css">
-
 </head>
 
 <body>
@@ -48,21 +47,21 @@
                                     </div>
                                     <div class="col-xs-3 facts">
                                         <div class="count-box">
-                                            <i class="fa fa-mobile"></i>
-                                            <p id="change"><a href="" onclick="return false;" data-toggle="modal" data-target="#myModal">点击<br/>编辑修改</a></p>
+                                            <i class="fa fa-edit"></i>
+                                            <p id="change"><a href="" onclick="return false;" data-toggle="modal" data-target="#myModal1">点击<br/>编辑修改</a></p>
                                         </div>
                                     </div>
                                     <div class="col-xs-3 facts">
                                         <div class="count-box">
-                                            <i class="fa fa-arrows"></i>
-                                            <p><a href="" onclick="return false;" data-toggle="modal" data-target="#myModal">生成
+                                            <i class="fa fa-arrow-circle-down"></i>
+                                            <p><a href="" onclick="return false;" data-toggle="modal" data-target="#myModal2">生成
                                                 <br/>签到二维码</a></p>
                                         </div>
                                     </div>
                                     <div class="col-xs-3 facts">
                                         <div class="count-box">
-                                            <i class="fa fa-download"></i>
-                                            <p><a href="" onclick="return false;" data-toggle="modal" data-target="#myModal">生成
+                                            <i class="fa fa-arrow-circle-up"></i>
+                                            <p><a href="" onclick="return false;" data-toggle="modal" data-target="#myModal3">生成
                                                 <br/>签退二维码</a></p>
                                         </div>
                                     </div>
@@ -79,135 +78,137 @@
             </div>
         </section>
     </div>
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <h4 class="modal-title" id="myModalLabel">
-                    <ul class="nav nav-tabs" role="tablist" id="tab-list">
-                        <li class="active"><a href="#home" role="tab" data-toggle="tab">修改</a></li>
-                        <li><a href="#school" role="tab" data-toggle="tab">签到二维码</a></li>
-                        <li><a href="#work" role="tab" data-toggle="tab">签退二维码</a></li>
-                    </ul>
-                    </h4>
+                    <h4 class="modal-title" id="myModalLabel1"><i class="fa fa-edit"></i>修改</h4>
                 </div>
                 <div class="modal-body">
                     <div class="container">
-                        <div class="tab-content">
-                            <div class="tab-pane active" id="home">
-                                <div class="row feature">
-                                    <form class="form-horizontal" role="form">
-                                        <div class="form-group">
-                                            <label for="title" class="col-sm-2 control-label textal">活动title</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control2 inputal" value="" id="title" placeholder="活动title">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="address" class="col-sm-2 control-label textal">活动地点</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control2" id="address" placeholder="活动地点">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="required_stus" class="col-sm-2 control-label textal">需求人数</label>
-                                            <div class="col-sm-10">
-                                                <input type="number" class="form-control2" id="required_stus" placeholder="需求人数">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="start_time" class="col-sm-2 control-label textal">活动开始时间</label>
-                                            <div class="col-sm-4">
-                                                <input type="datetime-local" style="width:100%" value="YYYY-MM-DDThh:mm" class="form-control2" id="start_time" placeholder="活动时间安排">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="finished_time" class="col-sm-2 control-label textal">活动结束时间</label>
-                                            <div class="col-sm-4">
-                                                <input type="datetime-local" style="width:100%" value="YYYY-MM-DDThh:mm" class="form-control2" id="finish_time" placeholder="活动时间安排">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="alltime" class="col-sm-2 control-label textal">志愿时长</label>
-                                            <div class="col-sm-10">
-                                                <input type="number" class="form-control2" id="alltime" placeholder="志愿时长(小时)">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="introduce2" class="col-sm-2 control-label textal">活动介绍</label>
-                                            <div class="col-sm-10">
-                                                <textarea type="text" class="form-control2" style="height:84px;" id="introduce2" placeholder="活动介绍"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="actype" class="col-sm-2 control-label textal">活动类型</label>
-                                            <div class="col-sm-10">
-                                                <div class="radioo" id="actype">
-                                                    <input type="radio" name="options" id="actype1" value="1" checked>A类
-                                                    <input type="radio" name="options" id="actype2" value="2">B类
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <button type="button" id="publish" class="btn btn-success" style="margin-left: 25%;">确认修改</button>
-                                        </div>
-                                    </form>
+                        <form class="form-horizontal" role="form">
+                            <div class="form-group">
+                                <label for="title" class="col-sm-2 control-label textal">活动title</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control2 inputal" value="" id="title" placeholder="活动title">
                                 </div>
                             </div>
-                            <div class="tab-pane" id="school">
-                                <div class="row feature">
-                                    <form class="form-horizontal" role="form">
-                                        <div class="form-group">
-                                            <label for="checkin_start" class="col-sm-2 control-label textal">签到开始时间</label>
-                                            <div class="col-sm-10">
-                                                <input type="datetime-local" value="YYYY-MM-DDThh:mm" class="form-control2" id="checkin_start" placeholder="签到开始时间">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="checkin_work" class="col-sm-2 control-label textal">有效期</label>
-                                            <div class="col-sm-10">
-                                                <input type="" type="number" class="form-control2" id="checkin_work" placeholder="有效期（分钟）">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <img id="checkin_image" src="">
-                                        </div>
-                                        <div class="form-group">
-                                            <button type="button" id="checkin" class="btn btn-success" style="margin-left: 25%;">生成</button>
-                                        </div>
-                                    </form>
+                            <div class="form-group">
+                                <label for="address" class="col-sm-2 control-label textal">活动地点</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control2" id="address" placeholder="活动地点">
                                 </div>
                             </div>
-                            <div class="tab-pane" id="work">
-                                <div class="row feature">
-                                    <form class="form-horizontal" role="form">
-                                        <div class="form-group">
-                                            <label for="checkout_start" class="col-sm-2 control-label textal">签退开始时间</label>
-                                            <div class="col-sm-10">
-                                                <input type="datetime-local" value="YYYY-MM-DDThh:mm" class="form-control2" id="checkout_start" placeholder="签到开始时间">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="checkout_work" class="col-sm-2 control-label textal">有效期</label>
-                                            <div class="col-sm-10">
-                                                <input type="" type="number" class="form-control2" id="checkout_work" placeholder="有效期（分钟）">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <img id="checkout_image" src="">
-                                        </div>
-                                        <div class="form-group">
-                                            <button type="button" id="checkout" class="btn btn-success" style="margin-left: 25%;">生成</button>
-                                        </div>
-                                    </form>
+                            <div class="form-group">
+                                <label for="required_stus" class="col-sm-2 control-label textal">需求人数</label>
+                                <div class="col-sm-10">
+                                    <input type="number" class="form-control2" id="required_stus" placeholder="需求人数">
                                 </div>
                             </div>
-                        </div>
+                            <div class="form-group">
+                                <label for="start_time" class="col-sm-2 control-label textal">活动开始时间</label>
+                                <div class="col-sm-4">
+                                    <input type="datetime-local" style="width:100%" value="YYYY-MM-DDThh:mm" class="form-control2" id="start_time" placeholder="活动时间安排">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="finished_time" class="col-sm-2 control-label textal">活动结束时间</label>
+                                <div class="col-sm-4">
+                                    <input type="datetime-local" style="width:100%" value="YYYY-MM-DDThh:mm" class="form-control2" id="finish_time" placeholder="活动时间安排">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="alltime" class="col-sm-2 control-label textal">志愿时长</label>
+                                <div class="col-sm-10">
+                                    <input type="number" class="form-control2" id="alltime" placeholder="志愿时长(小时)">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="introduce2" class="col-sm-2 control-label textal">活动介绍</label>
+                                <div class="col-sm-10">
+                                    <textarea type="text" class="form-control2" style="height:84px;" id="introduce2" placeholder="活动介绍"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="actype" class="col-sm-2 control-label textal">活动类型</label>
+                                <div class="col-sm-10">
+                                    <div class="radioo" id="actype">
+                                        <input type="radio" name="options" id="actype1" value="1" checked>A类
+                                        <input type="radio" name="options" id="actype2" value="2">B类
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button type="button" id="publish" class="btn btn-success" style="margin-left: 25%;">确认修改</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel2"><i class="fa fa-arrow-circle-down"></i>生成签到二维码</h4>
+          </div>
+          <div class="modal-body">
+              <div class="container">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="checkin_work" class="col-sm-2 control-label textal">二维码有效期</label>
+                        <div class="col-sm-10">
+                            <input type="" type="number" class="form-control2" id="checkin_work" placeholder="有效期（分钟）">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <img id="checkin_image" src="">
+                    </div>
+                    <div class="form-group">
+                        <button type="button" id="checkin" class="btn btn-success" style="margin-left: 25%;">生成</button>
+                    </div>
+                </form>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel3"><i class="fa fa-arrow-circle-up"></i>生成签退二维码</h4>
+          </div>
+          <div class="modal-body">
+              <div class="container">
+                 <form class="form-horizontal" role="form">
+                    <!--<div class="form-group">-->
+                        <!--<label for="checkout_start" class="col-sm-2 control-label textal">签退开始时间</label>-->
+                        <!--<div class="col-sm-10">-->
+                            <!--<input type="datetime-local" value="YYYY-MM-DDThh:mm" class="form-control2" id="checkout_start" placeholder="签到开始时间">-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <div class="form-group">
+                        <label for="checkout_work" class="col-sm-2 control-label textal">二维码有效期</label>
+                        <div class="col-sm-10">
+                            <input type="" type="number" class="form-control2" id="checkout_work" placeholder="有效期（分钟）">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <img id="checkout_image" src="">
+                    </div>
+                    <div class="form-group">
+                        <button type="button" id="checkout" class="btn btn-success" style="margin-left: 25%;">生成</button>
+                    </div>
+                </form>
+              </div>
+          </div>
+        </div>
+      </div>
     </div>
     <script type="text/javascript" src="../../static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../../static/js/jquery.mmenu.all.min.js"></script>

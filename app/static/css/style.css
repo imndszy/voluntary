@@ -350,6 +350,7 @@ input:focus {
 /*--about start here--*/
 .about {
   padding: 4em 0em 4em 0em;
+    min-height: 92%;
 }
 .about-main h3 {
   font-size: 2.4em;
@@ -703,8 +704,7 @@ input:focus {
   background: url(../images/arrow.png) no-repeat 0px 0px;
 }
 .footer {
-  background: #000;
-  /*position:fixed;*/
+  background: #333;
   bottom:0;
   width:100%;
   line-height:8px;
