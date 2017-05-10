@@ -2,6 +2,7 @@
 # Author: shizhenyu96@gamil.com
 # github: https://github.com/imndszy
 import time
+import redis
 from flask import render_template, request, session, jsonify, redirect, url_for
 from flask_login import login_required, current_user
 
@@ -71,16 +72,26 @@ def detail(acid):
 
 @main.route('/checkin/<code>')
 def qrcode_checkin(code):
-    if session.get('in_verify') == 'ok':
-        return "您已经签到过了！"
-
+    # if session.get('in_verify') == 'ok':
+    #     return "您已经签到过了！"
+    #
     if len(code) != 30 or not code.isdigit():
         return "错误参数！请联系管理员！"
     else:
         acid = int(code[0:10])
-        session['acid'] = acid
         start_time = int(code[10:20])
         finish_time = int(code[20:])
+        in_now = int(code[30:])
+        r = redis.StrictRedis(host='localhost', port=6379, db=0)
+        if in_now != r.get('inQRcode'+str(acid)):
+            return "该二维码已过期！"
+
+        if session.get('stuid'):
+            stuid = session['stuid']
+            check = AcUser.query.filter_by(stuid=stuid, acid=acid).first()
+            if check.checkin:
+                return jsonify(status='fail', data="您已经签到过了")
+
         activity = Activity.query.filter_by(acid=acid).first()
         # 以下代码用于确认参数的有效性
         if activity is None:
@@ -89,29 +100,39 @@ def qrcode_checkin(code):
         if start_time != activity.in_time_start or finish_time != activity.in_time_stop:
             return "错误参数！请联系管理员！"
 
-        session['vol_time'] = activity.vol_time
         now = int(time.time())
-        session['checkin_time'] = now
         if now < activity.in_time_start or now > activity.in_time_stop:
             return "尚未到签到时间！"
         else:
-            session['checkin'] = 'checked'
+            session['acid'] = acid
+            session['vol_time'] = activity.vol_time
             session['checkin_time'] = now
+            session['checkin'] = 'checked'
             return render_template('check.html')
 
 
 @main.route('/checkout/<code>')
 def qrcode_checkout(code):
-    if session.get('out_verify') == 'ok':
-        return "您已经签退过了！"
-
-    if len(code) != 30 or not code.isdigit():
+    # if session.get('out_verify') == 'ok':
+    #     return "您已经签退过了！"
+    if len(code) != 40 or not code.isdigit():
         return "错误参数！请联系管理员！"
+
     else:
         acid = int(code[0:10])
-        session['acid'] = acid
         start_time = int(code[10:20])
-        finish_time = int(code[20:])
+        finish_time = int(code[20:30])
+        out_now = int(code[30:])
+        r = redis.StrictRedis(host='localhost', port=6379, db=0)
+        if out_now != r.get('outQRcode'+str(acid)):
+            return "该二维码已过期！"
+
+        if session.get('stuid'):
+            stuid = session['stuid']
+            check = AcUser.query.filter_by(stuid=stuid, acid=acid).first()
+            if check.checkout:
+                return jsonify(status='fail', data="您已经签退过了")
+
         activity = Activity.query.filter_by(acid=acid).first()
         # 以下代码用于确认参数的有效性
         if activity is None:
@@ -120,15 +141,17 @@ def qrcode_checkout(code):
         if start_time != activity.out_time_start or finish_time != activity.out_time_stop:
             return "错误参数！请联系管理员！"
 
+
+        session['acid'] = acid
         session['vol_time'] = activity.vol_time
         session['actype'] = activity.actype
         now = int(time.time())
-        if now < activity.out_time_start or now > activity.out_time_stop:
-            return "尚未到签退时间！"
-        else:
-            session['checkout'] = 'checked'
-            session['checkout_time'] = now
-            return render_template('check.html')  # 该页面验证用户名和密码
+        # if now < activity.out_time_start or now > activity.out_time_stop:
+        #     return "尚未到签退时间！"
+        # else:
+        session['checkout'] = 'checked'
+        session['checkout_time'] = now
+        return render_template('check.html')  # 该页面验证用户名和密码
 
 
 @main.route('/qrcode/verify', methods=['POST'])
@@ -139,97 +162,62 @@ def verify():
         password = data.get('password')
         user = User.query.filter_by(stuid=stuid).first()
         now = int(time.time())
+        acid = session.get('acid')
+        session.pop('acid', None)
 
         if user is None:
             return jsonify(status='fail',data="错误的用户名或密码")
         else:
-            if user.password_reviewed:  # 密码修改过了
-                if user.verify_password(password):
-                    if now - session.get('checkout_time',1) < 300:
-                        checkout = AcUser.query.filter_by(
-                            acid=session.get('acid'),stuid=stuid).first()
-                        if checkout is None:
-                            return jsonify(status='fail',data="您未报名此活动！")
-                        checkout.checkout = time_transfer(now)
-                        checkout.period += 1
-                        db.session.add(checkout)
+            if user.verify_password(password) or user.identified_card[-6:] == password:
+                session['check_stuid'] = stuid
+                if now - session.get('checkout_time',1) < 300:
+                    checkout = AcUser.query.filter_by(
+                        acid=acid, stuid=stuid).first()
+                    if checkout is None:
+                        return jsonify(status='fail', data="您未报名此活动！")
+                    if checkout.checkout:
+                        return jsonify(status='fail', data="您已经签退过了")
+                    checkout.checkout = time_transfer(now)
+                    checkout.period += 1
+                    db.session.add(checkout)
 
-                        # user.service_time += session.get('vol_time')
-                        # if session.get('actype') == 1:  # a类
-                        #     user.service_time_a += session.get('vol_time')
-                        # elif session.get('actype') == 2: # b类
-                        #     user.service_time_b += session.get('vol_time')
-                        if user.service_time is None:
-                            user.service_time = 0
-                        user.service_time += session.get('vol_time')
-                        if session.get('actype') == 1:
-                            if user.service_time_a is None:
-                                user.service_time_a = 0
-                            user.service_time_a += session.get('vol_time')
-                        elif session.get('actype') == 2:
-                            if user.service_time_b is None:
-                                user.service_time_b = 0
-                            user.service_time_b += session.get('vol_time')
-                        db.session.add(user)
-                        db.session.commit()
-                        session['out_verify'] = 'ok'
-                        return jsonify(status='ok',data="您已成功签退！")
+                    # user.service_time += session.get('vol_time')
+                    # if session.get('actype') == 1:  # a类
+                    #     user.service_time_a += session.get('vol_time')
+                    # elif session.get('actype') == 2: # b类
+                    #     user.service_time_b += session.get('vol_time')
+                    if user.service_time is None:
+                        user.service_time = 0
+                    user.service_time += session.get('vol_time')
+                    if session.get('actype') == 1:
+                        if user.service_time_a is None:
+                            user.service_time_a = 0
+                        user.service_time_a += session.get('vol_time')
+                    elif session.get('actype') == 2:
+                        if user.service_time_b is None:
+                            user.service_time_b = 0
+                        user.service_time_b += session.get('vol_time')
+                    db.session.add(user)
+                    db.session.commit()
+                    # session['out_verify'] = 'ok'
+                    return jsonify(status='ok',data="您已成功签退！")
 
-                    elif now - session.get('checkin_time',1) < 300:
-                        checkin = AcUser.query.filter_by(
-                            acid=session.get('acid'), stuid=stuid).first()
-                        if checkin is None:
-                            return jsonify(status='fail', data="您未报名此活动！")
-                        checkin.checkin = time_transfer(now)
-                        db.session.add(checkin)
-                        db.session.commit()
-                        session['in_verify'] = 'ok'
-                        return jsonify(status='ok',data="您已成功签到！")
+                elif now - session.get('checkin_time',1) < 300:
+                    checkin = AcUser.query.filter_by(
+                        acid=acid,  stuid=stuid).first()
+                    if checkin is None:
+                        return jsonify(status='fail', data="您未报名此活动！")
+                    if checkin.checkin:
+                        return jsonify(status='fail', data="您已经签到过了")
+                    checkin.checkin = time_transfer(now)
+                    db.session.add(checkin)
+                    db.session.commit()
+                    # session['in_verify'] = 'ok'
+                    return jsonify(status='ok',data="您已成功签到！")
 
-                    else:
-                        return jsonify(staus='fail',data="请在规定的时间内验证身份！请重新扫描二维码！")
-                return jsonify(status='fail', data="错误的用户名或密码")
-            else:
-                if user.identified_card[-6:] == password:
-                    if now - session.get('checkout_time',1) < 300:
-                        checkout = AcUser.query.filter_by(
-                            acid=session.get('acid'), stuid=stuid).first()
-                        if checkout is None:
-                            return jsonify(status='fail', data="您未报名此活动！")
-                        checkout.checkout = time_transfer(now)
-                        checkout.period += 1
-                        db.session.add(checkout)
-
-                        if user.service_time is None:
-                            user.service_time = 0
-                        user.service_time += session.get('vol_time')
-                        if session.get('actype') == 1:
-                            if user.service_time_a is None:
-                                user.service_time_a = 0
-                            user.service_time_a += session.get('vol_time')
-                        elif session.get('actype') == 2:
-                            if user.service_time_b is None:
-                                user.service_time_b = 0
-                            user.service_time_b += session.get('vol_time')
-                        db.session.add(user)
-                        db.session.commit()
-                        session['out_verify'] = 'ok'
-                        return jsonify(status='ok',data="您已成功签退！")
-
-                    elif now - session.get('checkin_time',1) < 300:
-                        checkin = AcUser.query.filter_by(
-                            acid=session.get('acid'), stuid=stuid).first()
-                        if checkin is None:
-                            return jsonify(status='fail', data="您未报名此活动！")
-                        checkin.checkin = time_transfer(now)
-                        db.session.add(checkin)
-                        db.session.commit()
-                        session['in_verify'] = 'ok'
-                        return jsonify(status='ok',data="您已成功签到！")
-
-                    else:
-                        return jsonify(staus='fail', data="请在规定的时间内验证身份！请重新扫描二维码！")
-                return jsonify(status='fail',data="错误的用户名或密码")
+                else:
+                    return jsonify(staus='fail',data="请在规定的时间内验证身份！请重新扫描二维码！")
+            return jsonify(status='fail', data="错误的用户名或密码")
     else:
         return jsonify(status='fail',data="请先扫描二维码！！")
 

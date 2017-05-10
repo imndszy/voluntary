@@ -2,7 +2,7 @@
 # Author: shizhenyu96@gamil.com
 # github: https://github.com/imndszy
 import time
-from flask import request, jsonify, session
+from flask import request, jsonify
 from flask_login import login_required, current_user
 
 from app.api_1_0 import api
