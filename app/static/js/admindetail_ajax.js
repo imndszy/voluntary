@@ -16,7 +16,7 @@ var EventUtil = {
         } else {
             element["on" + type] = null;
         }
-    },
+    }
 };
 $(function() {
     var acid = $("#acid").val();
@@ -79,14 +79,15 @@ $(function() {
             }
         });
     });
-    function check(acid,checktime,method){
+    function check(acid,checkstart,checkwork,method){
         $.ajax({
             url: "/api/v1_0/qrcode/" + method,
             dataType: "JSON",
             type: "POST",
             data: {
                 acid: acid,
-                checktime: checktime
+                check_start: checkstart,
+                check_work: checkwork
             },
             success: function(data) {
                 if (data.status === "ok") {
@@ -100,16 +101,16 @@ $(function() {
         });
     }
     $("#checkin").click(function() {
-        var check_work = document.getElementById("checkin_work").value;
-        if (!check_work) {
-                alert("请填写有效期。");
-                return false;
+        var checkin_start = document.getElementById("checkin_start").value,
+            checkin_work = document.getElementById("checkin_work").value;
+        if (!checkout_work) {
+            alert("请填写有效期。");
+            return false;
         }
-        for(var i = 0; i < check_work*2;i++){
+        for(var i = 0; i < checkin_work*2;i++){
             (function(num){
                 setTimeout(function(){
-                    var checktime  = new Date();
-                    check(acid,checktime,"checkin");
+                    check(acid,checkin_start,checkin_work,"checkin");
                 },30*1000*num)
             })(i)
         }
@@ -139,16 +140,16 @@ $(function() {
         //         }
         //     }
         // });
-        var check_work = document.getElementById("checkout_work").value;
-        if (!check_work) {
+        var checkout_start = document.getElementById("checkout_start").value,
+            checkout_work = document.getElementById("checkout_work").value;
+        if (!checkout_work) {
             alert("请填写有效期。");
             return false;
         }
-        for(var i = 0; i < check_work*2;i++){
+        for(var i = 0; i < checkout_work*2;i++){
             (function(num){
                 setTimeout(function(){
-                    var checktime  = new Date();
-                    check(acid,checktime,"checkout");
+                    check(acid,checkout_start,checkout_work,"checkout");
                 },30*1000*num)
             })(i)
         }
