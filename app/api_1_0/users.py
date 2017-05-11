@@ -17,18 +17,11 @@ def user_verify():
     user = User.query.filter_by(stuid=username).first()
     if user is None:
         return jsonify(status='fail')
-    if user.password_reviewed:
-        if user.verify_password(password):
-            session['stuid'] = username
-            login_user(user, True)
-            return jsonify(status='ok', stuid=session['stuid'])
-        return jsonify(status='fail')
-    else:
-        if user.identified_card[-6:] == password:
-            session['stuid'] = username
-            login_user(user, True)
-            return jsonify(status='ok', stuid=session['stuid'])
-        return jsonify(status='fail')
+    if user.verify_password(password) or user.identified_card[-6:] == password:
+        session['stuid'] = username
+        login_user(user, True)
+        return jsonify(status='ok', stuid=session['stuid'])
+    return jsonify(status='fail')
 
 
 @api.route('/user/activity-registration',methods=['POST'])

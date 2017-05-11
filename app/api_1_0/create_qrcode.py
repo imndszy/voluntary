@@ -3,6 +3,7 @@
 # github: https://github.com/imndszy
 import time
 import qrcode
+import redis
 import base64
 from StringIO import StringIO
 from flask import request, jsonify
@@ -32,9 +33,12 @@ def check_in():
         else:
             return jsonify(status='fail', data='错误的时间格式！')
         finish_time = start_timestamp + work*60
+        now = time.time()
+        r = redis.StrictRedis(host='localhost', port=6379, db=0)
+        r.set('inQRcode'+str(acid), now)
         activity = Activity.query.filter_by(acid=acid).first()
-        if activity.finished:
-            return jsonify(status='finished', data='活动已经结束！')
+        # if activity.finished:
+        #     return jsonify(status='finished', data='活动已经结束！')
         activity.in_time_start = start_timestamp
         activity.in_time_stop = finish_time
 
@@ -44,8 +48,8 @@ def check_in():
             box_size=20,
             border=4,
         )
-        checkin_url = HOST+'checkin/'+str(acid)+str(start_timestamp)+str(finish_time)     # 签到扫描二维码指向链接
-        print checkin_url
+        checkin_url = HOST+'checkin/'+str(acid)+str(start_timestamp)+str(finish_time)+str(now)    # 签到扫描二维码指向链接
+
         qr.add_data(checkin_url)
         qr.make(fit=True)
         out = StringIO()
@@ -78,9 +82,12 @@ def check_out():
         else:
             return jsonify(status='fail', data='错误的时间格式！')
         finish_time = start_timestamp + work * 60
+        now = time.time()
+        r = redis.StrictRedis(host='localhost', port=6379, db=0)
+        r.set('outQRcode'+str(acid), now)
         activity = Activity.query.filter_by(acid=acid).first()
-        if activity.finished:
-            return jsonify(status='finished', data='活动已经结束！')
+        # if activity.finished:
+        #     return jsonify(status='finished', data='活动已经结束！')
         activity.out_time_start = start_timestamp
         activity.out_time_stop = finish_time
 
@@ -90,8 +97,8 @@ def check_out():
             box_size=20,
             border=4,
         )
-        checkout_url = HOST + 'checkout/' + str(acid) + str(start_timestamp) + str(finish_time)
-        print checkout_url
+        checkout_url = HOST + 'checkout/' + str(acid) + str(start_timestamp) + str(finish_time) + str(now)
+
         qr.add_data(checkout_url)
         qr.make(fit=True)
         out = StringIO()
