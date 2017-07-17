@@ -21,8 +21,8 @@ def check_in():
     data = request.values
     acid = data.get('acid')
     if acid:
-        start_time = data.get('checkin_start')
-        work = int(data.get('checkin_work'))
+        start_time = data.get('check_start')
+        work = int(data.get('check_work'))
         # 获取时间戳
         if len(start_time.split(':')) == 2:
             time_array = time.strptime(start_time, "%Y-%m-%dT%H:%M")
@@ -33,7 +33,7 @@ def check_in():
         else:
             return jsonify(status='fail', data='错误的时间格式！')
         finish_time = start_timestamp + work*60
-        now = time.time()
+        now = int(time.time())
         r = redis.StrictRedis(host='localhost', port=6379, db=0)
         r.set('inQRcode'+str(acid), now)
         activity = Activity.query.filter_by(acid=acid).first()
@@ -41,7 +41,6 @@ def check_in():
         #     return jsonify(status='finished', data='活动已经结束！')
         activity.in_time_start = start_timestamp
         activity.in_time_stop = finish_time
-
         qr = qrcode.QRCode(
             version=1,
             error_correction=qrcode.constants.ERROR_CORRECT_L,
@@ -49,7 +48,7 @@ def check_in():
             border=4,
         )
         checkin_url = HOST+'checkin/'+str(acid)+str(start_timestamp)+str(finish_time)+str(now)    # 签到扫描二维码指向链接
-
+        print checkin_url
         qr.add_data(checkin_url)
         qr.make(fit=True)
         out = StringIO()
@@ -71,8 +70,8 @@ def check_out():
     data = request.values
     acid = data.get('acid')
     if acid:
-        start_time = data.get('checkout_start')
-        work = int(data.get('checkout_work'))
+        start_time = data.get('check_start')
+        work = int(data.get('check_work'))
         if len(start_time.split(':')) == 2:
             time_array = time.strptime(start_time, "%Y-%m-%dT%H:%M")
             start_timestamp = int(time.mktime(time_array))
@@ -82,7 +81,7 @@ def check_out():
         else:
             return jsonify(status='fail', data='错误的时间格式！')
         finish_time = start_timestamp + work * 60
-        now = time.time()
+        now = int(time.time())
         r = redis.StrictRedis(host='localhost', port=6379, db=0)
         r.set('outQRcode'+str(acid), now)
         activity = Activity.query.filter_by(acid=acid).first()
@@ -98,7 +97,6 @@ def check_out():
             border=4,
         )
         checkout_url = HOST + 'checkout/' + str(acid) + str(start_timestamp) + str(finish_time) + str(now)
-
         qr.add_data(checkout_url)
         qr.make(fit=True)
         out = StringIO()

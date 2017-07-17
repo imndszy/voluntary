@@ -152,7 +152,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <button type="button" class="close" id="checkinCloseBtn" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4 class="modal-title" id="myModalLabel2"><i class="fa fa-arrow-circle-down"></i>生成签到二维码</h4>
           </div>
           <div class="modal-body">
@@ -186,7 +186,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <button type="button" class="close" id="checkoutCloseBtn" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4 class="modal-title" id="myModalLabel3"><i class="fa fa-arrow-circle-up"></i>生成签退二维码</h4>
           </div>
           <div class="modal-body">
@@ -251,14 +251,16 @@
     };
     EventUtil.addHandler(window, "load", handler);
 
-    var zhankai = function() {
-        var open = document.getElementById("open");
-        open.onclick = function() {
-            handler = null;
-            sl.innerHTML = sh;
-        };
+    var seeDetail = function() {
+        if(sh.length > 240){
+            var open = document.getElementById("open");
+            open.onclick = function() {
+                handler = null;
+                sl.innerHTML = sh;
+            };
+        }
     };
-    EventUtil.addHandler(window, "load", zhankai);
+    EventUtil.addHandler(window, "load", seeDetail);
     </script>
 </body>
 

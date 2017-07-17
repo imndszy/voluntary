@@ -47,6 +47,16 @@ $(function() {
             }
         }
     });
+    var checkinTimer = null,
+        checkoutTimer = null;
+    $("#checkinCloseBtn").click(function(){
+        clearInterval(checkinTimer);
+        $("#checkin_image").attr('src','');
+    });
+    $("#checkoutCloseBtn").click(function(){
+        clearInterval(checkoutTimer);
+        $("#checkout_image").attr('src','')
+    });
     $("#publish").click(function() {
         var start_time = $("#start_time").val();
         var finish_time = $("#finish_time").val();
@@ -103,18 +113,20 @@ $(function() {
     $("#checkin").click(function() {
         var checkin_start = document.getElementById("checkin_start").value,
             checkin_work = document.getElementById("checkin_work").value;
-        if (!checkout_work) {
+        if (!checkin_work) {
             alert("请填写有效期。");
             return false;
         }
-        for(var i = 0; i < checkin_work*2;i++){
-            (function(num){
-                setTimeout(function(){
+        check(acid,checkin_start,checkin_work,"checkin");
+        clearInterval(checkinTimer);
+        checkinTimer = setInterval(function(){
                     check(acid,checkin_start,checkin_work,"checkin");
-                },30*1000*num)
-            })(i)
-        }
-    });
+                },30*1000);
+        setTimeout(function(){
+                clearInterval(checkinTimer);
+                $("#checkin_image").attr('src','');
+            },checkin_work*60*1000);
+        });
     $("#checkout").click(function() {
         // var checkout_start = document.getElementById("checkout_start").value;
         // if (!checkout_start || !checkout_work) {
@@ -146,12 +158,14 @@ $(function() {
             alert("请填写有效期。");
             return false;
         }
-        for(var i = 0; i < checkout_work*2;i++){
-            (function(num){
-                setTimeout(function(){
+        check(acid,checkout_start,checkout_work,"checkout");
+        clearInterval(checkoutTimer);
+        checkoutTimer = setInterval(function(){
                     check(acid,checkout_start,checkout_work,"checkout");
-                },30*1000*num)
-            })(i)
-        }
+                },30*1000);
+        setTimeout(function(){
+            clearInterval(checkoutTimer);
+            $("#checkout_image").attr('src','');
+        },checkout_work*60*1000);
     });
 });

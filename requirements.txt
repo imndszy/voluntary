@@ -10,3 +10,4 @@ pymysql==0.7.9
 qrcode==5.3
 pillow==3.4.2
 openpyxl==2.4.0
+redis=2.10.5

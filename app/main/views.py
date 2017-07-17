@@ -10,22 +10,22 @@ from app import db
 from app.main import main
 from app.models import Activity, User, AcUser
 
-
+@main.route('/')
 @main.route('/index')
 @login_required
 def index():
-    activity = Activity.query.all()
-    for i in activity:
-        dt = i.finish_time.strftime('%Y-%m-%d %H:%M:%S')
-        stop_time = time.strptime(dt, '%Y-%m-%d %H:%M:%S')
-        stop_time = int(time.mktime(stop_time))
-        if stop_time < int(time.time()):
-            i.finished = True
-            db.session.add(i)
-    db.session.commit()
+    # activity = Activity.query.all()
+    # for i in activity:
+    #     dt = i.finish_time.strftime('%Y-%m-%d %H:%M:%S')
+    #     stop_time = time.strptime(dt, '%Y-%m-%d %H:%M:%S')
+    #     stop_time = int(time.mktime(stop_time))
+    #     if stop_time < int(time.time()):
+    #         i.finished = True
+    #         db.session.add(i)
+    # db.session.commit()
     return render_template('index.html')
 
-@main.route('/')
+
 @main.route('/login')
 def login():
     return render_template('login.html')
@@ -75,13 +75,14 @@ def qrcode_checkin(code):
     # if session.get('in_verify') == 'ok':
     #     return "您已经签到过了！"
     #
-    if len(code) != 30 or not code.isdigit():
+
+    if len(code) != 40 or not code.isdigit():
         return "错误参数！请联系管理员！"
     else:
         acid = int(code[0:10])
         start_time = int(code[10:20])
-        finish_time = int(code[20:])
-        in_now = int(code[30:])
+        finish_time = int(code[20:30])
+        in_now = code[30:]
         r = redis.StrictRedis(host='localhost', port=6379, db=0)
         if in_now != r.get('inQRcode'+str(acid)):
             return "该二维码已过期！"
@@ -95,10 +96,10 @@ def qrcode_checkin(code):
         activity = Activity.query.filter_by(acid=acid).first()
         # 以下代码用于确认参数的有效性
         if activity is None:
-            return "错误参数！请联系管理员！"
+            return "错误参数！请联系管理员！1"
 
         if start_time != activity.in_time_start or finish_time != activity.in_time_stop:
-            return "错误参数！请联系管理员！"
+            return "错误参数！请联系管理员！2"
 
         now = int(time.time())
         if now < activity.in_time_start or now > activity.in_time_stop:
@@ -122,7 +123,7 @@ def qrcode_checkout(code):
         acid = int(code[0:10])
         start_time = int(code[10:20])
         finish_time = int(code[20:30])
-        out_now = int(code[30:])
+        out_now = code[30:]
         r = redis.StrictRedis(host='localhost', port=6379, db=0)
         if out_now != r.get('outQRcode'+str(acid)):
             return "该二维码已过期！"
@@ -168,7 +169,7 @@ def verify():
         if user is None:
             return jsonify(status='fail',data="错误的用户名或密码")
         else:
-            if user.verify_password(password) or user.identified_card[-6:] == password:
+            if (user.password_reviewed and user.verify_password(password)) or user.identified_card[-6:] == password:
                 session['check_stuid'] = stuid
                 if now - session.get('checkout_time',1) < 300:
                     checkout = AcUser.query.filter_by(

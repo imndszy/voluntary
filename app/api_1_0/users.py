@@ -14,12 +14,13 @@ def user_verify():
     data = request.values
     username = data.get('username')
     password = data.get('password')
+
     user = User.query.filter_by(stuid=username).first()
     if user is None:
         return jsonify(status='fail')
-    if user.verify_password(password) or user.identified_card[-6:] == password:
+    if (user.password_reviewed and user.verify_password(password)) or user.identified_card[-6:] == password:
         session['stuid'] = username
-        login_user(user, True)
+        login_user(user, remember=True)
         return jsonify(status='ok', stuid=session['stuid'])
     return jsonify(status='fail')
 
