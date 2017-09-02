@@ -4,7 +4,7 @@
 import pymysql
 
 def getStuInfoByIdNumber(idNumber):
-    connection = pymysql.connect(host='106.14.98.77',
+    connection = pymysql.connect(host='localhost',
                                  port=3306,
                                  user='test',
                                  password='123456',
@@ -20,7 +20,7 @@ def getStuInfoByIdNumber(idNumber):
     return list(result)
 
 def getStations():
-    connection = pymysql.connect(host='106.14.98.77',
+    connection = pymysql.connect(host='localhost',
                                  port=3306,
                                  user='test',
                                  password='123456',
@@ -38,7 +38,7 @@ def getStations():
     return alist
 
 def save_info(station_name, stuid):
-    connection = pymysql.connect(host='106.14.98.77',
+    connection = pymysql.connect(host='localhost',
                                  port=3306,
                                  user='test',
                                  password='123456',
@@ -55,7 +55,7 @@ def save_info(station_name, stuid):
 
 
 def get_not_fill():
-    connection = pymysql.connect(host='106.14.98.77',
+    connection = pymysql.connect(host='localhost',
                                  port=3306,
                                  user='test',
                                  password='123456',
