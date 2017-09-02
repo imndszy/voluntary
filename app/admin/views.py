@@ -2,10 +2,12 @@
 # Author: shizhenyu96@gamil.com
 # github: https://github.com/imndszy
 from . import admin
-from flask import render_template, request, redirect, url_for
+from flask import render_template, redirect, url_for, jsonify
 from app.admin.functions import admin_login_required
 
 from app.models import Activity
+
+from app.main.handle_railway import get_not_fill
 
 
 @admin.route('/')
@@ -39,3 +41,8 @@ def detail(acid):
                                number=str(sth.get('actual_stus')) + '/' +str(sth['required_stus']),
                                acid=acid, ac_place=activity.ac_place, ac_start=activity.start_time)
     return redirect(url_for('admin.index'))
+
+@admin.route('/get_not_filled')
+@admin_login_required
+def get_not_filled():
+    return jsonify(data=get_not_fill())

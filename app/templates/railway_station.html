@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no">
+  <!-- 引入样式 -->
+  <link rel="stylesheet" href="https://cdn.bootcss.com/element-ui/1.4.3/theme-default/index.css">
+    <title>车站信息变更</title>
+  <style type="text/css">
+    html, body{
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      color: #444;
+    }
+    #app{
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      width: 100%;
+      height: 100%;
+    }
+    .logo{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 20%;
+    }
+    .logo img{
+        width: 40%;
+        height: 100%;
+    }
+    .search-userinfo, .user-info-station{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 10%;
+      width: 80%;
+      align-self: center;
+    }
+    .my-autocomplete {
+      li {
+        line-height: normal;
+        padding: 7px;
+
+        .name {
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
+
+        .highlighted .addr {
+          color: #ddd;
+        }
+      }
+    }
+    .user-info-container{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 60%;
+    }
+    .user-info-name, .el-autocomplete{
+      margin-bottom: 10%;
+    }
+    .user-info-station{
+      flex-direction: column;
+      flex-basis: 50%
+    }
+    .el-tag{
+      font-size: 16px;
+    }
+    .footer{
+      height: 10%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="logo">
+      <img src="../static/images/njulogo.jpg">
+    </div>
+    <div class="search-userinfo">
+      <el-input 
+        placeholder="请输入证件号(含港、澳、台)进行查询" 
+        v-model="idNumber">
+      </el-input>
+      <el-button 
+        type="primary"
+        icon="search" 
+        @click="getUserInfo()">
+      </el-button>
+    </div>
+    <div class="user-info-container" v-if="!hasUserInfo"></div>
+    <div class="user-info-container" v-if="hasUserInfo">
+      <div class="user-info-name">
+        <span>姓名：</span><el-tag type="primary">{{userInfo.stuName}}</el-tag>
+      </div>
+      <div class="user-info-stuid">
+        <span>学号：</span><el-tag type="primary">{{userInfo.stuid}}</el-tag>
+      </div>
+      <div class="user-info-station">
+        <el-autocomplete
+          popper-class="my-autocomplete"
+          v-model="userInfo.station"
+          :fetch-suggestions="querySearch"
+          custom-item="my-item-zh"
+          placeholder="请输入车站名"
+          @select="handleSelect"
+          :disabled="!canEdit"
+        >
+          <template slot="prepend">车站：</template>
+          <el-button slot="append" icon="edit" @click="openEditStation()">修改</el-button>
+        </el-autocomplete>
+        <el-button 
+          slot="append" 
+          type="primary" 
+          @click="changeStation()" 
+          :disabled="!canEdit">
+          提交<i class="el-icon-upload el-icon--right"></i>
+        </el-button>
+    </div>
+    </div>
+    <div class="footer">Copyright &copy;2017-</div>
+  </div>
+</body>
+  <!-- 先引入 Vue -->
+  <script src="https://cdn.bootcss.com/vue/2.4.2/vue.min.js"></script>
+  <!-- 引入组件库 -->
+  <script src="https://cdn.bootcss.com/element-ui/1.4.3/index.js"></script>
+  <script src="https://cdn.bootcss.com/axios/0.16.2/axios.min.js"></script>
+  <script>
+    Vue.prototype.$http = axios;
+    Vue.component('my-item-zh', {
+      functional: true,
+      render: function (h, ctx) {
+        var item = ctx.props.item;
+        return h('li', ctx.data, [
+          h('div', { attrs: { class: 'name' } }, [item])
+        ]);
+      },
+      props: {
+        item: { type: String, required: true }
+      }
+    });
+    new Vue({
+      el: '#app',
+      data: { 
+          idNumber: '',
+          hasUserInfo: false,
+          canEdit: false,
+          stations: [],
+          oldStation: '',
+          userInfo: {
+            stuName: '',
+            stuid: '',
+            station: '',
+          },
+      },
+      created: function(){
+       
+      },
+      methods:{
+        getUserInfo() {
+          if(!this.idNumber) return;
+          this.$http.get(`/railway?idNumber=${this.idNumber}`)
+          .then((res) => {
+            if(!res.data.status){
+              this.idNumber = '';
+              this.$message.error('信息有误，请重新填写');
+              return;
+            }
+            this.userInfo = res.data;
+            this.hasUserInfo = true;
+            this.oldStation = this.userInfo.station;
+            this.canEdit = !this.userInfo.station;
+            //保证列表只加载一次
+            if(!this.stations.length){
+              this.loadAllStations();
+            }
+          })
+          .catch((err) => {
+            this.idNumber = '';
+            this.$message.error('信息有误，请重新填写');
+          });
+        },
+        querySearch(queryString, cb) {
+            let results = [];
+            if(queryString){
+                results = queryString ? this.stations.filter(this.createFilter(queryString)) : this.stations;
+            }
+          // 调用 callback 返回建议列表的数据
+          cb(results);
+        },
+        createFilter(queryString) {
+          return (station) => {
+            return (station.indexOf(queryString.toLowerCase()) === 0);
+          };
+        },
+        loadAllStations() {
+          this.$http.get('/get_stations')
+          .then((res) => {
+            this.stations = res.data.stations;
+          })
+        },
+        handleSelect(item) {
+          this.userInfo.station = item;
+        },
+        openEditStation() {
+          this.canEdit = true;
+        },
+        changeStation() {
+          if(this.oldStation === this.userInfo.station) {
+            this.$message.info('车站未变更。');
+            return;
+          }
+          this.$http.post('/save_station', {
+            stuid: this.userInfo.stuid,
+            station: this.userInfo.station,
+          })
+          .then((res) => {
+            if(res.data.status === 0){
+              this.oldStation = this.userInfo.station;
+              this.$message.success('变更成功。');
+            } else{
+              this.$message.error('变更失败，请重新填写或联系管理员。');
+            }
+          })
+        }
+      }
+    })
+  </script>
+</html>

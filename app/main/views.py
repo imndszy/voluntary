@@ -2,27 +2,31 @@
 # Author: shizhenyu96@gamil.com
 # github: https://github.com/imndszy
 import time
+import json
 import redis
-from flask import render_template, request, session, jsonify, redirect, url_for
+from flask import render_template, request, session, jsonify, redirect, url_for, send_file
 from flask_login import login_required, current_user
 
 from app import db
 from app.main import main
 from app.models import Activity, User, AcUser
 
+from app.main.handle_railway import getStuInfoByIdNumber, getStations, save_info
+
+
 @main.route('/')
 @main.route('/index')
 @login_required
 def index():
-    # activity = Activity.query.all()
-    # for i in activity:
-    #     dt = i.finish_time.strftime('%Y-%m-%d %H:%M:%S')
-    #     stop_time = time.strptime(dt, '%Y-%m-%d %H:%M:%S')
-    #     stop_time = int(time.mktime(stop_time))
-    #     if stop_time < int(time.time()):
-    #         i.finished = True
-    #         db.session.add(i)
-    # db.session.commit()
+    activity = Activity.query.all()
+    for i in activity:
+        dt = i.finish_time.strftime('%Y-%m-%d %H:%M:%S')
+        stop_time = time.strptime(dt, '%Y-%m-%d %H:%M:%S')
+        stop_time = int(time.mktime(stop_time))
+        if stop_time < int(time.time()):
+            i.finished = True
+            db.session.add(i)
+    db.session.commit()
     return render_template('index.html')
 
 
@@ -221,6 +225,40 @@ def verify():
             return jsonify(status='fail', data="错误的用户名或密码")
     else:
         return jsonify(status='fail',data="请先扫描二维码！！")
+
+
+@main.route('/set_station')
+def set_station():
+    return send_file('./templates/railway_station.html')
+
+@main.route('/railway', methods=['GET'])
+def railway():
+    session['limit'] = 'railway'
+    data = request.values
+    idNumber = data.get('idNumber').encode('utf8')
+    result = getStuInfoByIdNumber(idNumber)
+    if result is None:
+        return jsonify(status=0)
+    return jsonify({'status' : 1, 'stuid' : result[0], 'stuName' : result[1], 'station' : result[2]})
+
+
+@main.route('/get_stations', methods=['GET'])
+def get_stations():
+    if session.get('limit') == 'railway':
+        return jsonify({'stations' : getStations()})
+    return jsonify()
+
+@main.route('/save_station', methods=['POST'])
+def save_station():
+    if session.get('limit') == 'railway':
+        data = json.loads(request.data)
+        station = data.get('station')
+        stuid = data.get('stuid')
+        if station is None or stuid is None:
+            return jsonify(status=-1)
+        else:
+            save_info(station, int(stuid))
+            return jsonify(status=0)
 
 
 def time_transfer(timestamp):
