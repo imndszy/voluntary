@@ -41,12 +41,6 @@ def user():
     return render_template('user.html')
 
 
-@main.route('/activity')
-@login_required
-def activity():
-    return render_template('deatil.html')
-
-
 @main.route('/detail/<int:acid>')
 @login_required
 def detail(acid):
@@ -76,10 +70,6 @@ def detail(acid):
 
 @main.route('/checkin/<code>')
 def qrcode_checkin(code):
-    # if session.get('in_verify') == 'ok':
-    #     return "您已经签到过了！"
-    #
-
     if len(code) != 40 or not code.isdigit():
         return "错误参数！请联系管理员！"
     else:
@@ -118,8 +108,6 @@ def qrcode_checkin(code):
 
 @main.route('/checkout/<code>')
 def qrcode_checkout(code):
-    # if session.get('out_verify') == 'ok':
-    #     return "您已经签退过了！"
     if len(code) != 40 or not code.isdigit():
         return "错误参数！请联系管理员！"
 
